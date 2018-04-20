@@ -1,0 +1,8 @@
+node_modules/
+.expo/
+.vscode/
+npm-debug.*
+/server/*.user
+/server/.vs
+/server/obj
+/server/bin
