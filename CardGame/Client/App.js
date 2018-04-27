@@ -1,7 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import connection from './ConnectionServer/Connection'
+
 
 export default class App extends React.Component {
+  constructor(props){
+    super(props);
+    this.connection = connection;
+  }
+  
   render() {
     return (
       <View style={styles.container}>
