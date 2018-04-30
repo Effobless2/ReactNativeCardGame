@@ -27,5 +27,11 @@ namespace Serveur.Hubs
             Console.WriteLine("Passage dans Send");
             await Clients.All.SendAsync("Action", message);
         }
+
+        public async Task SendMessage(string user, string message)
+        {
+            Console.WriteLine("Passage dans SendMessage");
+            await Clients.All.SendAsync("ReceiveMessage", user, message);
+        }
     }
 }
