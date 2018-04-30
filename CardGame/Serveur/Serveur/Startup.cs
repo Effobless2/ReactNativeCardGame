@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serveur.Hubs;
 
 namespace Serveur
 {
@@ -21,7 +22,17 @@ namespace Serveur
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder =>
+                {
+                    builder.AllowAnyHeader()
+                           .AllowAnyMethod()
+                           .AllowAnyOrigin();
+                });
+            });
             services.AddMvc();
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,7 +48,13 @@ namespace Serveur
                 app.UseExceptionHandler("/Error");
             }
 
+            app.UseCors("CorsPolicy");
             app.UseStaticFiles();
+            app.UseCookiePolicy();
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<MainHub>(MainHub.Path);
+            });
 
             app.UseMvc();
         }

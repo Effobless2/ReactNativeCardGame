@@ -7,7 +7,7 @@ namespace Serveur.Hubs
     public class MainHub : Hub
     {
 
-        public static string Path = "/mainner";
+        public static string Path = "/main";
 
         public override async Task OnConnectedAsync()
         {
