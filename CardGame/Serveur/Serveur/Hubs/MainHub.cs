@@ -10,6 +10,8 @@ namespace Serveur.Hubs
 
         public static string Path = "/main";
 
+
+        //When some user is connected
         public override async Task OnConnectedAsync()
         {
             Console.WriteLine("Passage dans Connection");
@@ -17,6 +19,7 @@ namespace Serveur.Hubs
             await base.OnConnectedAsync();
         }
 
+        //When a user is disconnected
         public override async Task OnDisconnectedAsync(Exception ex)
         {
             Console.WriteLine("Passage dans Déconnection");
@@ -24,21 +27,27 @@ namespace Serveur.Hubs
             await base.OnDisconnectedAsync(ex);
         }
 
-        public async Task SendMessage(string message)
-        {
-            Console.WriteLine("Passage dans SendMessage");
-            await Clients.All.SendAsync("ReceiveMessage", message);
-        }
-
+        //When a user ask for creating a newRoom
         public async Task NewGroup()
         {
-            await Groups.AddAsync(Context.ConnectionId, "new");
-            await Clients.All.SendAsync("ReceiveMessage", Context.ConnectionId + " joined the new Group");
+            string guid = System.Guid.NewGuid().ToString();
+            
+            await Groups.AddAsync(Context.ConnectionId, guid);
+            await Clients.Caller.SendAsync("ReceiveNewGroup", guid);
+            await Clients.Others.SendAsync("NewGroupCreated", guid);
         }
 
         public async Task sendMessageToTheGroup(string message)
         {
             await Clients.Group("new").SendAsync("ReceiveMessage", message);
+        }
+
+        public async Task JoinGroup(string guid)
+        {
+            await Groups.AddAsync(Context.ConnectionId, guid);
+            await Clients.Caller.SendAsync("JoinGroup", guid);
+            await Clients.Group(guid).SendAsync("UserJoinedGroup", Context.ConnectionId, guid);
+
         }
     }
 }
