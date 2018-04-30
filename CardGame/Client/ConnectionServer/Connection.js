@@ -37,4 +37,4 @@ class ConnectionServer extends SignalR.HubConnection{
     }
 }
 
-export default connection = new ConnectionServer("http://01f152d3.ngrok.io/main/")
+export default connection = new ConnectionServer("http://192.168.1.62:5000/main/")
