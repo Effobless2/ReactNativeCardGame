@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import connection from './ConnectionServer/Connection'
+import { StyleSheet, Text, View, Button } from 'react-native';
+import connection from './ConnectionServer/Connection';
 
 
 export default class App extends React.Component {
@@ -12,7 +12,10 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
+        <Button
+          onPress = {() => this.connection.SendAction()}
+          title = "Action"
+        />
         <Text>Changes you make will automatically reload.</Text>
         <Text>Shake your phone to open the developer menu.</Text>
       </View>

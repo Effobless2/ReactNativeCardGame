@@ -7,7 +7,7 @@ namespace Serveur.Hubs
     public class MainHub : Hub
     {
 
-        public static string Path = "/mainhub";
+        public static string Path = "/mainner";
 
         public override async Task OnConnectedAsync()
         {
@@ -25,7 +25,7 @@ namespace Serveur.Hubs
         public async Task Send(string message)
         {
             Console.WriteLine("Passage dans Send");
-            await Clients.All.SendAsync("Action", Context.User.Identity.Name, message);
+            await Clients.All.SendAsync("Action", message);
         }
     }
 }

@@ -12,24 +12,29 @@ class ConnectionServer extends SignalR.HubConnection{
             this.Disconnect(user, message);
         });
 
-        this.on("Action", (user, message) => {
-            this.Action(user, message);
+        this.on("Action", (message) => {
+            this.Action(message);
         });
 
         this.start()
     }
 
     Connect(user,message){
-        Console.log(user + " se connecte et dit " + message);
+        console.log(user + " se connecte et dit " + message);
     }
 
     Disconnect(user, message){
-        Console.log(user + " se déconnecte et dit " + message);
+        console.log(user + " se déconnecte et dit " + message);
     }
 
-    Action(user, message){
-        Console.log(user + " agit et dit " + message);
+    Action(message){
+        console.log(" agit et dit " + message);
+    }
+
+    SendAction(){
+        console.log("SendingAction")
+        this.invoke("Send", "Coucou!");
     }
 }
 
-export default connection = new ConnectionServer("http://c2d41253.ngrok.io")
+export default connection = new ConnectionServer("http://01f152d3.ngrok.io/main/")
