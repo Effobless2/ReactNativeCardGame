@@ -13,7 +13,7 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <Button
-          onPress = {() => this.connection.SendAction()}
+          onPress = {() => this.connection.NewGroup()}
           title = "Action"
         />
         <Text>Changes you make will automatically reload.</Text>

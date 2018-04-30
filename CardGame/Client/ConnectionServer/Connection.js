@@ -4,36 +4,43 @@ class ConnectionServer extends SignalR.HubConnection{
     constructor(url){
         super(url)
 
-        this.on("Connect", (user, message) => {
-            this.Connect(user, message);
+        this.on("Connect", (user) => {
+            this.Connect(user);
         });
 
-        this.on("Disconnected", (user, message) => {
-            this.Disconnect(user, message);
+        this.on("Disconnected", (user) => {
+            this.Disconnect(user);
         });
 
-        this.on("Action", (message) => {
-            this.Action(message);
+        this.on("ReceiveMessage", (message) => {
+            this.ReceiveMessage(message);
         });
 
         this.start()
     }
 
-    Connect(user,message){
-        console.log(user + " se connecte et dit " + message);
+    Connect(user){
+        console.log(user + " s'est connecté.");
     }
 
-    Disconnect(user, message){
-        console.log(user + " se déconnecte et dit " + message);
+    Disconnect(user){
+        console.log(user + " s'est déconnecté.");
     }
 
-    Action(message){
-        console.log(" agit et dit " + message);
+    NewGroup(){
+        this.invoke("NewGroup");
     }
 
-    SendAction(){
-        console.log("SendingAction")
-        this.invoke("Send", "Coucou!");
+    ReceiveMessage(message){
+        console.log(message);
+    }
+
+    SendMessageForGroup(message){
+        this.invoke("sendMessageToTheGroup", message);
+    }
+
+    SendMessageForEveryone(message) {
+        this.invoke("SendMessage", message);
     }
 }
 
