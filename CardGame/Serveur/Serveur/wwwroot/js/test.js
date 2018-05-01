@@ -26,6 +26,10 @@
             this.JoinGroup(guid);
         });
 
+        this.on("UserSee", (user, guid) => {
+            this.UserSee(user, guid);
+        })
+
     }
 
     Connect(user) {
@@ -53,13 +57,30 @@
 
     NewGroupCreated(guid) {
         const li = document.createElement("li");
-        const button = document.createElement("input");
-        button.type = "button";
-        button.classList.add("partyButton");
-        button.value = "The room number " + guid + " has been created ! </br>" +
-            " Click here to join it !";
-        button.addEventListener("click", event => { this.AskForJoin(guid) });
-        li.appendChild(button);
+
+        const text = document.createElement("h3");
+        text.textContent = "The room number " + guid + " has been created !";
+        text.classList.add("col-4");
+
+        const buttonPlay = document.createElement("input");
+        buttonPlay.type = "button";
+        buttonPlay.classList.add("col-4");
+        buttonPlay.classList.add("partyButton");
+        buttonPlay.classList.add("play");
+        buttonPlay.value = "Play";
+        buttonPlay.addEventListener("click", event => { this.AskForJoin(guid) });
+
+        const buttonPublic = document.createElement("input");
+        buttonPublic.type = "button";
+        buttonPublic.classList.add("col-4");
+        buttonPublic.classList.add("partyButton");
+        buttonPublic.classList.add("public");
+        buttonPublic.value = "See";
+        buttonPublic.addEventListener("click", event => { this.AskForSee(guid) });
+
+        li.appendChild(text);
+        li.appendChild(buttonPlay);
+        li.appendChild(buttonPublic);
         document.getElementById("messagesList").appendChild(li);
     }
 
@@ -79,6 +100,16 @@
     UserJoinedGroup(user, guid) {
         const li = document.createElement("li");
         li.textContent = "The user " + user + " has joined the room number " + guid;
+        document.getElementById("messagesList").appendChild(li);
+    }
+
+    AskForSee(guid) {
+        this.invoke("AskForSee", guid);
+    }
+
+    UserSee(user, guid) {
+        const li = document.createElement("li");
+        li.textContent = "The user " + user + " is looking the room number " + guid;
         document.getElementById("messagesList").appendChild(li);
     }
 }

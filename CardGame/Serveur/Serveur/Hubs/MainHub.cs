@@ -33,7 +33,8 @@ namespace Serveur.Hubs
             string guid = System.Guid.NewGuid().ToString();
             
             await Groups.AddAsync(Context.ConnectionId, guid);
-            await Clients.Caller.SendAsync("ReceiveNewGroup", guid);
+            await Groups.AddAsync(Context.ConnectionId, guid + "-Game");
+            await Clients.Caller.SendAsync("ReceiveNewGroup", guid + "-Game");
             await Clients.Others.SendAsync("NewGroupCreated", guid);
         }
 
@@ -44,10 +45,17 @@ namespace Serveur.Hubs
 
         public async Task JoinGroup(string guid)
         {
+            await Groups.AddAsync(Context.ConnectionId, guid + "-Game");
             await Groups.AddAsync(Context.ConnectionId, guid);
             await Clients.Caller.SendAsync("JoinGroup", guid);
             await Clients.Group(guid).SendAsync("UserJoinedGroup", Context.ConnectionId, guid);
 
+        }
+
+        public async Task AskForSee(string guid)
+        {
+            await Groups.AddAsync(Context.ConnectionId, guid);
+            await Clients.Group(guid).SendAsync("UserSee", Context.ConnectionId, guid);
         }
     }
 }
