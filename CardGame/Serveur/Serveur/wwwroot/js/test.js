@@ -85,6 +85,7 @@
     }
 
     AskForJoin(guid) {
+        console.log("Envoi demande")
         this.invoke("JoinGroup", guid);
     }
 
