@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
+using Serveur.Models;
 
 namespace Serveur.Hubs
 {
@@ -10,7 +11,10 @@ namespace Serveur.Hubs
 
         public static string Path = "/main";
         public static Dictionary<string, Room> Rooms = new Dictionary<string, Room>();
+        public static Dictionary<string, ApplicationUser> Users = new Dictionary<string, ApplicationUser>();
 
+
+        public static int nbCli = 0;
         //Generate a GUID which isn't already exist in the Room Dictionary.
         private string NewGuidGeneration()
         {
@@ -21,19 +25,34 @@ namespace Serveur.Hubs
             return guid;
         }
 
-        //When a user is connected
+        //When a user is connected to the server,
+        //a new Instance of ApplicationUser is created
+        //and added in Users with the ConnectionId as key.
         public override async Task OnConnectedAsync()
         {
             Console.WriteLine("Passage dans Connection");
-            await Clients.All.SendAsync("Connect", Context.ConnectionId);
+            ApplicationUser user = new ApplicationUser(Context.ConnectionId, "User " + nbCli);
+            Users.Add(Context.ConnectionId, user);
+            await Clients.All.SendAsync("Connect", user.MyName);
             await base.OnConnectedAsync();
+            nbCli++;
         }
 
-        //When a user is disconnected
+        //When a user is disconnected,
+        //He's removed from this Users List
+        //and from each rooms and every Clients 
+        //are prevented of its disconnection.
         public override async Task OnDisconnectedAsync(Exception ex)
         {
+            string UserName = Users.GetValueOrDefault(Context.ConnectionId).MyName;
+            Users.Remove(Context.ConnectionId);
+            foreach (Room r in Rooms.Values)
+            {
+                r.RemovePlayer(Context.ConnectionId);
+            }
+
+            await Clients.All.SendAsync("Disconnected", UserName);
             Console.WriteLine("Passage dans Déconnection");
-            await Clients.All.SendAsync("Disconnected", Context.ConnectionId);
             await base.OnDisconnectedAsync(ex);
         }
 
@@ -44,19 +63,21 @@ namespace Serveur.Hubs
         public async Task NewGroup()
         {
             string guid = NewGuidGeneration();
-            Console.WriteLine(guid);
-            Console.WriteLine(Rooms.Count);
 
             Room r = new Room(guid);
             Rooms.Add(guid, r);
-            Console.WriteLine(Rooms.Count);
 
-            bool result = r.AddPlayer(Context.ConnectionId);
-            
-            if (result)
+            ApplicationUser user = Users.GetValueOrDefault(Context.ConnectionId);
+            Console.WriteLine(user.MyGuid);
+            if (user != null)
             {
-                await Clients.Caller.SendAsync("ReceiveNewGroup", guid);
-                await Clients.Others.SendAsync("NewGroupCreated", guid);
+                bool result = r.AddPlayer(user);
+
+                if (result)
+                {
+                    await Clients.Caller.SendAsync("ReceiveNewGroup", guid);
+                    await Clients.Others.SendAsync("NewGroupCreated", guid);
+                }
             }
         }
 
@@ -66,23 +87,20 @@ namespace Serveur.Hubs
         public async Task JoinGroup(string guid)
         {
             Console.WriteLine("Recoit demande");
+            ApplicationUser user = Users.GetValueOrDefault(Context.ConnectionId);
             Room r = Rooms.GetValueOrDefault(guid);
-            foreach (string ro in Rooms.Keys)
+            
+            if (r != null && user != null)
             {
-                Console.WriteLine(ro);
-
-            }
-            if (r != null)
-            {
-                bool result = r.AddPlayer(Context.ConnectionId);
+                bool result = r.AddPlayer(user);
 
                 if (result)
                 {
                     await Clients.Caller.SendAsync("JoinGroup", guid);
 
-                    foreach (string id in r.Public)
+                    foreach (ApplicationUser u in r.Public.Values)
                     {
-                        await Clients.Client(id).SendAsync("UserJoinedGroup", Context.ConnectionId, guid);
+                        await Clients.Client(u.MyGuid).SendAsync("UserJoinedGroup", user.MyName, guid);
                     }
                 }
             }
@@ -95,17 +113,18 @@ namespace Serveur.Hubs
         public async Task AskForSee(string guid)
         {
             Room r = Rooms.GetValueOrDefault(guid);
+            ApplicationUser user = Users.GetValueOrDefault(Context.ConnectionId);
 
-            if (r != null)
+            if (r != null && user != null)
             {
-                bool result = r.AddPublic(Context.ConnectionId);
+                bool result = r.AddPublic(user);
 
                 if (result)
                 {
                     await Clients.Caller.SendAsync("JoinGroup", guid);
                     foreach(string id in r.Players)
                     {
-                        await Clients.Client(id).SendAsync("UserSee", Context.ConnectionId, guid);
+                        await Clients.Client(id).SendAsync("UserSee", user.MyName, guid);
                     }
                 }
             }
