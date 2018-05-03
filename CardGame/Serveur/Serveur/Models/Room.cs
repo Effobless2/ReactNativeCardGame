@@ -48,7 +48,7 @@ namespace Serveur.Models
         }
 
         //Remove a User from the Room.
-        internal void RemovePlayer(string Id)
+        internal bool RemoveUser(string Id)
         {
             if (Public.Keys.Contains(Id))
             {
@@ -57,7 +57,9 @@ namespace Serveur.Models
             if (Players.Contains(Id))
             {
                 Players.Remove(Id);
+                return true;
             }
+            return false;
         }
 
         //Ask if the number of players is good 

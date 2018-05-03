@@ -28,11 +28,27 @@
 
         this.on("UserSee", (user, guid) => {
             this.UserSee(user, guid);
-        })
+        });
 
         this.on("RoomComplete", (guid) => {
             this.RoomComplete(guid);
-        })
+        });
+
+        this.on("GameIsLeft", (guid) => {
+            this.GameIsLeft(guid);
+        });
+
+        this.on("LeftTheGame", (guid, user) => {
+            this.LeftTheGame(guid, user);
+        });
+
+        this.on("YourRoomIsDestroyed", (guid) => {
+            this.YourRoomIsDestroyed(guid);
+        });
+
+        this.on("RoomDestroyed", (guid) => {
+            this.RoomDestroyed(guid);
+        });
 
     }
 
@@ -44,7 +60,7 @@
 
     Disconnect(user) {
         const li = document.createElement("li");
-        li.textContent = user + " is disconnected."
+        li.textContent = user + " is disconnected.";
         document.getElementById("messagesList").appendChild(li);
     }
 
@@ -71,7 +87,7 @@
         buttonPlay.classList.add("partyButton");
         buttonPlay.classList.add("play");
         buttonPlay.value = "Play";
-        buttonPlay.addEventListener("click", event => { this.AskForJoin(guid) });
+        buttonPlay.addEventListener("click", event => { this.AskForJoin(guid); });
 
         const buttonPublic = document.createElement("input");
         buttonPublic.type = "button";
@@ -79,7 +95,7 @@
         buttonPublic.classList.add("partyButton");
         buttonPublic.classList.add("public");
         buttonPublic.value = "See";
-        buttonPublic.addEventListener("click", event => { this.AskForSee(guid) });
+        buttonPublic.addEventListener("click", event => { this.AskForSee(guid); });
 
         li.appendChild(text);
         li.appendChild(buttonPlay);
@@ -88,7 +104,7 @@
     }
 
     AskForJoin(guid) {
-        console.log("Envoi demande")
+        console.log("Envoi demande");
         this.invoke("JoinGroup", guid);
     }
 
@@ -97,8 +113,16 @@
         //    button.disabled = true;
         //}
         const li = document.createElement("li");
-        li.textContent = "You have joined the room number " + guid;
+        const text = document.createElement("p");
+        text.textContent = "You have joined the room number " + guid;
+        const button = document.createElement("input");
+        button.type = "button";
+        button.value = "Click Here to quit the Game.";
+        button.addEventListener("click", event => { this.QuitGame(guid) });
         document.getElementById("messagesList").appendChild(li);
+
+        li.appendChild(text);
+        li.appendChild(button);
     }
 
     UserJoinedGroup(user, guid) {
@@ -120,6 +144,34 @@
     RoomComplete(guid) {
         const li = document.createElement("li");
         li.textContent = "The Room " + guid + " is complete. The game will begin.";
+        document.getElementById("messagesList").appendChild(li);
+    }
+
+    QuitGame(guid) {
+        this.invoke("QuitGame", guid);
+    }
+
+    GameIsLeft(guid) {
+        const li = document.createElement("li");
+        li.textContent = "You Quit the room " + guid + ".";
+        document.getElementById("messagesList").appendChild(li);
+    }
+
+    LeftTheGame(guid, user) {
+        const li = document.createElement("li");
+        li.textContent = "The user " + user + "has left the room " + guid +".";
+        document.getElementById("messagesList").appendChild(li);
+    }
+
+    YourRoomIsDestroyed(guid) {
+        const li = document.createElement("li");
+        li.textContent = "The room "+ guid + " has been destroyed. We eject you of this useless room.";
+        document.getElementById("messagesList").appendChild(li);
+    }
+
+    RoomDestroyed(guid) {
+        const li = document.createElement("li");
+        li.textContent = "The room " + guid + " has been destroyed.";
         document.getElementById("messagesList").appendChild(li);
     }
 }

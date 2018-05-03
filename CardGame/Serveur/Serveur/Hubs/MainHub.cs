@@ -44,16 +44,38 @@ namespace Serveur.Hubs
         //are prevented of its disconnection.
         public override async Task OnDisconnectedAsync(Exception ex)
         {
-            string UserName = Users.GetValueOrDefault(Context.ConnectionId).UserName;
+            ApplicationUser user = Users.GetValueOrDefault(Context.ConnectionId);
+            string UserName = user.UserName;
             Users.Remove(Context.ConnectionId);
             foreach (Room r in Rooms.Values)
             {
-                r.RemovePlayer(Context.ConnectionId);
+                await RemoveUserFromRoom(r, user);
             }
 
             await Clients.All.SendAsync("Disconnected", UserName);
             Console.WriteLine("Passage dans Déconnection");
             await base.OnDisconnectedAsync(ex);
+        }
+
+        //Function called when a user has left a room
+        private async Task RemoveUserFromRoom(Room r, ApplicationUser user)
+        {
+            bool before = r.isComplete();
+            bool result = r.RemoveUser(Context.ConnectionId);
+            await Clients.Caller.SendAsync("GameIsLeft", r.RoomId);
+
+            foreach (string ids in r.Public.Keys)
+            {
+                await Clients.Client(ids).SendAsync("LeftTheGame", r.RoomId, user.UserName);
+            }
+
+            if (result)
+            {
+                if (before && !r.isComplete())
+                {
+                    await RemoveRoom(r.RoomId);
+                }
+            }
         }
 
         //When a user ask for creating a newRoom
@@ -78,9 +100,9 @@ namespace Serveur.Hubs
         //if it exists, add the user to the room.
         public async Task JoinGroup(string guid)
         {
-            ApplicationUser user = Users.GetValueOrDefault(Context.ConnectionId);
             Room r = Rooms.GetValueOrDefault(guid);
-            
+
+            ApplicationUser user = Users.GetValueOrDefault(Context.ConnectionId);
             if (r != null && user != null)
             {
                 bool result = r.AddPlayer(user);
@@ -126,6 +148,34 @@ namespace Serveur.Hubs
                         await Clients.Client(id).SendAsync("UserSee", user.UserId, guid);
                     }
                 }
+            }
+        }
+
+        //A Function called when a user wants to quit a room
+        //First we verify if he's in the database before removeing it. 
+        public async Task QuitGame(string guid)
+        {
+            Room r = Rooms.GetValueOrDefault(guid);
+            ApplicationUser user = Users.GetValueOrDefault(Context.ConnectionId);
+
+            if (r != null && user != null)
+            {
+                await RemoveUserFromRoom(r, user);
+            }
+        }
+
+        //Function called if a Room have to bee destroyed
+        public async Task RemoveRoom(string guid)
+        {
+            Room r = Rooms.GetValueOrDefault(guid);
+
+            if (r!= null)
+            {
+                foreach(string id in r.Public.Keys){
+                    await Clients.Client(id).SendAsync("YourRoomIsDestroyed", guid);
+                }
+
+                await Clients.All.SendAsync("RoomDestroyed", guid);
             }
         }
     }
