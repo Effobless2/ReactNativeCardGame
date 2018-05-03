@@ -8,6 +8,7 @@ namespace Serveur.Models
     public class Room
     {
         public string RoomId { get; }
+        public int MaxOfPlayers { get; }
         public List<string> Players { get; }
         public Dictionary<string, ApplicationUser> Public { get; }
 
@@ -17,6 +18,7 @@ namespace Serveur.Models
 
             Players = new List<string>();
             Public  = new Dictionary<string, ApplicationUser>();
+            MaxOfPlayers = 2;
         }
 
         //Add a Player in the Room. First, we had the ApplicationUser into
@@ -24,7 +26,7 @@ namespace Serveur.Models
         //into the Players List.
         public bool AddPlayer(ApplicationUser newUser)
         {
-            if (Players.Count == 2 || Public.Keys.Contains(newUser.UserId))
+            if (Players.Count == MaxOfPlayers || Public.Keys.Contains(newUser.UserId))
             {
                 return false;
             }
@@ -56,6 +58,13 @@ namespace Serveur.Models
             {
                 Players.Remove(Id);
             }
+        }
+
+        //Ask if the number of players is good 
+        //for begining the game.
+        public bool isComplete()
+        {
+            return Players.Count == MaxOfPlayers;
         }
     }
 }

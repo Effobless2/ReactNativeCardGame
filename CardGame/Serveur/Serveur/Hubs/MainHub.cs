@@ -96,6 +96,11 @@ namespace Serveur.Hubs
                             await Clients.Client(u.UserId).SendAsync("UserJoinedGroup", user.UserName, guid);
                         }
                     }
+
+                    if (r.isComplete())
+                    {
+                        await Clients.All.SendAsync("RoomComplete", r.RoomId);
+                    }
                 }
             }
 

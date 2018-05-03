@@ -30,6 +30,10 @@
             this.UserSee(user, guid);
         })
 
+        this.on("RoomComplete", (guid) => {
+            this.RoomComplete(guid);
+        })
+
     }
 
     Connect(user) {
@@ -89,9 +93,9 @@
     }
 
     JoinGroup(guid) {
-        for (var button of document.getElementsByClassName("partyButton")){
-            button.disabled = true;
-        }
+        //for (var button of document.getElementsByClassName("partyButton")){
+        //    button.disabled = true;
+        //}
         const li = document.createElement("li");
         li.textContent = "You have joined the room number " + guid;
         document.getElementById("messagesList").appendChild(li);
@@ -110,6 +114,12 @@
     UserSee(user, guid) {
         const li = document.createElement("li");
         li.textContent = "The user " + user + " is looking the room number " + guid;
+        document.getElementById("messagesList").appendChild(li);
+    }
+
+    RoomComplete(guid) {
+        const li = document.createElement("li");
+        li.textContent = "The Room " + guid + " is complete. The game will begin.";
         document.getElementById("messagesList").appendChild(li);
     }
 }
