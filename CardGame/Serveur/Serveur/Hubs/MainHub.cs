@@ -33,7 +33,7 @@ namespace Serveur.Hubs
             Console.WriteLine("Passage dans Connection");
             ApplicationUser user = new ApplicationUser(Context.ConnectionId, "User " + nbCli);
             Users.Add(Context.ConnectionId, user);
-            await Clients.All.SendAsync("Connect", user.UserName);
+            await Clients.Others.SendAsync("Connect", user.UserName);
             await base.OnConnectedAsync();
             nbCli++;
         }
