@@ -67,18 +67,10 @@ namespace Serveur.Hubs
             Room r = new Room(guid);
             Rooms.Add(guid, r);
 
-            ApplicationUser user = Users.GetValueOrDefault(Context.ConnectionId);
-            Console.WriteLine(user.UserId);
-            if (user != null)
-            {
-                bool result = r.AddPlayer(user);
+            await Clients.Caller.SendAsync("ReceiveNewGroup", guid);
+            await Clients.Others.SendAsync("NewGroupCreated", guid);
 
-                if (result)
-                {
-                    await Clients.Caller.SendAsync("ReceiveNewGroup", guid);
-                    await Clients.Others.SendAsync("NewGroupCreated", guid);
-                }
-            }
+            await JoinGroup(guid);
         }
 
         //When a user want to play in a Room
@@ -86,7 +78,6 @@ namespace Serveur.Hubs
         //if it exists, add the user to the room.
         public async Task JoinGroup(string guid)
         {
-            Console.WriteLine("Recoit demande");
             ApplicationUser user = Users.GetValueOrDefault(Context.ConnectionId);
             Room r = Rooms.GetValueOrDefault(guid);
             
@@ -100,7 +91,10 @@ namespace Serveur.Hubs
 
                     foreach (ApplicationUser u in r.Public.Values)
                     {
-                        await Clients.Client(u.UserId).SendAsync("UserJoinedGroup", user.UserName, guid);
+                        if (u.UserId != Context.ConnectionId)
+                        {
+                            await Clients.Client(u.UserId).SendAsync("UserJoinedGroup", user.UserName, guid);
+                        }
                     }
                 }
             }

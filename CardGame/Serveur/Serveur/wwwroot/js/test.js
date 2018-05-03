@@ -52,7 +52,6 @@
         const li = document.createElement("li");
         li.textContent = "You have created the room number " + guid;
         document.getElementById("messagesList").appendChild(li);
-        this.JoinGroup(guid);
     }
 
     NewGroupCreated(guid) {
