@@ -33,7 +33,7 @@ namespace Serveur.Hubs
             Console.WriteLine("Passage dans Connection");
             ApplicationUser user = new ApplicationUser(Context.ConnectionId, "User " + nbCli);
             Users.Add(Context.ConnectionId, user);
-            await Clients.All.SendAsync("Connect", user.MyName);
+            await Clients.All.SendAsync("Connect", user.UserName);
             await base.OnConnectedAsync();
             nbCli++;
         }
@@ -44,7 +44,7 @@ namespace Serveur.Hubs
         //are prevented of its disconnection.
         public override async Task OnDisconnectedAsync(Exception ex)
         {
-            string UserName = Users.GetValueOrDefault(Context.ConnectionId).MyName;
+            string UserName = Users.GetValueOrDefault(Context.ConnectionId).UserName;
             Users.Remove(Context.ConnectionId);
             foreach (Room r in Rooms.Values)
             {
@@ -68,7 +68,7 @@ namespace Serveur.Hubs
             Rooms.Add(guid, r);
 
             ApplicationUser user = Users.GetValueOrDefault(Context.ConnectionId);
-            Console.WriteLine(user.MyGuid);
+            Console.WriteLine(user.UserId);
             if (user != null)
             {
                 bool result = r.AddPlayer(user);
@@ -100,7 +100,7 @@ namespace Serveur.Hubs
 
                     foreach (ApplicationUser u in r.Public.Values)
                     {
-                        await Clients.Client(u.MyGuid).SendAsync("UserJoinedGroup", user.MyName, guid);
+                        await Clients.Client(u.UserId).SendAsync("UserJoinedGroup", user.UserName, guid);
                     }
                 }
             }
@@ -124,7 +124,7 @@ namespace Serveur.Hubs
                     await Clients.Caller.SendAsync("JoinGroup", guid);
                     foreach(string id in r.Players)
                     {
-                        await Clients.Client(id).SendAsync("UserSee", user.MyName, guid);
+                        await Clients.Client(id).SendAsync("UserSee", user.UserId, guid);
                     }
                 }
             }
