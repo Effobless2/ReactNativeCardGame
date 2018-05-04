@@ -6,7 +6,7 @@ using Serveur.Models;
 
 namespace Serveur.Hubs
 {
-    public class CardGameHub : Hub
+    public class CardGameHub : Hub , IContractCardGame
     {
         
         public static Dictionary<string, Room> Rooms = new Dictionary<string, Room>();
