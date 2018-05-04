@@ -6,8 +6,22 @@ using System.Threading.Tasks;
 
 namespace Serveur.Models
 {
-    interface IContractCardGame
+    public interface IContractCardGame
     {
+        Room GetRoom(string roomId);
+
+        ApplicationUser GetUser(string userId);
+
+        Task<bool> NewGroup();
+
+        Task<bool> JoinGroup(string guid);
+
+        Task<bool> AskForSee(string guid);
+
+        Task<bool> QuitGame(string guid);
+
+        Task<bool> RemoveRoom(string guid);
+
 
     }
 }

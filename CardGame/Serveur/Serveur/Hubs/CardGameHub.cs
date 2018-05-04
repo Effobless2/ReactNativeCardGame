@@ -18,7 +18,7 @@ namespace Serveur.Hubs
         /// </summary>
         /// <param name="roomId"></param>
         /// <returns>Room or null</returns>
-        private Room GetRoom(string roomId)
+        public Room GetRoom(string roomId)
         {
             lock (Rooms)
             {
@@ -31,7 +31,7 @@ namespace Serveur.Hubs
         /// </summary>
         /// <param name="userId"></param>
         /// <returns>ApplicationUser or null</returns>
-        private ApplicationUser GetUser(string userId)
+        public ApplicationUser GetUser(string userId)
         {
             lock (Users)
             {
@@ -146,7 +146,7 @@ namespace Serveur.Hubs
         /// To the players list of the new room.
         /// </summary>
         /// <returns></returns>
-        public async Task NewGroup()
+        public async Task<bool> NewGroup()
         {
             string guid = NewGuidGeneration();
 
@@ -161,6 +161,7 @@ namespace Serveur.Hubs
             await Clients.Others.SendAsync("NewGroupCreated", guid);
 
             JoinGroup(guid);
+            return true;
         }
 
 
@@ -171,7 +172,7 @@ namespace Serveur.Hubs
         /// </summary>
         /// <param name="guid"></param>
         /// <returns></returns>
-        public async Task JoinGroup(string guid)
+        public async Task<bool> JoinGroup(string guid)
         {
             Room r = GetRoom(guid);
             ApplicationUser user = GetUser(Context.ConnectionId);
@@ -202,6 +203,7 @@ namespace Serveur.Hubs
                     }
                 }
             }
+            return true;
 
         }
 
@@ -213,7 +215,7 @@ namespace Serveur.Hubs
         /// </summary>
         /// <param name="guid"></param>
         /// <returns></returns>
-        public async Task AskForSee(string guid)
+        public async Task<bool> AskForSee(string guid)
         {
             Room r = GetRoom(guid);
             ApplicationUser user = GetUser(Context.ConnectionId);
@@ -235,6 +237,7 @@ namespace Serveur.Hubs
                     }
                 }
             }
+            return true;
         }
 
 
@@ -244,7 +247,7 @@ namespace Serveur.Hubs
         /// </summary>
         /// <param name="guid"></param>
         /// <returns></returns>
-        public async Task QuitGame(string guid)
+        public async Task<bool> QuitGame(string guid)
         {
             Room r = GetRoom(guid);
             ApplicationUser user = GetUser(Context.ConnectionId);
@@ -253,6 +256,7 @@ namespace Serveur.Hubs
             {
                 await RemoveUserFromRoom(r, user);
             }
+            return true;
         }
 
 
@@ -261,7 +265,7 @@ namespace Serveur.Hubs
         /// </summary>
         /// <param name="guid"></param>
         /// <returns></returns>
-        public async Task RemoveRoom(string guid)
+        public async Task<bool> RemoveRoom(string guid)
         {
             Room r = GetRoom(guid);
             
@@ -273,6 +277,7 @@ namespace Serveur.Hubs
 
                 await Clients.All.SendAsync("RoomDestroyed", guid);
             }
+            return true;
         }
     }
 }
