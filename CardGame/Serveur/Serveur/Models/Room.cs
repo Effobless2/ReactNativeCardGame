@@ -21,9 +21,14 @@ namespace Serveur.Models
             MaxOfPlayers = 2;
         }
 
-        //Add a Player in the Room. First, we had the ApplicationUser into
-        //the Public Dictionary with its UserId for Key and add its UserId
-        //into the Players List.
+
+        /// <summary>
+        /// Add a Player in the Room. First, we had the ApplicationUser into
+        /// the Public Dictionary with its UserId for Key and add its UserId
+        /// into the Players List.
+        /// </summary>
+        /// <param name="newUser"></param>
+        /// <returns>boolean</returns>
         public bool AddPlayer(ApplicationUser newUser)
         {
             if (Players.Count == MaxOfPlayers || Public.Keys.Contains(newUser.UserId))
@@ -36,7 +41,11 @@ namespace Serveur.Models
             return true;
         }
 
-        //Add a User into the Public with its UserId for Key.
+        /// <summary>
+        /// Add a User into the Public with its UserId for Key.
+        /// </summary>
+        /// <param name="newUser"></param>
+        /// <returns>boolean</returns>
         public bool AddPublic(ApplicationUser newUser)
         {
             if (Public.Keys.Contains(newUser.UserId))
@@ -47,7 +56,11 @@ namespace Serveur.Models
             return true;
         }
 
-        //Remove a User from the Room.
+        /// <summary>
+        /// Remove a User from the Room.
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns>boolean</returns>
         internal bool RemoveUser(string Id)
         {
             if (Public.Keys.Contains(Id))
@@ -62,8 +75,11 @@ namespace Serveur.Models
             return false;
         }
 
-        //Ask if the number of players is good 
-        //for begining the game.
+        /// <summary>
+        /// Ask if the number of players is good 
+        /// for begining the game.
+        /// </summary>
+        /// <returns>boolean</returns>
         public bool isComplete()
         {
             return Players.Count == MaxOfPlayers;

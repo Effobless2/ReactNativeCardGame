@@ -53,7 +53,7 @@ namespace Serveur
             app.UseCookiePolicy();
             app.UseSignalR(routes =>
             {
-                routes.MapHub<MainHub>(MainHub.Path);
+                routes.MapHub<CardGameHub>(HubPathCollection.CardGamePath);
             });
 
             app.UseMvc();

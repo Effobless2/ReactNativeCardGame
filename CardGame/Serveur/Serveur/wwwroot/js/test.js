@@ -176,7 +176,7 @@
     }
 }
 
-const connection = new ConnectionServer("/main", { logger: signalR.LogLevel.Information });
+const connection = new ConnectionServer("/cardgame", { logger: signalR.LogLevel.Information });
 
 
 
