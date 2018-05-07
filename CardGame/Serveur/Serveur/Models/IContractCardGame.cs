@@ -12,15 +12,19 @@ namespace Serveur.Models
 
         ApplicationUser GetUser(string userId);
 
-        Task<bool> NewGroup();
+        Room NewRoom();
 
-        Task<bool> JoinGroup(string guid);
+        ApplicationUser AddUser(string user);
 
-        Task<bool> AskForSee(string guid);
+        bool AddPlayer(string idRoom, string idUser);
 
-        Task<bool> QuitGame(string guid);
+        bool AddPublic(string idRoom, string idUser);
 
-        Task<bool> RemoveRoom(string guid);
+        bool LeaveGame(string idRoom, string idUser);
+
+        List<ApplicationUser> RemoveRoom(string idRoom);
+
+        ApplicationUser RemoveUser(string idUser);
 
 
     }

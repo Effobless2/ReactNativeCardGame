@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Serveur.Models
 {
@@ -61,18 +62,30 @@ namespace Serveur.Models
         /// </summary>
         /// <param name="Id"></param>
         /// <returns>boolean</returns>
-        internal bool RemoveUser(string Id)
+        public bool RemoveUser(ApplicationUser user)
         {
-            if (Public.Keys.Contains(Id))
+            bool before = isComplete();
+            Public.Remove(user.UserId);
+            user.RemoveRoom(this);
+            if (Players.Contains(user.UserId))
             {
-                Public.Remove(Id);
+                Players.Remove(user.UserId);
+                
             }
-            if (Players.Contains(Id))
+            bool after = isComplete();
+            return (before && !after) || Players.Count == 0;
+        }
+
+        internal List<ApplicationUser> EmptyMe()
+        {
+            List<ApplicationUser> result = new List<ApplicationUser>();
+            foreach (ApplicationUser user in Public.Values)
             {
-                Players.Remove(Id);
-                return true;
+                user.RemoveRoom(this);
+                result.Add(user);
             }
-            return false;
+
+            return result;
         }
 
         /// <summary>

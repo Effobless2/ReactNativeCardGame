@@ -10,75 +10,82 @@
             this.Disconnect(user);
         });
 
-        this.on("ReceiveNewGroup", (guid) => {
-            this.ReceiveNewGroup(guid);
+        this.on("ReceiveNewRoom", (room) => {
+            this.ReceiveNewRoom(room);
         });
 
-        this.on("NewGroupCreated", (guid) => {
-            this.NewGroupCreated(guid);
+        this.on("NewRoomCreated", (room) => {
+            this.NewRoomCreated(room);
         });
 
-        this.on("UserJoinedGroup", (user, guid) => {
-            this.UserJoinedGroup(user, guid);
+        this.on("NewPlayer", (user, room) => {
+            this.NewPlayer(user, room);
         });
 
-        this.on("JoinGroup", (guid) => {
-            this.JoinGroup(guid);
+        this.on("JoinPlayers", (room) => {
+            this.JoinPlayers(room);
         });
 
-        this.on("UserSee", (user, guid) => {
-            this.UserSee(user, guid);
+        this.on("NewPublic", (user, room) => {
+            this.NewPublic(user, room);
         });
 
-        this.on("RoomComplete", (guid) => {
-            this.RoomComplete(guid);
+        this.on("RoomComplete", (room) => {
+            this.RoomComplete(room);
         });
 
-        this.on("GameIsLeft", (guid) => {
-            this.GameIsLeft(guid);
+        this.on("GameIsLeft", (room) => {
+            this.GameIsLeft(room);
         });
 
-        this.on("LeftTheGame", (guid, user) => {
-            this.LeftTheGame(guid, user);
+        this.on("LeftTheGame", (room, user) => {
+            this.LeftTheGame(room, user);
         });
 
-        this.on("YourRoomIsDestroyed", (guid) => {
-            this.YourRoomIsDestroyed(guid);
+        this.on("YourRoomIsDestroyed", (room) => {
+            this.YourRoomIsDestroyed(room);
         });
 
-        this.on("RoomDestroyed", (guid) => {
-            this.RoomDestroyed(guid);
+        this.on("RoomDestroyed", (room) => {
+            this.RoomDestroyed(room);
+        });
+
+        this.on("JoinPublic", (room) => {
+            this.JoinPublic(room);
         });
 
     }
 
     Connect(user) {
+        console.log(user);
         const li = document.createElement("li");
-        li.textContent = user + " is connected.";
+        li.textContent = user.userName + " is connected.";
         document.getElementById("messagesList").appendChild(li);
     }
 
     Disconnect(user) {
         const li = document.createElement("li");
-        li.textContent = user + " is disconnected.";
+        li.textContent = user.userName + " is disconnected.";
         document.getElementById("messagesList").appendChild(li);
     }
 
-    CreateNewGroup() {
-        this.invoke("NewGroup");
+    CreatingRoom() {
+        this.invoke("CreatingRoom");
     }
 
-    ReceiveNewGroup(guid) {
+    ReceiveNewRoom(room) {
+        console.log(room);
         const li = document.createElement("li");
-        li.textContent = "You have created the room number " + guid;
+        li.textContent = "You have created the room number " + room.roomId;
         document.getElementById("messagesList").appendChild(li);
     }
 
-    NewGroupCreated(guid) {
+    NewRoomCreated(room) {
         const li = document.createElement("li");
+        console.log(room);
 
         const text = document.createElement("h3");
-        text.textContent = "The room number " + guid + " has been created !";
+        text.textContent = "The room number " + room.roomId + " has been created !";
         text.classList.add("col-4");
 
         const buttonPlay = document.createElement("input");
@@ -87,7 +94,7 @@
         buttonPlay.classList.add("partyButton");
         buttonPlay.classList.add("play");
         buttonPlay.value = "Play";
-        buttonPlay.addEventListener("click", event => { this.AskForJoin(guid); });
+        buttonPlay.addEventListener("click", event => { this.AddingPlayer(room); });
 
         const buttonPublic = document.createElement("input");
         buttonPublic.type = "button";
@@ -95,7 +102,7 @@
         buttonPublic.classList.add("partyButton");
         buttonPublic.classList.add("public");
         buttonPublic.value = "See";
-        buttonPublic.addEventListener("click", event => { this.AskForSee(guid); });
+        buttonPublic.addEventListener("click", event => { this.AddingPublic(room); });
 
         li.appendChild(text);
         li.appendChild(buttonPlay);
@@ -103,76 +110,92 @@
         document.getElementById("messagesList").appendChild(li);
     }
 
-    AskForJoin(guid) {
+    AddingPlayer(room) {
         console.log("Envoi demande");
-        this.invoke("JoinGroup", guid);
+        this.invoke("AddingPlayer", room.roomId);
     }
 
-    JoinGroup(guid) {
+    JoinPlayers(room) {
         //for (var button of document.getElementsByClassName("partyButton")){
         //    button.disabled = true;
         //}
+        console.log(room)
         const li = document.createElement("li");
         const text = document.createElement("p");
-        text.textContent = "You have joined the room number " + guid;
+        text.textContent = "You have joined the room number " + room.roomId;
         const button = document.createElement("input");
         button.type = "button";
         button.value = "Click Here to quit the Game.";
-        button.addEventListener("click", event => { this.QuitGame(guid) });
+        button.addEventListener("click", event => { this.LeavingGame(room) });
         document.getElementById("messagesList").appendChild(li);
 
         li.appendChild(text);
         li.appendChild(button);
     }
 
-    UserJoinedGroup(user, guid) {
+    NewPlayer(user, room) {
         const li = document.createElement("li");
-        li.textContent = "The user " + user + " has joined the room number " + guid;
+        li.textContent = "The user " + user.userName + " has joined the room number " + room.roomId;
         document.getElementById("messagesList").appendChild(li);
     }
 
-    AskForSee(guid) {
-        this.invoke("AskForSee", guid);
+    AddingPublic(room) {
+        this.invoke("AddingPublic", room.roomId);
     }
 
-    UserSee(user, guid) {
+    NewPublic(user, room) {
         const li = document.createElement("li");
-        li.textContent = "The user " + user + " is looking the room number " + guid;
+        li.textContent = "The user " + user.userName + " is looking the room number " + room.roomId;
         document.getElementById("messagesList").appendChild(li);
     }
 
-    RoomComplete(guid) {
+    RoomComplete(room) {
         const li = document.createElement("li");
-        li.textContent = "The Room " + guid + " is complete. The game will begin.";
+        li.textContent = "The Room " + room.roomId + " is complete. The game will begin.";
         document.getElementById("messagesList").appendChild(li);
     }
 
-    QuitGame(guid) {
-        this.invoke("QuitGame", guid);
+    LeavingGame(room) {
+        this.invoke("LeavingGame", room.roomId);
     }
 
-    GameIsLeft(guid) {
+    GameIsLeft(room) {
         const li = document.createElement("li");
-        li.textContent = "You Quit the room " + guid + ".";
+        li.textContent = "You Quit the room " + room.roomId + ".";
         document.getElementById("messagesList").appendChild(li);
     }
 
-    LeftTheGame(guid, user) {
+    LeftTheGame(room, user) {
         const li = document.createElement("li");
-        li.textContent = "The user " + user + "has left the room " + guid +".";
+        li.textContent = "The user " + user.userName + "has left the room " + room.roomId +".";
         document.getElementById("messagesList").appendChild(li);
     }
 
-    YourRoomIsDestroyed(guid) {
+    YourRoomIsDestroyed(room) {
         const li = document.createElement("li");
-        li.textContent = "The room "+ guid + " has been destroyed. We eject you of this useless room.";
+        li.textContent = "The room "+ room.roomId + " has been destroyed. We eject you of this useless room.";
         document.getElementById("messagesList").appendChild(li);
     }
 
-    RoomDestroyed(guid) {
+    RoomDestroyed(room) {
         const li = document.createElement("li");
-        li.textContent = "The room " + guid + " has been destroyed.";
+        li.textContent = "The room " + room.roomId + " has been destroyed.";
         document.getElementById("messagesList").appendChild(li);
+    }
+
+    JoinPublic(room) {
+        console.log(room)
+        const li = document.createElement("li");
+        const text = document.createElement("p");
+        text.textContent = "You are looking the room number " + room.roomId;
+        const button = document.createElement("input");
+        button.type = "button";
+        button.value = "Click Here to quit the Game.";
+        button.addEventListener("click", event => { this.LeavingGame(room) });
+        document.getElementById("messagesList").appendChild(li);
+
+        li.appendChild(text);
+        li.appendChild(button);
     }
 }
 
@@ -181,8 +204,8 @@ const connection = new ConnectionServer("/cardgame", { logger: signalR.LogLevel.
 
 
 
-document.getElementById("newGroupButton").addEventListener("click", event => {
-    connection.CreateNewGroup();
+document.getElementById("newRoomButton").addEventListener("click", event => {
+    connection.CreatingRoom();
     event.preventDefault();
 });
 
