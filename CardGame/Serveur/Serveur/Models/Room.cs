@@ -24,46 +24,63 @@ namespace Serveur.Models
 
 
         /// <summary>
-        /// Add a Player in the Room. First, we had the ApplicationUser into
-        /// the Public Dictionary with its UserId for Key and add its UserId
-        /// into the Players List.
+        /// Add a Player in the Room if the number of players is less than the number
+        /// of needed Players and if he's not already in the list of players.
         /// </summary>
-        /// <param name="newUser"></param>
-        /// <returns>boolean</returns>
+        /// <param name="newUser">The User which we want to add in the list of Players</param>
+        /// <returns>If the number of players is enough to begin the Party</returns>
         public bool AddPlayer(ApplicationUser newUser)
         {
-            if (Players.Count == MaxOfPlayers || Public.Keys.Contains(newUser.UserId))
+            if (Players.Count == MaxOfPlayers)
             {
-                return false;
+                throw new FulfillRoomException();
+            }
+            else if (Public.Keys.Contains(newUser.UserId))
+            {
+                if (Players.Contains(newUser.UserId))
+                {
+                    throw new AlreadyInRoomException();
+                }
+                else
+                {
+                    Players.Add(newUser.UserId);
+                }
+            }
+            else
+            {
+                Players.Add(newUser.UserId);
+                Public.Add(newUser.UserId, newUser);
             }
 
-            Players.Add(newUser.UserId);
-            Public.Add(newUser.UserId, newUser);
-            return true;
+            return isComplete();
         }
 
         /// <summary>
         /// Add a User into the Public with its UserId for Key.
         /// </summary>
-        /// <param name="newUser"></param>
+        /// <param name="newUser">The newUser we want to add in the public</param>
         /// <returns>boolean</returns>
         public bool AddPublic(ApplicationUser newUser)
         {
             if (Public.Keys.Contains(newUser.UserId))
             {
-                return false;
+                throw new AlreadyInRoomException();
             }
             Public.Add(newUser.UserId, newUser);
             return true;
         }
 
         /// <summary>
-        /// Remove a User from the Room.
+        /// Remove A User From the current Room.
         /// </summary>
-        /// <param name="Id"></param>
-        /// <returns>boolean</returns>
+        /// <param name="user">ApplicationUser which we want to remove</param>
+        /// <returns>If the Room must be deleted</returns>
         public bool RemoveUser(ApplicationUser user)
         {
+            if (!Public.Keys.Contains(user.UserId))
+            {
+                throw new NotInThisRoomException();
+            }
             bool before = isComplete();
             Public.Remove(user.UserId);
             user.RemoveRoom(this);
@@ -76,6 +93,10 @@ namespace Serveur.Models
             return (before && !after) || Players.Count == 0;
         }
 
+        /// <summary>
+        /// Remove Every Users in this Room.
+        /// </summary>
+        /// <returns>List of Users which must be prevent of the removing of the Room</returns>
         internal List<ApplicationUser> EmptyMe()
         {
             List<ApplicationUser> result = new List<ApplicationUser>();

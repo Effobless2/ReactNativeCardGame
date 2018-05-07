@@ -54,6 +54,26 @@
             this.JoinPublic(room);
         });
 
+        this.on("AlreadyInRoom", (room) => {
+            this.AlreadyInRoom(room);
+        });
+
+        this.on("RoomFulfill", (room) => {
+            this.RoomFulfill(room);
+        });
+
+        this.on("NotInThisRoom", (room) => {
+            this.NotInThisRoom(room);
+        });
+
+        this.on("RoomIsUndefined", (roomId) => {
+            this.RoomIsUndefined(roomId);
+        });
+
+        this.on("UserIsUndefined", (userId) => {
+            this.UserIsUndefined(userId);
+        });
+
     }
 
     Connect(user) {
@@ -196,6 +216,26 @@
 
         li.appendChild(text);
         li.appendChild(button);
+    }
+
+    AlreadyInRoom(room) {
+        console.log("Already in room " + room.roomId);
+    }
+
+    RoomFulfill(room) {
+        console.log("Room number " + room.roomId + " is fulfill.");
+    }
+
+    NotInThisRoom(room) {
+        console.log("You are not in the room number " + room.roomId + ".");
+    }
+
+    UserIsUndefined(userId) {
+        console.log("The user number " + userId + " is undefined.");
+    }
+
+    RoomIsUndefined(roomId) {
+        console.log("The room number " + roomId + " is undefined.");
     }
 }
 

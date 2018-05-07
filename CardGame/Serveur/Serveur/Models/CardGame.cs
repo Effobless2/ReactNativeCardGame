@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serveur.Models.Exceptions;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,38 +15,67 @@ namespace Serveur.Models
 
         public bool AddPlayer(string idRoom, string idUser)
         {
-            Room room = GetRoom(idRoom);
-            ApplicationUser user = GetUser(idUser);
-            return room.AddPlayer(user);
+            try
+            {
+                Room room = GetRoom(idRoom);
+                ApplicationUser user = GetUser(idUser);
+                return room.AddPlayer(user);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }  
         }
 
         public bool AddPublic(string idRoom, string idUser)
         {
-            Room room = GetRoom(idRoom);
-            ApplicationUser user = GetUser(idUser);
-            return room.AddPublic(user);
+            try
+            {
+                Room room = GetRoom(idRoom);
+                ApplicationUser user = GetUser(idUser);
+                return room.AddPublic(user);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public ApplicationUser AddUser(string idUser)
         {
-            ApplicationUser user = new ApplicationUser(idUser, "User "+ nbCli);
-            nbCli++;
+            try
+            {
+                ApplicationUser user = new ApplicationUser(idUser, "User " + nbCli);
+                nbCli++;
 
-            Users.TryAdd(idUser, user);
+                Users.TryAdd(idUser, user);
 
-            return GetUser(idUser);
-
+                return GetUser(idUser);
+            }
+            catch (UserIsUndefinedException e)
+            {
+                throw e;
+            }
         }
 
         public Room GetRoom(string roomId)
         {
             Rooms.TryGetValue(roomId, out Room res);
+            if (res == null)
+            {
+                throw new RoomIsUndefinedException();
+            }
             return res;
         }
 
         public ApplicationUser GetUser(string userId)
         {
             Users.TryGetValue(userId, out ApplicationUser res);
+
+            if (res == null)
+            {
+                throw new UserIsUndefinedException();
+            }
             return res;
         }
 
@@ -59,14 +89,25 @@ namespace Serveur.Models
 
         public bool LeaveGame(string idRoom, string idUser)
         {
-            Room room = GetRoom(idRoom);
-            ApplicationUser user = GetUser(idUser);
-            return room.RemoveUser(user);
+            try
+            {
+                Room room = GetRoom(idRoom);
+                ApplicationUser user = GetUser(idUser);
+                return room.RemoveUser(user);
+            }
+            catch(Exception e)
+            {
+                throw e;
+            }
         }
 
         public List<ApplicationUser> RemoveRoom(string idRoom)
         {
             Rooms.TryRemove(idRoom, out Room room);
+            if (room == null)
+            {
+                throw new RoomIsUndefinedException();
+            }
             return room.EmptyMe();
 
         }
@@ -74,6 +115,10 @@ namespace Serveur.Models
         public ApplicationUser RemoveUser(string idUser)
         {
             Users.TryRemove(idUser, out ApplicationUser user);
+            if (user == null)
+            {
+                throw new UserIsUndefinedException();
+            }
             return user;
         }
 

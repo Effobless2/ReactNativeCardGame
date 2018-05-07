@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Serveur.Models;
+using Serveur.Models.Exceptions;
 
 namespace Serveur.Hubs
 {
@@ -10,16 +11,30 @@ namespace Serveur.Hubs
     {
 
         public static Lazy<CardGame> cardGame = new Lazy<CardGame>();
-        public static int nbCli = 0;
 
         public Room GetRoom(string roomId)
         {
-            return cardGame.Value.GetRoom(roomId);
+            try
+            {
+                return cardGame.Value.GetRoom(roomId);
+            }
+
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public ApplicationUser GetUser(string userId)
         {
-            return cardGame.Value.GetUser(userId);
+            try
+            {
+                return cardGame.Value.GetUser(userId);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public Room NewRoom()
@@ -29,32 +44,75 @@ namespace Serveur.Hubs
 
         public ApplicationUser AddUser(string user)
         {
-            return cardGame.Value.AddUser(user);
+            try
+            {
+                return cardGame.Value.AddUser(user);
+            }
+            catch(Exception e)
+            {
+                throw e;
+            }
         }
 
         public bool AddPlayer(string idRoom, string idUser)
         {
-            return cardGame.Value.AddPlayer(idRoom, idUser);
+            try
+            {
+                return cardGame.Value.AddPlayer(idRoom, idUser);
+            }
+            catch(Exception e)
+            {
+                throw e;
+            }
         }
 
         public bool AddPublic(string idRoom, string idUser)
         {
-            return cardGame.Value.AddPublic(idRoom, idUser);
+            try
+            {
+                return cardGame.Value.AddPublic(idRoom, idUser);
+            }
+            catch(Exception e)
+            {
+                throw e;
+            }
         }
 
         public bool LeaveGame(string idRoom, string idUser)
         {
-            return cardGame.Value.LeaveGame(idRoom, idUser);
+            try
+            {
+                return cardGame.Value.LeaveGame(idRoom, idUser);
+            }
+            catch(Exception e)
+            {
+                throw e;
+            }
         }
 
         public List<ApplicationUser> RemoveRoom(string idRoom)
         {
-            return cardGame.Value.RemoveRoom(idRoom);
+            try
+            {
+                return cardGame.Value.RemoveRoom(idRoom);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            
         }
 
         public ApplicationUser RemoveUser(string idUser)
         {
-            return cardGame.Value.RemoveUser(idUser);
+            try
+            {
+                return cardGame.Value.RemoveUser(idUser);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
 
@@ -80,80 +138,146 @@ namespace Serveur.Hubs
 
         public async Task AddingPlayer(string idRoom)
         {
-            AddPlayer(idRoom, Context.ConnectionId);
-            Room currentRoom = GetRoom(idRoom);
-
-            await Clients.Caller.SendAsync("JoinPlayers", currentRoom);
-
-            ApplicationUser currentUser = GetUser(Context.ConnectionId);
-
-            foreach (ApplicationUser user in currentRoom.Public.Values)
+            Room currentRoom = null;
+            try
             {
-                if (!Context.ConnectionId.Equals(user.UserId))
+                currentRoom = GetRoom(idRoom);
+                AddPlayer(idRoom, Context.ConnectionId);
+
+                await Clients.Caller.SendAsync("JoinPlayers", currentRoom);
+
+                ApplicationUser currentUser = GetUser(Context.ConnectionId);
+
+                foreach (ApplicationUser user in currentRoom.Public.Values)
                 {
-                    await Clients.Client(user.UserId).SendAsync("NewPlayer", currentUser, currentRoom);
+                    if (!Context.ConnectionId.Equals(user.UserId))
+                    {
+                        await Clients.Client(user.UserId).SendAsync("NewPlayer", currentUser, currentRoom);
+                    }
                 }
             }
+            catch (AlreadyInRoomException e)
+            {
+                await Clients.Caller.SendAsync("AlreadyInRoom", currentRoom);
+            }
+            catch (FulfillRoomException e)
+            {
+                await Clients.Caller.SendAsync("RoomFulFill", currentRoom);
+            }
 
+            catch(UserIsUndefinedException e)
+            {
+                await Clients.Caller.SendAsync("UserUndefined", Context.ConnectionId);
+            }
+
+            catch(RoomIsUndefinedException e)
+            {
+                await Clients.Caller.SendAsync("RoomIsUndefined", idRoom);
+            }
         }
 
         public async Task AddingPublic(string idRoom)
         {
-            AddPublic(idRoom, Context.ConnectionId);
-
-            ApplicationUser currentUser = GetUser(Context.ConnectionId);
-            Room room = GetRoom(idRoom);
-
-            await Clients.Caller.SendAsync("JoinPublic", room);
-
-
-            foreach (ApplicationUser user in room.Public.Values)
+            Room room = null;
+            try
             {
-                if (!user.UserId.Equals(Context.ConnectionId))
+                room = GetRoom(idRoom);
+                AddPublic(idRoom, Context.ConnectionId);
+
+                ApplicationUser currentUser = GetUser(Context.ConnectionId);
+
+                await Clients.Caller.SendAsync("JoinPublic", room);
+                
+                foreach (ApplicationUser user in room.Public.Values)
                 {
-                    await Clients.Client(user.UserId).SendAsync("NewPublic", currentUser, room);
+                    if (!user.UserId.Equals(Context.ConnectionId))
+                    {
+                        await Clients.Client(user.UserId).SendAsync("NewPublic", currentUser, room);
+                    }
                 }
+            }
+            catch (AlreadyInRoomException e)
+            {
+                await Clients.Caller.SendAsync("AlreadyInRoom", room);
+            }
+            catch(RoomIsUndefinedException e)
+            {
+                await Clients.Caller.SendAsync("RoomIsUndefined", idRoom);
+            }
+            catch(UserIsUndefinedException e)
+            {
+                await Clients.Caller.SendAsync("UserIsUndefinded", Context.ConnectionId);
             }
         }
 
         public async Task LeavingGame(string idRoom)
         {
-            bool erase = LeaveGame(idRoom, Context.ConnectionId);
-            ApplicationUser currentUser = GetUser(Context.ConnectionId);
-            Room room = GetRoom(idRoom);
-            await Clients.Caller.SendAsync("GameIsLeft", room);
-            foreach (ApplicationUser user in room.Public.Values)
+            Room room = null;
+            try
             {
-                await Clients.Client(user.UserId).SendAsync("LeftTheGame", room, currentUser);
+                ApplicationUser currentUser = GetUser(Context.ConnectionId);
+                room = GetRoom(idRoom);
+
+                bool erase = LeaveGame(idRoom, Context.ConnectionId);
+                await Clients.Caller.SendAsync("GameIsLeft", room);
+                foreach (ApplicationUser user in room.Public.Values)
+                {
+                    await Clients.Client(user.UserId).SendAsync("LeftTheGame", room, currentUser);
+                }
+                if (erase)
+                {
+                    RemovingRoom(idRoom);
+                }
             }
-            if (erase)
+            catch(NotInThisRoomException e)
             {
-                RemovingRoom(idRoom);
+                await Clients.Caller.SendAsync("NotInThisRoom", room);
             }
+            catch (RoomIsUndefinedException e)
+            {
+                await Clients.Caller.SendAsync("RoomIsUndefined", idRoom);
+            }
+            catch (UserIsUndefinedException e)
+            {
+                await Clients.Caller.SendAsync("UserIsUndefinded", Context.ConnectionId);
+            }
+
         }
 
         public async Task RemovingRoom(string idRoom)
         {
-            Room currentRoom = GetRoom(idRoom);
-            List<ApplicationUser> users = RemoveRoom(idRoom);
-
-            foreach (ApplicationUser user in users)
+            try
             {
-                await Clients.Client(user.UserId).SendAsync("YourRoomIsDestroyed", currentRoom);
+                Room currentRoom = GetRoom(idRoom);
+                List<ApplicationUser> users = RemoveRoom(idRoom);
+
+                foreach (ApplicationUser user in users)
+                {
+                    await Clients.Client(user.UserId).SendAsync("YourRoomIsDestroyed", currentRoom);
+                }
+
+                await Clients.All.SendAsync("RoomDestroyed", currentRoom);
             }
-
-            await Clients.All.SendAsync("RoomDestroyed", currentRoom);
-
-
+            catch(RoomIsUndefinedException e)
+            {
+                await Clients.Caller.SendAsync("RoomIsUndefined", idRoom);
+            }
         }
 
         public async Task RemovingUser(string idUser)
         {
-            ApplicationUser user = GetUser(idUser);
+            ApplicationUser user = null;
 
-            RemoveUser(idUser);
-
-            await Clients.All.SendAsync("Disconnect", user);
+            try
+            {
+                user = GetUser(idUser);
+                RemoveUser(idUser);
+                await Clients.All.SendAsync("Disconnect", user);
+            }
+            catch(UserIsUndefinedException e)
+            {
+                await Clients.Caller.SendAsync("UserIsUndefined", Context.ConnectionId);
+            }
         }
 
         
@@ -165,8 +289,18 @@ namespace Serveur.Hubs
         /// <returns></returns>
         public override async Task OnConnectedAsync()
         {
-            AddingUser(Context.ConnectionId);
-            await base.OnConnectedAsync();
+            try
+            {
+                AddingUser(Context.ConnectionId);
+            }
+            catch(UserIsUndefinedException e)
+            {
+                await Clients.Caller.SendAsync("UserIsUndefined", Context.ConnectionId);
+            }
+            finally
+            {
+                await base.OnConnectedAsync();
+            }
         }
 
 
@@ -180,8 +314,18 @@ namespace Serveur.Hubs
         /// <returns></returns>
         public override async Task OnDisconnectedAsync(Exception ex)
         {
-            RemovingUser(Context.ConnectionId);
-            await base.OnDisconnectedAsync(ex);
+            try
+            {
+                RemovingUser(Context.ConnectionId);
+            }
+            catch(UserIsUndefinedException e)
+            {
+                await Clients.Caller.SendAsync("UserIsUndefined", Context.ConnectionId);
+            }
+            finally
+            {
+                await base.OnDisconnectedAsync(ex);
+            }
         }
     }
 }
