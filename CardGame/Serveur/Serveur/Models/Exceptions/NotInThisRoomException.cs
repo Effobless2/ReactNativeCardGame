@@ -3,6 +3,10 @@ using System.Runtime.Serialization;
 
 namespace Serveur.Models.Exceptions
 {
+    /// <summary>
+    /// Exception thrown when an ApplicationUser 
+    /// must be Removed from a Room where he's not in.
+    /// </summary>
     [Serializable]
     internal class NotInThisRoomException : Exception
     {

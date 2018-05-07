@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Serveur.Models
 {
+    /// <summary>
+    /// CardGame Manager
+    /// </summary>
     public class CardGame : IContractCardGame
     {
         public ConcurrentDictionary<string, Room> Rooms = new ConcurrentDictionary<string, Room>();
@@ -15,18 +18,22 @@ namespace Serveur.Models
 
         public bool AddPlayer(string idRoom, string idUser)
         {
+            Console.WriteLine("CardGame.AddPlayer");
             try
             {
                 Room room = GetRoom(idRoom);
                 ApplicationUser user = GetUser(idUser);
-                return room.AddPlayer(user);
+                bool res = room.AddPlayer(user);
+                Console.WriteLine(res);
+                return res;
             }
             catch (Exception e)
             {
+                Console.WriteLine("CardGame.AddPlayer(ex)");
                 throw e;
             }  
         }
-
+        
         public bool AddPublic(string idRoom, string idUser)
         {
             try
@@ -40,7 +47,7 @@ namespace Serveur.Models
                 throw e;
             }
         }
-
+        
         public ApplicationUser AddUser(string idUser)
         {
             try
@@ -57,7 +64,7 @@ namespace Serveur.Models
                 throw e;
             }
         }
-
+        
         public Room GetRoom(string roomId)
         {
             Rooms.TryGetValue(roomId, out Room res);
@@ -67,7 +74,7 @@ namespace Serveur.Models
             }
             return res;
         }
-
+        
         public ApplicationUser GetUser(string userId)
         {
             Users.TryGetValue(userId, out ApplicationUser res);
@@ -78,7 +85,7 @@ namespace Serveur.Models
             }
             return res;
         }
-
+        
         public Room NewRoom()
         {
             Room room = new Room(NewGuidGeneration());
@@ -100,7 +107,7 @@ namespace Serveur.Models
                 throw e;
             }
         }
-
+        
         public List<ApplicationUser> RemoveRoom(string idRoom)
         {
             Rooms.TryRemove(idRoom, out Room room);
@@ -111,7 +118,7 @@ namespace Serveur.Models
             return room.EmptyMe();
 
         }
-
+        
         public ApplicationUser RemoveUser(string idUser)
         {
             Users.TryRemove(idUser, out ApplicationUser user);
@@ -122,6 +129,10 @@ namespace Serveur.Models
             return user;
         }
 
+        /// <summary>
+        /// Generates a new id for a new Room
+        /// </summary>
+        /// <returns>a New Guid</returns>
         private string NewGuidGeneration()
         {
             string guid = "";

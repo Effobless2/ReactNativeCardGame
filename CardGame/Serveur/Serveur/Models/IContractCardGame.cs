@@ -49,12 +49,34 @@ namespace Serveur.Models
         /// <returns></returns>
         bool AddPlayer(string idRoom, string idUser);
 
+        /// <summary>
+        /// Adds the concerned ApplicationUser into the public of the concerned Room
+        /// </summary>
+        /// <param name="idRoom">Id of the Concerned Room</param>
+        /// <param name="idUser">Id of the concerned ApplicationUser</param>
+        /// <returns></returns>
         bool AddPublic(string idRoom, string idUser);
 
+        /// <summary>
+        /// Remove an Application user from a Room
+        /// </summary>
+        /// <param name="idRoom">id of the concerned Room</param>
+        /// <param name="idUser">id of the concerned ApplicationUser</param>
+        /// <returns>If the Room must be removed</returns>
         bool LeaveGame(string idRoom, string idUser);
 
+        /// <summary>
+        /// Removes the Room which has the idRoom.
+        /// </summary>
+        /// <param name="idRoom">Id of the concerned Room</param>
+        /// <returns>The List of ApplicationUser which must be ejected of the Room</returns>
         List<ApplicationUser> RemoveRoom(string idRoom);
 
+        /// <summary>
+        /// Removes the User into the Application
+        /// </summary>
+        /// <param name="idUser">id of the concerned ApplicationUser</param>
+        /// <returns>the concerned ApplicationUser</returns>
         ApplicationUser RemoveUser(string idUser);
 
 

@@ -21,24 +21,20 @@ namespace Serveur.Models
             rooms = new ConcurrentDictionary<string, Room>();
         }
 
+        /// <summary>
+        /// Adds a Room into the rooms's list
+        /// </summary>
+        /// <param name="room">The Room wich </param>
+        /// <returns>Confirmation of the adding</returns>
         public bool AddRoom(Room room)
         {
             return rooms.TryAdd(room.RoomId, room);
         }
 
-        public List<Room> WhereIAmPlayer()
-        {
-            List<Room> result = new List<Room>();
-            foreach (Room room in rooms.Values)
-            {
-                if (room.Players.Contains(UserId))
-                {
-                    result.Add(room);
-                }
-            }
-            return result;
-        }
-
+        /// <summary>
+        /// Remove a room from the List of rooms
+        /// </summary>
+        /// <param name="room">the room which will be removed</param>
         internal void RemoveRoom(Room room)
         {
             rooms.TryRemove(room.RoomId, out Room value);

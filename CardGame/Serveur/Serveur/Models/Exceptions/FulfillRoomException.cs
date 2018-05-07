@@ -3,6 +3,11 @@ using System.Runtime.Serialization;
 
 namespace Serveur.Models.Exceptions
 {
+    /// <summary>
+    /// Exception trown when an ApplicationUser wants 
+    /// to play in a Room where the maximum number of 
+    /// players are attempt.
+    /// </summary>
     [Serializable]
     internal class FulfillRoomException : Exception
     {

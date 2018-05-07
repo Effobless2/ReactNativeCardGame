@@ -3,6 +3,9 @@ using System.Runtime.Serialization;
 
 namespace Serveur.Models.Exceptions
 {
+    /// <summary>
+    /// Exception thrown when an ApplicationUser wants to join a Room where he's already in.
+    /// </summary>
     [Serializable]
     internal class AlreadyInRoomException : Exception
     {

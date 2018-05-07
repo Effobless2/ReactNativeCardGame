@@ -1,4 +1,5 @@
 ﻿using Serveur.Models;
+using Serveur.Models.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,12 +7,16 @@ using System.Threading.Tasks;
 
 namespace Serveur.Models
 {
+    /// <summary>
+    /// The Representation of a GameRoom
+    /// </summary>
     public class Room
     {
         public string RoomId { get; }
         public int MaxOfPlayers { get; }
         public List<string> Players { get; }
         public Dictionary<string, ApplicationUser> Public { get; }
+
 
         public Room(string guid)
         {
@@ -50,6 +55,7 @@ namespace Serveur.Models
             {
                 Players.Add(newUser.UserId);
                 Public.Add(newUser.UserId, newUser);
+                //Console.WriteLine(newUser.AddRoom(this));
             }
 
             return isComplete();
@@ -59,7 +65,7 @@ namespace Serveur.Models
         /// Add a User into the Public with its UserId for Key.
         /// </summary>
         /// <param name="newUser">The newUser we want to add in the public</param>
-        /// <returns>boolean</returns>
+        /// <returns></returns>
         public bool AddPublic(ApplicationUser newUser)
         {
             if (Public.Keys.Contains(newUser.UserId))
@@ -67,6 +73,7 @@ namespace Serveur.Models
                 throw new AlreadyInRoomException();
             }
             Public.Add(newUser.UserId, newUser);
+            //Console.WriteLine(newUser.AddRoom(this));
             return true;
         }
 

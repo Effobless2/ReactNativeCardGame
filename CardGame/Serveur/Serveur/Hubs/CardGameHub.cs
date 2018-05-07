@@ -7,6 +7,9 @@ using Serveur.Models.Exceptions;
 
 namespace Serveur.Hubs
 {
+    /// <summary>
+    /// Realize the connection between the Server and Clients
+    /// </summary>
     public class CardGameHub : Hub , IContractCardGame, IContractCardGameHub
     {
 
@@ -116,9 +119,6 @@ namespace Serveur.Hubs
         }
 
 
-
-
-
         public async Task CreatingRoom()
         {
             Room room = NewRoom();
@@ -138,40 +138,47 @@ namespace Serveur.Hubs
 
         public async Task AddingPlayer(string idRoom)
         {
-            Room currentRoom = null;
+            Room room = null;
             try
             {
-                currentRoom = GetRoom(idRoom);
+                room = GetRoom(idRoom);
                 AddPlayer(idRoom, Context.ConnectionId);
 
-                await Clients.Caller.SendAsync("JoinPlayers", currentRoom);
-
+                await Clients.Caller.SendAsync("JoinPlayers", room);
+                
                 ApplicationUser currentUser = GetUser(Context.ConnectionId);
 
-                foreach (ApplicationUser user in currentRoom.Public.Values)
+                Console.WriteLine("Task AddPlayer");
+
+                foreach (ApplicationUser user in room.Public.Values)
                 {
                     if (!Context.ConnectionId.Equals(user.UserId))
                     {
-                        await Clients.Client(user.UserId).SendAsync("NewPlayer", currentUser, currentRoom);
+                        await Clients.Client(user.UserId).SendAsync("NewPlayer", currentUser, room);
                     }
                 }
             }
             catch (AlreadyInRoomException e)
             {
-                await Clients.Caller.SendAsync("AlreadyInRoom", currentRoom);
+                Console.WriteLine("Alreaady ex");
+                await Clients.Caller.SendAsync("AlreadyInRoom", room);
             }
             catch (FulfillRoomException e)
             {
-                await Clients.Caller.SendAsync("RoomFulFill", currentRoom);
+                Console.WriteLine("Fulfill ex");
+                await Clients.Caller.SendAsync("RoomFulFill", room);
             }
 
             catch(UserIsUndefinedException e)
             {
+                Console.WriteLine("User Undef ex");
                 await Clients.Caller.SendAsync("UserUndefined", Context.ConnectionId);
             }
 
             catch(RoomIsUndefinedException e)
             {
+
+                Console.WriteLine("Room Undef ex");
                 await Clients.Caller.SendAsync("RoomIsUndefined", idRoom);
             }
         }
