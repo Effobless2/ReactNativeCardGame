@@ -6,13 +6,14 @@ import { Tabs } from './Navigator';
 export class Home extends React.Component{
     constructor(props){
         super(props);
+        this.cardGame = props.game;
     }
 
     render(){
         return (
             <View style = {{flex: 1}}>
                 <View style = {{height: 50, paddingTop: 20}}>
-                    <Text style = {{fontSize:20}}>UserName</Text>
+                    <Text style = {{fontSize:20}}>{this.cardGame.currentUser.userName}</Text>
                 </View>
                 <Tabs/>
             </View>
