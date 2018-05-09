@@ -1,11 +1,13 @@
 import * as SignalR from '@aspnet/signalr'
 import { ApplicationUser } from '../Model/ApplicationUser';
+import { Room } from '../Model/Room';
 
 class ConnectionServer extends SignalR.HubConnection{
     constructor(url){
         super(url)
 
         this.usersList = new Map();
+        this.roomList = new Map();
 
         this.on("Connect", (user) => {
             this.Connect(user);
@@ -18,10 +20,14 @@ class ConnectionServer extends SignalR.HubConnection{
 
         this.on("ReceiveNewRoom", (room) => {
             this.ReceiveNewRoom(room);
+            this.roomList.set(room.roomId, new Room(room.roomId, room.maxOfPlayers, room.players, room.public));
+            console.log(this.roomList);
         });
 
         this.on("NewRoomCreated", (room) => {
             this.NewRoomCreated(room);
+            this.roomList.set(room.roomId, new Room(room.roomId, room.maxOfPlayers, room.players, room.public));
+            console.log(this.roomList);
         });
 
         this.on("NewPlayer", (user, room) => {
@@ -50,10 +56,14 @@ class ConnectionServer extends SignalR.HubConnection{
 
         this.on("YourRoomIsDestroyed", (room) => {
             this.YourRoomIsDestroyed(room);
+            this.roomList.delete(room.roomId);
+            console.log(this.roomList);
         });
 
         this.on("RoomDestroyed", (room) => {
             this.RoomDestroyed(room);
+            this.roomList.delete(room.roomId);
+            console.log(this.roomList);
         });
 
         this.on("JoinPublic", (room) => {
