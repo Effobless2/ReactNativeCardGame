@@ -9,7 +9,7 @@ export class Home extends React.Component{
 
     render(){
         return (
-            <View>
+            <View style = {Styles.container}>
                 <Text>HomePage</Text>
             </View>
         );

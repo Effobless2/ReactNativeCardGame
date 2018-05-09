@@ -3,6 +3,7 @@ import {Text, View, Button } from 'react-native';
 import connection from './ConnectionServer/Connection';
 import { Home } from './Components/Home';
 import { Styles } from './Styles';
+import { Tabs } from './Components/Navigator';
 
 
 export default class App extends React.Component {
@@ -13,12 +14,12 @@ export default class App extends React.Component {
   
   render() {
     return (
-      <View style={Styles.container}>
+      <View style={{flex: 1}}>
         <Button
           onPress = {() => this.connection.CreatingRoom()}
           title = "Action"
         />
-        <Home/>
+        <Tabs/>
       </View>
     );
   }
