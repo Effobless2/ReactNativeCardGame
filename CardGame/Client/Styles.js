@@ -9,4 +9,11 @@ export const Styles = StyleSheet.create({
       justifyContent: 'center',
       margin: 10,
     },
+    connection : {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+      margin: 10,
+    }
   });

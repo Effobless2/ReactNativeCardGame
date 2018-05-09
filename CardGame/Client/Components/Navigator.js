@@ -1,9 +1,9 @@
-import {TabNavigator} from 'react-navigation';
+import {createBottomTabNavigator} from 'react-navigation';
 import { Home } from './Home'
 import { About } from './About'
 import { Rooms } from './Rooms'
 
-export const Tabs = TabNavigator({
+export const Tabs = createBottomTabNavigator({
     Rooms : { screen: Rooms },
     About : { screen: About }
   }, {
@@ -12,8 +12,8 @@ export const Tabs = TabNavigator({
       showIcon: true,
       showLabel: true,
       indicatorStyle: {
-        height: 2,
-        backgroundColor: "#FFF"
+        height: 5,
+        backgroundColor: "#FFF",
       },
       style: {
         backgroundColor: "#a2273c",
