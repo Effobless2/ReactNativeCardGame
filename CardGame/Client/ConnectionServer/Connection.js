@@ -1,8 +1,11 @@
 import * as SignalR from '@aspnet/signalr'
+import { ApplicationUser } from '../Model/ApplicationUser';
 
 class ConnectionServer extends SignalR.HubConnection{
     constructor(url){
         super(url)
+
+        this.usersList = new Map();
 
         this.on("Connect", (user) => {
             this.Connect(user);
@@ -81,11 +84,15 @@ class ConnectionServer extends SignalR.HubConnection{
     }
 
     Connect(user){
-        console.log(user + " s'est connecté.");
+        console.log(user.userName + " s'est connecté.");
+        newUser = new ApplicationUser(user.userId, user.userName);
+        this.usersList.set(user.userId, newUser);
+        console.log(this.usersList);
     }
 
     Disconnect(user){
         console.log(user.userName + " s'est déconnecté.");
+        this.usersList.delete(user.userId);
     }
 
     ReceiveNewRoom(room){
