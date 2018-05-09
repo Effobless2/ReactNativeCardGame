@@ -132,7 +132,7 @@ namespace Serveur.Hubs
         public async Task AddingUser(string idUser)
         {
             ApplicationUser user = AddUser(idUser);
-            await Clients.Caller.SendAsync("Connect", user);
+            await Clients.Caller.SendAsync("ConnectionBegin", user, cardGame.Value.Users, cardGame.Value.Rooms);
             await Clients.Others.SendAsync("Connect", user);
         }
 

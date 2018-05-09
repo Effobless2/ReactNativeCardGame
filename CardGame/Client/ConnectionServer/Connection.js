@@ -2,13 +2,16 @@ import * as SignalR from '@aspnet/signalr'
 import { CardGame } from '../Model/CardGame';
 
 class ConnectionServer extends SignalR.HubConnection{
+
     constructor(url){
         super(url)
 
-        this.cardGame = new CardGame();
-
         this.on("Connect", (user) => {
             this.Connect(user);
+        });
+
+        this.on("ConnectionBegin", (currentUser, users, rooms) => {
+            this.ConnectionBegin(currentUser, users, rooms);
         });
 
         this.on("Disconnect", (user) => {
@@ -85,6 +88,11 @@ class ConnectionServer extends SignalR.HubConnection{
     Connect(user){
         console.log(user.userName + " s'est connecté.");
         this.cardGame.AddUser(user);
+    }
+
+    ConnectionBegin(currentUser, users, rooms){
+        console.log("Vous êtes désormais connecté sous l'id "+ currentUser.userName);
+        this.cardGame = new CardGame(currentUser, users, rooms);
     }
 
     Disconnect(user){
