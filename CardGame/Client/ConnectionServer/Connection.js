@@ -1,33 +1,26 @@
 import * as SignalR from '@aspnet/signalr'
-import { ApplicationUser } from '../Model/ApplicationUser';
-import { Room } from '../Model/Room';
+import { CardGame } from '../Model/CardGame';
 
 class ConnectionServer extends SignalR.HubConnection{
     constructor(url){
         super(url)
 
-        this.usersList = new Map();
-        this.roomList = new Map();
+        this.cardGame = new CardGame();
 
         this.on("Connect", (user) => {
             this.Connect(user);
         });
 
         this.on("Disconnect", (user) => {
-            console.log("Déconnexion");
             this.Disconnect(user);
         });
 
         this.on("ReceiveNewRoom", (room) => {
             this.ReceiveNewRoom(room);
-            this.roomList.set(room.roomId, new Room(room.roomId, room.maxOfPlayers, room.players, room.public));
-            console.log(this.roomList);
         });
 
         this.on("NewRoomCreated", (room) => {
             this.NewRoomCreated(room);
-            this.roomList.set(room.roomId, new Room(room.roomId, room.maxOfPlayers, room.players, room.public));
-            console.log(this.roomList);
         });
 
         this.on("NewPlayer", (user, room) => {
@@ -56,14 +49,10 @@ class ConnectionServer extends SignalR.HubConnection{
 
         this.on("YourRoomIsDestroyed", (room) => {
             this.YourRoomIsDestroyed(room);
-            this.roomList.delete(room.roomId);
-            console.log(this.roomList);
         });
 
         this.on("RoomDestroyed", (room) => {
             this.RoomDestroyed(room);
-            this.roomList.delete(room.roomId);
-            console.log(this.roomList);
         });
 
         this.on("JoinPublic", (room) => {
@@ -95,17 +84,16 @@ class ConnectionServer extends SignalR.HubConnection{
 
     Connect(user){
         console.log(user.userName + " s'est connecté.");
-        newUser = new ApplicationUser(user.userId, user.userName);
-        this.usersList.set(user.userId, newUser);
-        console.log(this.usersList);
+        this.cardGame.AddUser(user);
     }
 
     Disconnect(user){
         console.log(user.userName + " s'est déconnecté.");
-        this.usersList.delete(user.userId);
+        this.cardGame.RemoveUser(user);
     }
 
     ReceiveNewRoom(room){
+        this.cardGame.AddRoom(room);
         console.log("You have created the room number " + room.roomId );
     }
 
@@ -114,6 +102,7 @@ class ConnectionServer extends SignalR.HubConnection{
     }
 
     NewRoomCreated(room){
+        this.cardGame.AddRoom(room);
         console.log("The room number " + room.roomId + " has been created.");
     }
 
@@ -156,10 +145,12 @@ class ConnectionServer extends SignalR.HubConnection{
     }
 
     YourRoomIsDestroyed(room) {
+        this.cardGame.RemoveRoom(room);
         console.log("The room "+ room.roomId + " has been destroyed. We eject you of this useless room.");
     }
 
     RoomDestroyed(room) {
+        this.cardGame.RemoveRoom(room);
         console.log( "The room " + room.roomId + " has been destroyed.");
     }
 
