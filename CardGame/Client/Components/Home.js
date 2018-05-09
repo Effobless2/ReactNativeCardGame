@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { Styles } from '../Styles';
+import { Tabs } from './Navigator';
 
 export class Home extends React.Component{
     constructor(props){
@@ -9,8 +10,11 @@ export class Home extends React.Component{
 
     render(){
         return (
-            <View style = {Styles.container}>
-                <Text>HomePage</Text>
+            <View style = {{flex: 1}}>
+                <View style = {{height: 50, paddingTop: 20}}>
+                    <Text style = {{fontSize:20}}>UserName</Text>
+                </View>
+                <Tabs style = {{marginLeft: 10, marginRight: 10}}/>
             </View>
         );
     }

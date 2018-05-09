@@ -1,9 +1,10 @@
 import {TabNavigator} from 'react-navigation';
 import { Home } from './Home'
 import { About } from './About'
+import { Rooms } from './Rooms'
 
 export const Tabs = TabNavigator({
-    Home : { screen: Home },
+    Rooms : { screen: Rooms },
     About : { screen: About }
   }, {
     tabBarPosition: 'bottom',
@@ -12,7 +13,8 @@ export const Tabs = TabNavigator({
       showLabel: true,
       indicatorStyle: {
         height: 2,
-        backgroundColor: "#FFF"
+        backgroundColor: "#FFF",
+        paddingHorizontal: 10
       },
       style: {
         backgroundColor: "#a2273c",
