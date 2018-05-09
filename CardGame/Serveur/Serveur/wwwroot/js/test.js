@@ -6,7 +6,7 @@
             this.Connect(user);
         });
 
-        this.on("Disconnected", (user) => {
+        this.on("Disconnect", (user) => {
             this.Disconnect(user);
         });
 
@@ -84,6 +84,7 @@
     }
 
     Disconnect(user) {
+        console.log(user);
         const li = document.createElement("li");
         li.textContent = user.userName + " is disconnected.";
         document.getElementById("messagesList").appendChild(li);
