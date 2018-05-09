@@ -13,8 +13,7 @@ export const Tabs = TabNavigator({
       showLabel: true,
       indicatorStyle: {
         height: 2,
-        backgroundColor: "#FFF",
-        paddingHorizontal: 10
+        backgroundColor: "#FFF"
       },
       style: {
         backgroundColor: "#a2273c",

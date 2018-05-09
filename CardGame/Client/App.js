@@ -11,7 +11,9 @@ const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : StatusBarManager.HEIGHT;
 export default class App extends React.Component {
   constructor(props){
     super(props);
-    this.connection = connection;
+    this.state = {
+      connection : connection
+    }
   }
   
   render() {

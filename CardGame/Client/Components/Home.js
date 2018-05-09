@@ -14,7 +14,7 @@ export class Home extends React.Component{
                 <View style = {{height: 50, paddingTop: 20}}>
                     <Text style = {{fontSize:20}}>UserName</Text>
                 </View>
-                <Tabs style = {{marginLeft: 10, marginRight: 10}}/>
+                <Tabs/>
             </View>
         );
     }
