@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import {Text, View, Button } from 'react-native';
 import connection from './ConnectionServer/Connection';
 import { Home } from './Components/Home';
+import { Styles } from './Styles';
 
 
 export default class App extends React.Component {
@@ -12,7 +13,7 @@ export default class App extends React.Component {
   
   render() {
     return (
-      <View style={styles.container}>
+      <View style={Styles.container}>
         <Button
           onPress = {() => this.connection.CreatingRoom()}
           title = "Action"
@@ -23,11 +24,4 @@ export default class App extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+

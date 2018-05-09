@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
+import { Styles } from '../Styles';
 
 export class Home extends React.Component{
     constructor(props){
@@ -14,11 +15,3 @@ export class Home extends React.Component{
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  });
