@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import connection from './ConnectionServer/Connection';
+import { Home } from './Components/Home';
 
 
 export default class App extends React.Component {
@@ -16,8 +17,7 @@ export default class App extends React.Component {
           onPress = {() => this.connection.CreatingRoom()}
           title = "Action"
         />
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
+        <Home/>
       </View>
     );
   }
