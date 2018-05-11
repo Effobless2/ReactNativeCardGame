@@ -5,12 +5,19 @@ import { Styles } from '../Styles';
 export class Rooms extends React.Component{
     constructor(props){
         super(props);
+        //console.log(props)
+        this.connection = props.screenProps
+    
+    }
+
+    componentDidMount(){
+       // console.log(this.connection)
     }
 
     render(){
         return (
             <View style = {Styles.container}>
-                <Text>Rooms</Text>
+                <Text>{this.connection.cardGame.currentUser.userName}</Text>
             </View>
         );
     }

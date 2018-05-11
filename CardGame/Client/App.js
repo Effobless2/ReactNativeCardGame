@@ -13,7 +13,7 @@ export default class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      connection : new ConnectionServer("http://192.168.1.70:5000/cardgame/", this),
+      connection : new ConnectionServer("http://192.168.1.62:5000/cardgame/", this),
       loaded : false,
     }
   }
@@ -22,7 +22,7 @@ export default class App extends React.Component {
     if (this.state.loaded){
       return (
         <View style={{flex: 1, paddingTop: STATUSBAR_HEIGHT, backgroundColor: 'blue'}}>
-          <Home game = {this.state.connection.cardGame}/>
+          <Home connection = {this.state.connection}/>
         </View>
       );
     }
