@@ -5,7 +5,7 @@ import { Styles } from '../Styles';
 export class Rooms extends React.Component{
     constructor(props){
         super(props);
-        //console.log(props)
+        console.log("construct room")
         this.connection = props.screenProps
     
     }
