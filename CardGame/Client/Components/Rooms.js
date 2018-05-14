@@ -8,27 +8,18 @@ export class Rooms extends React.Component{
         console.log("construct room")
         this.connection = props.screenProps
         this.connection.application = this
-        const datas = [];
-        console.log(this.connection.cardGame.Rooms)
-        for (var room of this.connection.cardGame.Rooms.values()){
-            datas.push(room);
-            console.log("a")
-        }
-        this.state= {datas :datas};
+        
+        this.state= {datas : [...this.connection.cardGame.Rooms.values()]};
         
         
     
     }
 
-    MajList(){
-        const datas = [];
-        console.log(this.connection.cardGame.Rooms)
-        for (var room of this.connection.cardGame.Rooms.values()){
-            datas.push(room);
-            console.log("a")
-        }
+    MajList(newItem){
+        const datas = this.state.datas
+        datas.push(newItem)
         this.setState({
-            datas: datas
+            datas : datas
         })
     }
 

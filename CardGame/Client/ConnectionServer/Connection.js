@@ -118,7 +118,7 @@ export class ConnectionServer extends SignalR.HubConnection{
         console.log(typeof this.application)
        // if (typeof this.element == Rooms){
             console.log("Passage If")
-            this.application.MajList();
+            this.application.MajList(room);
        // }
     }
 
