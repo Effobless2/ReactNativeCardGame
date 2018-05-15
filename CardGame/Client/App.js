@@ -1,10 +1,10 @@
 import React from 'react';
 import {Text, View, Button, ActivityIndicator } from 'react-native';
-import { ConnectionServer } from './ConnectionServer/Connection';
-import { Home } from './Components/Home';
+import { ConnectionServer } from './connectionServer/Connection';
+import { Home } from './screens/Home';
 import { Styles } from './Styles';
 import { Platform, NativeModules } from 'react-native';
-import { TitleScreen } from './Components/TitleScreen';
+import { TitleScreen } from './screens/TitleScreen';
 const { StatusBarManager } = NativeModules;
 
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : StatusBarManager.HEIGHT;

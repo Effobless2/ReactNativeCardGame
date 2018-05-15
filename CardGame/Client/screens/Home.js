@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { Styles } from '../Styles';
-import { Tabs } from './Navigator';
+import { Tabs } from '../components/Navigator';
 
 export class Home extends React.Component{
     constructor(props){

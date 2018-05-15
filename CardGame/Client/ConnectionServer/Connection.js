@@ -1,6 +1,6 @@
 import * as SignalR from '@aspnet/signalr'
-import { CardGame } from '../Model/CardGame';
-import { Rooms } from '../Components/Rooms';
+import { CardGame } from '../model/CardGame';
+import { Rooms } from '../components/Rooms';
 
 export class ConnectionServer extends SignalR.HubConnection{
 
