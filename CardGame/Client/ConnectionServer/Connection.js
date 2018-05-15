@@ -127,8 +127,6 @@ class ConnectionServer extends SignalR.HubConnection{
 
     NewPlayer(user, room) {
         console.log("The user " + user.userId + " plays in the room number " + room.roomId);
-        console.log(user);
-        console.log(room);
     }
 
     AddingPublic(room) {
@@ -137,8 +135,6 @@ class ConnectionServer extends SignalR.HubConnection{
 
     NewPublic(user, room) {
         console.log("The user " + user.userName + " is looking the room number " + room.roomId)
-        console.log(user);
-        console.log(room);
     }
 
     RoomComplete(room) {
@@ -155,8 +151,6 @@ class ConnectionServer extends SignalR.HubConnection{
 
     LeftTheGame(room, user) {
         console.log("The user " + user.userName + "has left the room " + room.roomId +".");
-        console.log(room);
-        console.log(user);
     }
 
     YourRoomIsDestroyed(room) {

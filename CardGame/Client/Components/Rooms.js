@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 class Rooms extends React.Component{
     constructor(props){
         super(props);
-        console.log("construct room");
     }
 
     renderRoomList(){
@@ -26,7 +25,6 @@ class Rooms extends React.Component{
     render(){
         const {cardGame : {Rooms}} = this.props;
         
-        const ds = new ListView.DataSource({rowHasChanged: (r1,r2) => r1 != r2});
         return (
             <View  style = {Styles.container}>
                 <ScrollView>

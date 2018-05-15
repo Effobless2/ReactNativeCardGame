@@ -12,7 +12,6 @@ class Home extends React.Component{
     }
 
     render(){
-        console.log(this.props.cardGame);
         return (
             <View style = {{flex: 1}}>
                 <View style = {{height: 50, paddingTop: 20}}>
