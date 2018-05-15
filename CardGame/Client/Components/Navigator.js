@@ -13,6 +13,8 @@ export const Tabs = createBottomTabNavigator({
       showLabel: true,
       indicatorStyle: Styles.tabBarIndicatorStyle,
       style: Styles.tabBarStyle,
-      activeTintColor: "#000"
-    }
+      activeTintColor: "#000",
+      tabStyle: Styles.tabsStyle,
+    },
+    
   })

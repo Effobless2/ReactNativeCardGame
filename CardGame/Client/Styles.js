@@ -1,18 +1,24 @@
 import { StyleSheet } from 'react-native';
-import { STATUSBAR_HEIGHT } from './constants'
+import { 
+  STATUSBAR_HEIGHT,
+  BLACK,
+  WHITE,
+  COMPONENTS,
+  MAIN
+} from './constants'
 
 
 export const Styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: "#0ff",
+      backgroundColor: COMPONENTS,
       alignItems: 'center',
       justifyContent: 'center',
       margin: 10,
     },
     connection : {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: WHITE,
       alignItems: 'center',
       justifyContent: 'center',
       margin: 10,
@@ -29,16 +35,17 @@ export const Styles = StyleSheet.create({
     main: {
       flex: 1,
       paddingTop: STATUSBAR_HEIGHT,
-      backgroundColor: 'blue'
+      backgroundColor: MAIN
     },
     tabBarIndicatorStyle:  {
-      height: 5,
+      height: 4,
       
     },
     tabBarStyle: {
-      backgroundColor: "#0FF",
+      backgroundColor: COMPONENTS,
       borderTopWidth: 1,
-      borderColor: "#000"
+      borderTopColor: BLACK,
+
     },
     roomItem: {
       padding:10,
@@ -47,5 +54,11 @@ export const Styles = StyleSheet.create({
       alignItems: "center",
       justifyContent: "space-between",
       width: "100%"
+    },
+    tabsStyle: {
+      borderRightWidth: 1,
+      borderLeftWidth: 1,
+      borderColor: BLACK,
+      borderColor: BLACK,
     }
   });

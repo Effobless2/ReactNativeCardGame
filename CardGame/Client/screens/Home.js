@@ -14,7 +14,7 @@ class Home extends React.Component{
     render(){
         return (
             <View style = {{flex: 1}}>
-                <View style = {{height: 50, paddingTop: 20}}>
+                <View style = {{height: 50, paddingTop: 20, marginLeft: 10}}>
                     <Text style = {{fontSize:20}}>{this.props.cardGame.currentUser.userName}</Text>
                 </View>
                 <Tabs/>
