@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Button } from 'react-native';
+import { Styles } from '../Styles';
 
 class RoomItem extends React.Component{
     constructor (props){
@@ -14,7 +15,7 @@ class RoomItem extends React.Component{
 
     render(){
         return (
-            <View key={this.room.roomId} style = {{padding:10 , flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between", width: "100%"}}>
+            <View key={this.room.roomId} style = {Styles.roomItem}>
                 <Text>{this.counter}</Text>
                 <View>
                     <Text>Number of Players Max : {this.room.maxOfPlayers}</Text>

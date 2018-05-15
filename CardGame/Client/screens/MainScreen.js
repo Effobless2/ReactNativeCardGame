@@ -1,14 +1,11 @@
 import React from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
-import { Platform, NativeModules } from 'react-native';
 import { Styles } from '../Styles';
 
 import connection from '../connectionServer/Connection'
 import Home from './Home';
 import { connect } from 'react-redux';
 
-const { StatusBarManager } = NativeModules;
-const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : StatusBarManager.HEIGHT;
 
 class MainScreen extends React.Component{
     constructor(props){
@@ -19,7 +16,7 @@ class MainScreen extends React.Component{
         console.log(this.props.connected);
         if (this.props.connected){
             return (
-                <View style={{flex: 1, paddingTop: STATUSBAR_HEIGHT, backgroundColor: 'blue'}}>
+                <View style={Styles.main}>
                     <Home/>
                 </View>
             );

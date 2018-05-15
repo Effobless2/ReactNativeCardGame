@@ -32,7 +32,7 @@ class Rooms extends React.Component{
         
         return (
             <View  style = {Styles.container}>
-                <ScrollView style ={Styles.scroll} contentContainerStyle={Styles.roomItem}>
+                <ScrollView style ={Styles.scroll} contentContainerStyle={Styles.scrollViewRoomItem}>
                     {this.renderRoomList()}
                 </ScrollView>
             </View>

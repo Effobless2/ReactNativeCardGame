@@ -1,6 +1,7 @@
 import {createBottomTabNavigator} from 'react-navigation';
-import { About } from './About'
-import Rooms from './Rooms'
+import { About } from './About';
+import Rooms from './Rooms';
+import { Styles } from '../Styles';
 
 export const Tabs = createBottomTabNavigator({
     Rooms : { screen: Rooms },
@@ -10,14 +11,8 @@ export const Tabs = createBottomTabNavigator({
     tabBarOptions: {
       showIcon: true,
       showLabel: true,
-      indicatorStyle: {
-        height: 5,
-        backgroundColor: "#FFF",
-      },
-      style: {
-        backgroundColor: "#a2273c",
-        borderTopWidth: 1,
-        borderColor: "#3f101c"
-      }
+      indicatorStyle: Styles.tabBarIndicatorStyle,
+      style: Styles.tabBarStyle,
+      activeTintColor: "#000"
     }
   })
