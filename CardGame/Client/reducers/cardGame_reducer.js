@@ -1,5 +1,9 @@
 import { CardGame } from './model/CardGame';
-import { CONNECTION, NEW_ROOM } from '../actions/types';
+import {
+    CONNECTION,
+    NEW_ROOM,
+    REMOVE_ROOM,
+} from '../actions/types';
 
 const INITIAL_STATE = {
     cardGame : null,
@@ -21,6 +25,11 @@ export default (state = INITIAL_STATE, action) => {
             console.log("newRoom reducer");
             state.cardGame.AddRoom(action.payload)
 
+            return state;
+        }
+        case REMOVE_ROOM: {
+            console.log("Remove Room reducer");
+            state.cardGame.RemoveRoom(action.payload.room);
             return state;
         }
         default:

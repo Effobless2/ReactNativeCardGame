@@ -1,6 +1,7 @@
 import {
     CONNECTION,
-    NEW_ROOM
+    NEW_ROOM,
+    REMOVE_ROOM
 } from './types';
 
 export const connection = datas =>{
@@ -11,3 +12,7 @@ export const newRoom = datas =>{
     return {type: NEW_ROOM, payload: datas};
 
 }
+
+export const removeRoom = datas =>{
+    return {type: REMOVE_ROOM, payload: datas};
+};

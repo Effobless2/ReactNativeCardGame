@@ -1,7 +1,11 @@
 import * as SignalR from '@aspnet/signalr';
 import { connect } from 'react-redux';
 
-import { connection, newRoom } from '../actions';
+import {
+    connection,
+    newRoom,
+    removeRoom,
+} from '../actions';
 import { CardGame } from '../reducers/model/CardGame';
 import store from '../store';
 
@@ -159,6 +163,7 @@ class ConnectionServer extends SignalR.HubConnection{
     }
 
     RoomDestroyed(room) {
+        this.store.dispatch(removeRoom({room: room}));
         this.cardGame.RemoveRoom(room);
         console.log( "The room " + room.roomId + " has been destroyed.");
     }
