@@ -2,23 +2,27 @@ import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { Styles } from '../Styles';
 import { Tabs } from '../components/Navigator';
+import { connect } from 'react-redux';
 
-export class Home extends React.Component{
+class Home extends React.Component{
     constructor(props){
         super(props);
         this.connection = props.connection;
         //console.log(this.props)
-        console.log("kol")
     }
 
     render(){
+        console.log(this.props.cardGame);
         return (
             <View style = {{flex: 1}}>
                 <View style = {{height: 50, paddingTop: 20}}>
-                    <Text style = {{fontSize:20}}>{this.connection.cardGame.currentUser.userName}</Text>
+                    <Text style = {{fontSize:20}}>{this.props.cardGame.currentUser.userName}</Text>
                 </View>
-                <Tabs screenProps = {this.connection}/>
+                <Tabs/>
             </View>
         );
     }
 }
+
+const mapStateToProps = ({cardGame}) => ({cardGame :cardGame.cardGame, connected : cardGame.connected})
+export default connect(mapStateToProps)(Home)

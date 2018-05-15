@@ -1,5 +1,5 @@
 import { CardGame } from './model/CardGame';
-import { CONNECTION } from '../actions/types';
+import { CONNECTION, NEW_ROOM } from '../actions/types';
 
 const INITIAL_STATE = {
     cardGame : null,
@@ -9,13 +9,19 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
     switch(action.type){
         case CONNECTION : {
-            let {currentUser, users, rooms} = action.payload;
+            let {user, users, rooms} = action.payload;
             console.log("Connection Reducers");
             return {
                 ...state,
                 connected: true,
-                cardGame: new CardGame(currentUser, users, rooms)
+                cardGame: new CardGame(user, users, rooms)
             };
+        }
+        case NEW_ROOM: {
+            console.log("newRoom reducer");
+            state.cardGame.AddRoom(action.payload)
+
+            return state;
         }
         default:
             return state;

@@ -1,16 +1,14 @@
 import * as SignalR from '@aspnet/signalr';
 import { connect } from 'react-redux';
 
-import { connection } from '../actions';
+import { connection, newRoom } from '../actions';
 import { CardGame } from '../reducers/model/CardGame';
-import { Rooms } from '../components/Rooms';
 import store from '../store';
 
-export class ConnectionServer extends SignalR.HubConnection{
+class ConnectionServer extends SignalR.HubConnection{
 
-    constructor(url, e){
+    constructor(url){
         super(url);
-        this.application = e;
         this.store = store;
 
         this.on("Connect", (user) => {
@@ -99,8 +97,8 @@ export class ConnectionServer extends SignalR.HubConnection{
 
     ConnectionBegin(currentUser, users, rooms){
         console.log("Vous êtes désormais connecté sous l'id "+ currentUser.userName);
-        this.cardGame = new CardGame(currentUser, users, rooms);
         this.store.dispatch(connection({user: currentUser, users: users, rooms: rooms}));
+        this.cardGame = new CardGame(currentUser, users, rooms);
     }
 
     Disconnect(user){
@@ -118,13 +116,9 @@ export class ConnectionServer extends SignalR.HubConnection{
     }
 
     NewRoomCreated(room){
-        this.cardGame.AddRoom(room);
+        this.store.dispatch(newRoom(room))
         console.log("The room number " + room.roomId + " has been created.");
-        console.log(typeof this.application)
-       // if (typeof this.element == Rooms){
-            console.log("Passage If")
-            this.application.MajList(room);
-       // }
+       
     }
 
     JoinPlayers(room){
@@ -201,4 +195,4 @@ export class ConnectionServer extends SignalR.HubConnection{
 }
 
 
-//export default connection = new ConnectionServer("http://192.168.1.62:5000/cardgame/")
+export default new ConnectionServer("http://192.168.1.62:5000/cardgame/")

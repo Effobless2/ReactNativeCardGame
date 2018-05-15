@@ -1,7 +1,6 @@
 import {createBottomTabNavigator} from 'react-navigation';
-import { Home } from '../screens/Home'
 import { About } from './About'
-import { Rooms } from './Rooms'
+import Rooms from './Rooms'
 
 export const Tabs = createBottomTabNavigator({
     Rooms : { screen: Rooms },
