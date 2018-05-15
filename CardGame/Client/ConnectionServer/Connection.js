@@ -1,12 +1,17 @@
-import * as SignalR from '@aspnet/signalr'
-import { CardGame } from '../model/CardGame';
+import * as SignalR from '@aspnet/signalr';
+import { connect } from 'react-redux';
+
+import { connection } from '../actions';
+import { CardGame } from '../reducers/model/CardGame';
 import { Rooms } from '../components/Rooms';
+import store from '../store';
 
 export class ConnectionServer extends SignalR.HubConnection{
 
-    constructor(url, application){
+    constructor(url, e){
         super(url);
-        this.application = application;
+        this.application = e;
+        this.store = store;
 
         this.on("Connect", (user) => {
             this.Connect(user);
@@ -93,6 +98,7 @@ export class ConnectionServer extends SignalR.HubConnection{
     }
 
     ConnectionBegin(currentUser, users, rooms){
+        connection(currentUser);
         console.log("Vous êtes désormais connecté sous l'id "+ currentUser.userName);
         this.cardGame = new CardGame(currentUser, users, rooms);
         this.application.setState({loaded: true});
@@ -194,5 +200,6 @@ export class ConnectionServer extends SignalR.HubConnection{
         console.log("The room number " + roomId + " is undefined.");
     }
 }
+
 
 //export default connection = new ConnectionServer("http://192.168.1.62:5000/cardgame/")

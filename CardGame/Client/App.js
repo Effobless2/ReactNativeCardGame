@@ -1,40 +1,26 @@
 import React from 'react';
-import {Text, View, Button, ActivityIndicator } from 'react-native';
-import { ConnectionServer } from './connectionServer/Connection';
-import { Home } from './screens/Home';
-import { Styles } from './Styles';
-import { Platform, NativeModules } from 'react-native';
-import { TitleScreen } from './screens/TitleScreen';
-const { StatusBarManager } = NativeModules;
+import {  } from 'react-native';
+import { Provider } from 'react-redux';
 
-const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : StatusBarManager.HEIGHT;
+import store from './store'
+
+import MainScreen from './screens/MainScreen';
 
 export default class App extends React.Component {
   constructor(props){
     super(props);
-    this.state = {
-      connection : new ConnectionServer("http://192.168.1.62:5000/cardgame/", this),
-      loaded : false,
-    }
+    
   }
   
   render() {
-    if (this.state.loaded){
-      return (
-        <View style={{flex: 1, paddingTop: STATUSBAR_HEIGHT, backgroundColor: 'blue'}}>
-          <Home connection = {this.state.connection}/>
-        </View>
-      );
-    }
-    else{
-      return(
-        <View style={Styles.connection}>
-          <ActivityIndicator/>
-        </View>
-      );
-    }
-    
+    return (
+      <Provider store = {store}>
+        <MainScreen/>
+      </Provider>
+    );
   }
 }
+
+
 
 

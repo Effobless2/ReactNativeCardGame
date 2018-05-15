@@ -2,19 +2,24 @@ import { ApplicationUser } from "./ApplicationUser";
 import { Room } from "./Room";
 
 export class CardGame{
-    constructor(currentUser, users, rooms){
+
+    constructor(currentUser = null, users = null, rooms = null){
         this.Users = new Map();
         this.Rooms = new Map();
-        this.currentUser = new ApplicationUser(currentUser.userId, currentUser.userName);
-
-        for(var index in users){
-            if (index != this.currentUser.userId){
-                this.AddUser(users[index]);
+        this.currentUser = null;
+        
+        if (currentUser != null){
+            this.currentUser = new ApplicationUser(currentUser.userId, currentUser.userName);
+    
+            for(var index in users){
+                if (index != this.currentUser.userId){
+                    this.AddUser(users[index]);
+                }
             }
-        }
-
-        for(var index in rooms){
-            this.AddRoom(rooms[index]);
+    
+            for(var index in rooms){
+                this.AddRoom(rooms[index]);
+            }
         }
     }
 
