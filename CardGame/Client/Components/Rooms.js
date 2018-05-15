@@ -2,6 +2,7 @@ import { View, Text, ListView, ScrollView } from 'react-native';
 import React from 'react';
 import { Styles } from '../Styles';
 import { connect } from 'react-redux';
+import RoomItem from './RoomItem';
 
 class Rooms extends React.Component{
     constructor(props){
@@ -13,7 +14,11 @@ class Rooms extends React.Component{
         return Array.from(this.props.rooms).map(([id, value]) => {
             counter ++;
             return (
-                <Text key = {counter}>{counter}, {value.roomId}</Text>
+                <RoomItem 
+                    room={value}
+                    key={id}
+                    counter={counter}
+                />
             );
         });
     }
@@ -27,7 +32,7 @@ class Rooms extends React.Component{
         
         return (
             <View  style = {Styles.container}>
-                <ScrollView>
+                <ScrollView style ={Styles.scroll} contentContainerStyle={Styles.roomItem}>
                     {this.renderRoomList()}
                 </ScrollView>
             </View>
