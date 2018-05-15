@@ -98,10 +98,9 @@ export class ConnectionServer extends SignalR.HubConnection{
     }
 
     ConnectionBegin(currentUser, users, rooms){
-        connection(currentUser);
         console.log("Vous êtes désormais connecté sous l'id "+ currentUser.userName);
         this.cardGame = new CardGame(currentUser, users, rooms);
-        this.application.setState({loaded: true});
+        this.store.dispatch(connection({user: currentUser, users: users, rooms: rooms}));
     }
 
     Disconnect(user){

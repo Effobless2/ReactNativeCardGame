@@ -15,12 +15,12 @@ class MainScreen extends React.Component{
         super(props);
         this.state = {
             connection : new ConnectionServer("http://192.168.1.62:5000/cardgame/", this),
-            loaded : false,
         }
     }
 
     render(){
-        if (this.state.loaded){
+        console.log(this.props.connected);
+        if (this.props.connected){
             return (
                 <View style={{flex: 1, paddingTop: STATUSBAR_HEIGHT, backgroundColor: 'blue'}}>
                     <Home connection = {this.state.connection}/>
@@ -37,6 +37,6 @@ class MainScreen extends React.Component{
     }
 }
 
-const mapStateToProps = ({cardGame}) => ({cardGame})
+const mapStateToProps = ({cardGame}) => ({cardGame :cardGame.cardGame, connected : cardGame.connected})
 
 export default connect(mapStateToProps)(MainScreen);
