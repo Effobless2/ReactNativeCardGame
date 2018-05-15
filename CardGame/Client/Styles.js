@@ -19,10 +19,10 @@ export const Styles = StyleSheet.create({
     roomItem: {
       alignItems: 'center',
       justifyContent: 'center',
+      width: "100%"
     },
     scroll: {
       flex: 1,
       width: "100%"
-
     }
   });

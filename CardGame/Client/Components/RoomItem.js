@@ -14,8 +14,13 @@ class RoomItem extends React.Component{
 
     render(){
         return (
-            <View key={this.room.roomId} style = {{flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "center"}}>
+            <View key={this.room.roomId} style = {{padding:10 , flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between", width: "100%"}}>
                 <Text>{this.counter}</Text>
+                <View>
+                    <Text>Number of Players Max : {this.room.maxOfPlayers}</Text>
+                    <Text>Number of person in public : {this.room.nbPublics}</Text>
+
+                </View>
                 <Button
                     onPress = {() => this.pressButton()}
                     title = "See !"

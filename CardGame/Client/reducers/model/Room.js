@@ -4,8 +4,17 @@ export class Room{
         this.maxOfPlayers = playersMax;
         this.players = players;
         this.publics = publics;
+        this.nbPublics = this.getNumberPublics();
+
     }
 
+    getNumberPublics(){
+        let count = 0
+        for(i in this.publics){
+            count ++;
+        };
+        return count;
+    }
 
 
 }
