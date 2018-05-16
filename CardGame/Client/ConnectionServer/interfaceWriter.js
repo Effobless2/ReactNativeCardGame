@@ -12,6 +12,10 @@ class InterfaceWriter{
         console.log("interface");
         store.dispatch(connection({user: currentUser, users: users, rooms: rooms}));
     }
+
+    removeUser(user){
+        store.dispatch(removeUser({user: user}));
+    }
 }
 
 instance = new InterfaceWriter();

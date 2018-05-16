@@ -104,14 +104,13 @@ class ConnectionServer extends SignalR.HubConnection{
 
     ConnectionBegin(currentUser, users, rooms){
         console.log("Vous êtes désormais connecté sous l'id "+ currentUser.userName);
-        //this.store.dispatch(connection({user: currentUser, users: users, rooms: rooms}));
         writer.connectionBegin(currentUser, users, rooms);
         this.cardGame = new CardGame(currentUser, users, rooms);
     }
 
     Disconnect(user){
         console.log(user.userName + " s'est déconnecté.");
-        //this.store.dispatch(removeUser({user: user}));
+        writer.removeUser(user);
     }
 
     ReceiveNewRoom(room){
