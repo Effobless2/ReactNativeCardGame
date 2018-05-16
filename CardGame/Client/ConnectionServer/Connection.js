@@ -5,6 +5,7 @@ import {
     connection,
     newRoom,
     removeRoom,
+    newUser,
 } from '../actions';
 import { CardGame } from '../reducers/model/CardGame';
 import store from '../store';
@@ -96,7 +97,7 @@ class ConnectionServer extends SignalR.HubConnection{
 
     Connect(user){
         console.log(user.userName + " s'est connecté.");
-        this.cardGame.AddUser(user);
+        this.store.dispatch(newUser({user: user}));
     }
 
     ConnectionBegin(currentUser, users, rooms){
@@ -194,4 +195,4 @@ class ConnectionServer extends SignalR.HubConnection{
 }
 
 
-export default new ConnectionServer("http://192.168.1.70:5000/cardgame/")
+export default new ConnectionServer("http://192.168.1.62:5000/cardgame/")
