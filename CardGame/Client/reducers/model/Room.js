@@ -3,17 +3,16 @@ export class Room{
         this.roomId = Id;
         this.maxOfPlayers = playersMax;
         this.players = players;
-        this.publics = publics;
-        this.nbPublics = this.getNumberPublics();
+        this.publics = new Map();
+        for (var index in publics){
+            this.AddPublic(publics[index])
+        }
+        this.nbPublics = this.publics.size;
 
     }
 
-    getNumberPublics(){
-        let count = 0
-        for(i in this.publics){
-            count ++;
-        };
-        return count;
+    AddPublic(user){
+        this.publics.set(user.userId, user);
     }
 
 

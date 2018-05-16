@@ -24,8 +24,10 @@ class ConnectionServer extends SignalR.HubConnection{
         });
 
         this.on("ConnectionBegin", (currentUser, users, rooms) => {
+            userList = Object.values(users);
+            roomList = Object.values(rooms);
             console.log("Vous êtes désormais connecté sous l'id "+ currentUser.userName);
-            writer.connectionBegin(currentUser, users, rooms);
+            writer.connectionBegin(currentUser, userList, roomList);
         });
 
         this.on("Disconnect", (user) => {

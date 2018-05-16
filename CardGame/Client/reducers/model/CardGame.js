@@ -10,6 +10,8 @@ export class CardGame{
         
         if (currentUser != null){
             this.currentUser = new ApplicationUser(currentUser.userId, currentUser.userName);
+
+            console.log(rooms);
     
             for(var index in users){
                 if (index != this.currentUser.userId){
