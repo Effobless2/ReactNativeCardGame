@@ -19,23 +19,27 @@ class ConnectionServer extends SignalR.HubConnection{
         //this.store = store;
 
         this.on("Connect", (user) => {
-            this.Connect(user);
+            console.log(user.userName + " s'est connecté.");
+            writer.newUser(user);
         });
 
         this.on("ConnectionBegin", (currentUser, users, rooms) => {
-            this.ConnectionBegin(currentUser, users, rooms);
+            console.log("Vous êtes désormais connecté sous l'id "+ currentUser.userName);
+            writer.connectionBegin(currentUser, users, rooms);
         });
 
         this.on("Disconnect", (user) => {
-            this.Disconnect(user);
+            console.log(user.userName + " s'est déconnecté.");
+            writer.removeUser(user);
         });
 
         this.on("ReceiveNewRoom", (room) => {
-            this.ReceiveNewRoom(room);
+            writer.roomCreated(room);
         });
 
         this.on("NewRoomCreated", (room) => {
-            this.NewRoomCreated(room);
+            writer.newRoom(room);
+            console.log("The room number " + room.roomId + " has been created.");
         });
 
         this.on("NewPlayer", (user, room) => {
@@ -67,7 +71,8 @@ class ConnectionServer extends SignalR.HubConnection{
         });
 
         this.on("RoomDestroyed", (room) => {
-            this.RoomDestroyed(room);
+            writer.removeRoom(room);
+            console.log( "The room " + room.roomId + " has been destroyed.");
         });
 
         this.on("JoinPublic", (room) => {
@@ -97,35 +102,20 @@ class ConnectionServer extends SignalR.HubConnection{
         this.start()
     }
 
-    Connect(user){
-        console.log(user.userName + " s'est connecté.");
-        writer.newUser(user);
-    }
-
-    ConnectionBegin(currentUser, users, rooms){
-        console.log("Vous êtes désormais connecté sous l'id "+ currentUser.userName);
-        writer.connectionBegin(currentUser, users, rooms);
-    }
-
-    Disconnect(user){
-        console.log(user.userName + " s'est déconnecté.");
-        writer.removeUser(user);
-    }
-
-    ReceiveNewRoom(room){
-        console.log("You have created the room number " + room.roomId );
-    }
-
+    
     CreatingRoom(){
         this.invoke("CreatingRoom");
     }
 
-    NewRoomCreated(room){
-        writer.newRoom(room);
-        console.log("The room number " + room.roomId + " has been created.");
-       
+    AddingPublic(room) {
+        this.invoke("AddingPublic", room.roomId);
     }
 
+    LeavingGame(room) {
+        this.invoke("LeavingGame", room.roomId);
+    }
+    
+   
     JoinPlayers(room){
         console.log("You have Joined the room number " + room.roomId);
     }
@@ -134,20 +124,12 @@ class ConnectionServer extends SignalR.HubConnection{
         console.log("The user " + user.userId + " plays in the room number " + room.roomId);
     }
 
-    AddingPublic(room) {
-        this.invoke("AddingPublic", room.roomId);
-    }
-
     NewPublic(user, room) {
         console.log("The user " + user.userName + " is looking the room number " + room.roomId)
     }
 
     RoomComplete(room) {
         console.log("The Room " + room.roomId + " is complete. The game will begin.");
-    }
-
-    LeavingGame(room) {
-        this.invoke("LeavingGame", room.roomId);
     }
 
     GameIsLeft(room) {
@@ -160,11 +142,6 @@ class ConnectionServer extends SignalR.HubConnection{
 
     YourRoomIsDestroyed(room) {
         console.log("The room "+ room.roomId + " has been destroyed. We eject you of this useless room.");
-    }
-
-    RoomDestroyed(room) {
-        writer.removeRoom(room);
-        console.log( "The room " + room.roomId + " has been destroyed.");
     }
 
     JoinPublic(room) {

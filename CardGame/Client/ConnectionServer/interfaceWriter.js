@@ -5,11 +5,11 @@ import {
     removeRoom,
     newUser,
     removeUser,
+    roomCreated,
 } from '../actions';
 
 class InterfaceWriter{
     connectionBegin(currentUser, users, rooms){
-        console.log("interface");
         store.dispatch(connection({user: currentUser, users: users, rooms: rooms}));
     }
 
@@ -27,6 +27,10 @@ class InterfaceWriter{
 
     removeRoom(room){
         store.dispatch(removeRoom( room ));
+    }
+
+    roomCreated(room){
+        store.dispatch(roomCreated( room ));
     }
 
 
