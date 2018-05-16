@@ -2,7 +2,8 @@ import {
     CONNECTION,
     NEW_ROOM,
     REMOVE_ROOM,
-    NEW_USER
+    NEW_USER,
+    REMOVE_USER
 } from './types';
 
 export const connection = datas =>{
@@ -21,4 +22,9 @@ export const removeRoom = datas =>{
 export const newUser = datas =>{
     console.log("Action newUser");
     return {type: NEW_USER, payload: datas};
+};
+
+export const removeUser = datas =>{
+    console.log("Action removeUser");
+    return {type: REMOVE_USER, payload: datas};
 };

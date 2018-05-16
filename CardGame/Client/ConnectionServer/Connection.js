@@ -6,6 +6,7 @@ import {
     newRoom,
     removeRoom,
     newUser,
+    removeUser,
 } from '../actions';
 import { CardGame } from '../reducers/model/CardGame';
 import store from '../store';
@@ -108,7 +109,7 @@ class ConnectionServer extends SignalR.HubConnection{
 
     Disconnect(user){
         console.log(user.userName + " s'est déconnecté.");
-        this.cardGame.RemoveUser(user);
+        this.store.dispatch(removeUser({user: user}));
     }
 
     ReceiveNewRoom(room){

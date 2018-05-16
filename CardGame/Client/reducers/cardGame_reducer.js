@@ -3,7 +3,8 @@ import {
     CONNECTION,
     NEW_ROOM,
     REMOVE_ROOM,
-    NEW_USER
+    NEW_USER,
+    REMOVE_USER
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -36,6 +37,11 @@ export default (state = INITIAL_STATE, action) => {
         case NEW_USER: {
             console.log("newUser reducer");
             state.cardGame.AddUser(action.payload.user);
+            return state;
+        }
+        case REMOVE_USER: {
+            console.log("removeUser reducer");
+            state.cardGame.RemoveUser(action.payload.user);
             return state;
         }
         default:
