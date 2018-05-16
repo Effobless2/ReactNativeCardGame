@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware } from 'redux';
 import reducers from '../reducers';
+import listener from '../connectionServer/interfaceListener';
 import {
     CONNECTION,
     NEW_ROOM,
@@ -33,6 +34,7 @@ const middleware = store => next => action =>{
         }
         case CREATE_ROOM : {
             console.log("createRoom middleware");
+            listener.createRoom();
             return next(action);
         }
         default:

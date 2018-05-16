@@ -1,5 +1,6 @@
 import * as SignalR from '@aspnet/signalr';
 import { connect } from 'react-redux';
+import writer from './interfaceWriter';
 
 import {
     connection,
@@ -9,13 +10,13 @@ import {
     removeUser,
 } from '../actions';
 import { CardGame } from '../reducers/model/CardGame';
-import store from '../store';
+//import store from '../store';
 
 class ConnectionServer extends SignalR.HubConnection{
 
     constructor(url){
         super(url);
-        this.store = store;
+        //this.store = store;
 
         this.on("Connect", (user) => {
             this.Connect(user);
@@ -103,13 +104,14 @@ class ConnectionServer extends SignalR.HubConnection{
 
     ConnectionBegin(currentUser, users, rooms){
         console.log("Vous êtes désormais connecté sous l'id "+ currentUser.userName);
-        this.store.dispatch(connection({user: currentUser, users: users, rooms: rooms}));
+        //this.store.dispatch(connection({user: currentUser, users: users, rooms: rooms}));
+        writer.connectionBegin(currentUser, users, rooms);
         this.cardGame = new CardGame(currentUser, users, rooms);
     }
 
     Disconnect(user){
         console.log(user.userName + " s'est déconnecté.");
-        this.store.dispatch(removeUser({user: user}));
+        //this.store.dispatch(removeUser({user: user}));
     }
 
     ReceiveNewRoom(room){
@@ -122,7 +124,7 @@ class ConnectionServer extends SignalR.HubConnection{
     }
 
     NewRoomCreated(room){
-        this.store.dispatch(newRoom(room))
+        //this.store.dispatch(newRoom(room))
         console.log("The room number " + room.roomId + " has been created.");
        
     }
@@ -165,7 +167,7 @@ class ConnectionServer extends SignalR.HubConnection{
     }
 
     RoomDestroyed(room) {
-        this.store.dispatch(removeRoom({room: room}));
+        //this.store.dispatch(removeRoom({room: room}));
         this.cardGame.RemoveRoom(room);
         console.log( "The room " + room.roomId + " has been destroyed.");
     }
@@ -195,5 +197,5 @@ class ConnectionServer extends SignalR.HubConnection{
     }
 }
 
-
-export default new ConnectionServer("http://192.168.1.62:5000/cardgame/")
+HubConnection = new ConnectionServer("http://192.168.1.62:5000/cardgame/");
+export default HubConnection;
