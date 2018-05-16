@@ -99,7 +99,7 @@ class ConnectionServer extends SignalR.HubConnection{
 
     Connect(user){
         console.log(user.userName + " s'est connecté.");
-        this.store.dispatch(newUser({user: user}));
+        writer.newUser(user);
     }
 
     ConnectionBegin(currentUser, users, rooms){

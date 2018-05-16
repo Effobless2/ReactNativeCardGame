@@ -13,9 +13,15 @@ class InterfaceWriter{
         store.dispatch(connection({user: currentUser, users: users, rooms: rooms}));
     }
 
+    newUser(user){
+        store.dispatch(newUser({user: user}));
+    }
+
     removeUser(user){
         store.dispatch(removeUser({user: user}));
     }
+
+
 }
 
 instance = new InterfaceWriter();
