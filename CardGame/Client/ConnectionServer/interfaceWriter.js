@@ -21,6 +21,10 @@ class InterfaceWriter{
         store.dispatch(removeUser({user: user}));
     }
 
+    newRoom(room){
+        store.dispatch(newRoom(room));
+    }
+
 
 }
 

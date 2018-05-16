@@ -123,7 +123,7 @@ class ConnectionServer extends SignalR.HubConnection{
     }
 
     NewRoomCreated(room){
-        //this.store.dispatch(newRoom(room))
+        writer.newRoom(room);
         console.log("The room number " + room.roomId + " has been created.");
        
     }
