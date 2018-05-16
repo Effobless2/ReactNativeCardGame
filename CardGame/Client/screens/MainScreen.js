@@ -2,8 +2,9 @@ import React from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { Styles } from '../Styles';
 
-import connection from '../connectionServer/Connection'
+
 import Home from './Home';
+import connection from '../connectionServer/Connection'
 import { connect } from 'react-redux';
 
 

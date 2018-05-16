@@ -7,3 +7,5 @@ export const REMOVE_ROOM = 'remove_room';
 export const NEW_USER = 'new_user';
 
 export const REMOVE_USER = 'remove_user';
+
+export const CREATE_ROOM = 'create_room';

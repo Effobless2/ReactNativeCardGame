@@ -4,7 +4,8 @@ import {
     NEW_ROOM,
     REMOVE_ROOM,
     NEW_USER,
-    REMOVE_USER
+    REMOVE_USER,
+    CREATE_ROOM
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -42,6 +43,10 @@ export default (state = INITIAL_STATE, action) => {
         case REMOVE_USER: {
             console.log("removeUser reducer");
             state.cardGame.RemoveUser(action.payload.user);
+            return state;
+        }
+        case CREATE_ROOM: {
+            console.log("createRoom reducer");
             return state;
         }
         default:
