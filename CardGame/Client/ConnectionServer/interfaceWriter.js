@@ -14,15 +14,19 @@ class InterfaceWriter{
     }
 
     newUser(user){
-        store.dispatch(newUser({user: user}));
+        store.dispatch(newUser( user ));
     }
 
     removeUser(user){
-        store.dispatch(removeUser({user: user}));
+        store.dispatch(removeUser( user ));
     }
 
     newRoom(room){
-        store.dispatch(newRoom(room));
+        store.dispatch(newRoom( room ));
+    }
+
+    removeRoom(room){
+        store.dispatch(removeRoom( room ));
     }
 
 

@@ -105,7 +105,6 @@ class ConnectionServer extends SignalR.HubConnection{
     ConnectionBegin(currentUser, users, rooms){
         console.log("Vous êtes désormais connecté sous l'id "+ currentUser.userName);
         writer.connectionBegin(currentUser, users, rooms);
-        this.cardGame = new CardGame(currentUser, users, rooms);
     }
 
     Disconnect(user){
@@ -114,7 +113,6 @@ class ConnectionServer extends SignalR.HubConnection{
     }
 
     ReceiveNewRoom(room){
-        this.cardGame.AddRoom(room);
         console.log("You have created the room number " + room.roomId );
     }
 
@@ -161,13 +159,11 @@ class ConnectionServer extends SignalR.HubConnection{
     }
 
     YourRoomIsDestroyed(room) {
-        this.cardGame.RemoveRoom(room);
         console.log("The room "+ room.roomId + " has been destroyed. We eject you of this useless room.");
     }
 
     RoomDestroyed(room) {
-        //this.store.dispatch(removeRoom({room: room}));
-        this.cardGame.RemoveRoom(room);
+        writer.removeRoom(room);
         console.log( "The room " + room.roomId + " has been destroyed.");
     }
 

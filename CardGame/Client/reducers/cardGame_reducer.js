@@ -32,17 +32,17 @@ export default (state = INITIAL_STATE, action) => {
         }
         case REMOVE_ROOM: {
             console.log("Remove Room reducer");
-            state.cardGame.RemoveRoom(action.payload.room);
+            state.cardGame.RemoveRoom(action.payload);
             return state;
         }
         case NEW_USER: {
             console.log("newUser reducer");
-            state.cardGame.AddUser(action.payload.user);
+            state.cardGame.AddUser(action.payload);
             return state;
         }
         case REMOVE_USER: {
             console.log("removeUser reducer");
-            state.cardGame.RemoveUser(action.payload.user);
+            state.cardGame.RemoveUser(action.payload);
             return state;
         }
         case CREATE_ROOM: {
