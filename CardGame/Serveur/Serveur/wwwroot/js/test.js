@@ -2,6 +2,10 @@
     constructor(url, log) {
         super(url, log);
 
+        this.on("ConnectionBegin", (currentUser, users, rooms) => {
+            this.ConnectionBegin(currentUser, users, rooms);
+        });
+
         this.on("Connect", (user) => {
             this.Connect(user);
         });
@@ -10,48 +14,36 @@
             this.Disconnect(user);
         });
 
-        this.on("ReceiveNewRoom", (room) => {
-            this.ReceiveNewRoom(room);
+        this.on("PlayerRemoved", (roomId, userId) => {
+            this.PlayerRemoved(roomId, userId);
         });
 
-        this.on("NewRoomCreated", (room) => {
-            this.NewRoomCreated(room);
+        this.on("PublicRemoved", (roomId, userId) => {
+            this.PublicRemoved(roomId, userId);
+        });
+
+        this.on("RoomCreated", (room) => {
+            this.RoomCreated(room);
         });
 
         this.on("NewPlayer", (user, room) => {
             this.NewPlayer(user, room);
         });
 
-        this.on("JoinPlayers", (room) => {
-            this.JoinPlayers(room);
-        });
-
         this.on("NewPublic", (user, room) => {
             this.NewPublic(user, room);
         });
 
-        this.on("RoomComplete", (room) => {
-            this.RoomComplete(room);
+        this.on("Ready", (room) => {
+            this.Ready(room);
         });
 
-        this.on("GameIsLeft", (room) => {
-            this.GameIsLeft(room);
+        this.on("EjectedFromRoom", (room) => {
+            this.EjectedFromRoom(room);
         });
 
-        this.on("LeftTheGame", (room, user) => {
-            this.LeftTheGame(room, user);
-        });
-
-        this.on("YourRoomIsDestroyed", (room) => {
-            this.YourRoomIsDestroyed(room);
-        });
-
-        this.on("RoomDestroyed", (room) => {
-            this.RoomDestroyed(room);
-        });
-
-        this.on("JoinPublic", (room) => {
-            this.JoinPublic(room);
+        this.on("RoomRemoved", (room) => {
+            this.RoomRemoved(room);
         });
 
         this.on("AlreadyInRoom", (room) => {
@@ -70,38 +62,49 @@
             this.RoomIsUndefined(roomId);
         });
 
-        this.on("UserIsUndefined", (userId) => {
-            this.UserIsUndefined(userId);
-        });
+    }
 
+    ConnectionBegin(currentUser, users, rooms) {
+        this.currentUser = currentUser;
+        this.users = new Map();
+        users.map((user) => {
+            if (user.userId !== currentUser.userId){
+                this.users.set(user.userId, user);
+            }
+        });
+        this.rooms = new Map();
+        rooms.map((room) => {
+           this.rooms.set(room.roomId, room);
+        });
+        console.log(this.currentUser);
+        console.log(this.rooms);
+        console.log(this.users);
+        console.log("connected");
     }
 
     Connect(user) {
-        console.log(user);
-        const li = document.createElement("li");
-        li.textContent = user.userName + " is connected.";
-        document.getElementById("messagesList").appendChild(li);
+        this.users.set(user.userId, user);
+        console.log(user.userName + " is connected");
     }
 
-    Disconnect(user) {
-        console.log(user);
-        const li = document.createElement("li");
-        li.textContent = user.userName + " is disconnected.";
-        document.getElementById("messagesList").appendChild(li);
+    Disconnect(userId) {
+        this.users.delete(userId);
+        console.log(userId + " is disconnected");
+    }
+
+    PlayerRemoved(roomId, userId) {
+        console.log(userId + " a quitté les joueurs de " + roomId);
+    }
+
+    PublicRemoved(roomId, userId) {
+        console.log(userId + " a quitté le public de " + roomId);
     }
 
     CreatingRoom() {
         this.invoke("CreatingRoom");
     }
 
-    ReceiveNewRoom(room) {
-        console.log(room);
-        const li = document.createElement("li");
-        li.textContent = "You have created the room number " + room.roomId;
-        document.getElementById("messagesList").appendChild(li);
-    }
-
-    NewRoomCreated(room) {
+    RoomCreated(room) {
         const li = document.createElement("li");
         console.log(room);
 
@@ -136,87 +139,75 @@
         this.invoke("AddingPlayer", room.roomId);
     }
 
-    JoinPlayers(room) {
-        //for (var button of document.getElementsByClassName("partyButton")){
-        //    button.disabled = true;
-        //}
-        console.log(room)
-        const li = document.createElement("li");
-        const text = document.createElement("p");
-        text.textContent = "You have joined the room number " + room.roomId;
-        const button = document.createElement("input");
-        button.type = "button";
-        button.value = "Click Here to quit the Game.";
-        button.addEventListener("click", event => { this.LeavingGame(room) });
-        document.getElementById("messagesList").appendChild(li);
+    NewPlayer(room, user) {
+        console.log(user + " se joint aux joueurs de " + room);
+        if (user == this.currentUser.userId) {
+            const li = document.createElement("li");
 
-        li.appendChild(text);
-        li.appendChild(button);
-    }
+            const text = document.createElement("h3");
+            text.textContent = "Vous jouez désormais dans la room " + room + ".";
 
-    NewPlayer(user, room) {
-        const li = document.createElement("li");
-        li.textContent = "The user " + user.userName + " has joined the room number " + room.roomId;
-        document.getElementById("messagesList").appendChild(li);
+            const buttonPlay = document.createElement("input");
+            buttonPlay.type = "button";
+            buttonPlay.classList.add("col-4");
+            buttonPlay.classList.add("partyButton");
+            buttonPlay.classList.add("play");
+            buttonPlay.value = " Quittez la en cliquant ici.";
+            buttonPlay.addEventListener("click", event => { this.QuitParty(room); });
+
+            text.classList.add("col-4");
+            li.appendChild(text);
+            li.appendChild(buttonPlay);
+            document.getElementById("messagesList").appendChild(li);
+        }
     }
 
     AddingPublic(room) {
         this.invoke("AddingPublic", room.roomId);
     }
 
-    NewPublic(user, room) {
-        const li = document.createElement("li");
-        li.textContent = "The user " + user.userName + " is looking the room number " + room.roomId;
-        document.getElementById("messagesList").appendChild(li);
+    NewPublic(room, user) {
+        console.log(user + " s'est joint au public de " + room);
+        if (user == this.currentUser.userId) {
+            const li = document.createElement("li");
+
+            const text = document.createElement("h3");
+            text.textContent = "Vous assistez à la partie de la room " + room + ".";
+
+            const buttonPlay = document.createElement("input");
+            buttonPlay.type = "button";
+            buttonPlay.classList.add("col-4");
+            buttonPlay.classList.add("partyButton");
+            buttonPlay.classList.add("play");
+            buttonPlay.value = " Quittez la en cliquant ici.";
+            buttonPlay.addEventListener("click", event => { this.QuitPublic(room); });
+
+            text.classList.add("col-4");
+            li.appendChild(text);
+            li.appendChild(buttonPlay);
+            document.getElementById("messagesList").appendChild(li);
+        }
     }
 
-    RoomComplete(room) {
-        const li = document.createElement("li");
-        li.textContent = "The Room " + room.roomId + " is complete. The game will begin.";
-        document.getElementById("messagesList").appendChild(li);
+    Ready(room) {
+        console.log("La partie " + room + " a commencé");
     }
 
-    LeavingGame(room) {
-        this.invoke("LeavingGame", room.roomId);
-    }
-
-    GameIsLeft(room) {
+    EjectedFromRoom(room) {
+        console.log("Vous avez ejecté de " + room);
         const li = document.createElement("li");
-        li.textContent = "You Quit the room " + room.roomId + ".";
-        document.getElementById("messagesList").appendChild(li);
-    }
+        console.log(room);
 
-    LeftTheGame(room, user) {
-        const li = document.createElement("li");
-        li.textContent = "The user " + user.userName + "has left the room " + room.roomId +".";
-        document.getElementById("messagesList").appendChild(li);
-    }
-
-    YourRoomIsDestroyed(room) {
-        const li = document.createElement("li");
-        li.textContent = "The room "+ room.roomId + " has been destroyed. We eject you of this useless room.";
-        document.getElementById("messagesList").appendChild(li);
-    }
-
-    RoomDestroyed(room) {
-        const li = document.createElement("li");
-        li.textContent = "The room " + room.roomId + " has been destroyed.";
-        document.getElementById("messagesList").appendChild(li);
-    }
-
-    JoinPublic(room) {
-        console.log(room)
-        const li = document.createElement("li");
-        const text = document.createElement("p");
-        text.textContent = "You are looking the room number " + room.roomId;
-        const button = document.createElement("input");
-        button.type = "button";
-        button.value = "Click Here to quit the Game.";
-        button.addEventListener("click", event => { this.LeavingGame(room) });
-        document.getElementById("messagesList").appendChild(li);
+        const text = document.createElement("h3");
+        text.textContent = "Vous avez été ejectée de la room " + room;
+        text.classList.add("col-4");
 
         li.appendChild(text);
-        li.appendChild(button);
+
+    }
+
+    RoomRemoved(room) {
+        console.log("La room " + room + " a été supprimée");
     }
 
     AlreadyInRoom(room) {
@@ -238,6 +229,18 @@
     RoomIsUndefined(roomId) {
         console.log("The room number " + roomId + " is undefined.");
     }
+
+    QuitPublic(room) {
+        this.invoke("RemovingPublic", room);
+    }
+
+    QuitParty(room) {
+        this.invoke("RemovingPlayer", room);
+    }
+
+    
+
+    
 }
 
 const connection = new ConnectionServer("/cardgame", { logger: signalR.LogLevel.Information });

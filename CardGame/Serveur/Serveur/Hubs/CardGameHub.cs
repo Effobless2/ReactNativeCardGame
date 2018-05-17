@@ -10,10 +10,197 @@ namespace Serveur.Hubs
     /// <summary>
     /// Realize the connection between the Server and Clients
     /// </summary>
-    public class CardGameHub : Hub , IContractCardGame, IContractCardGameHub
+    public class CardGameHub : Hub /*, IContractCardGame, IContractCardGameHub*/
     {
 
-        public static Lazy<CardGame> cardGame = new Lazy<CardGame>();
+        public static Lazy<APICardGame> cardGame = new Lazy<APICardGame>();
+        
+        /// <summary>
+        /// When a user is connected to the server,
+        /// a new Instance of ApplicationUser is created
+        /// and added in Users with the ConnectionId as key.
+        /// </summary>
+        /// <returns></returns>
+        public override async Task OnConnectedAsync()
+        {
+            ApplicationUser user = cardGame.Value.Connection(Context.ConnectionId);
+            await Clients.Caller.SendAsync(MessagesConstants.CONNECTION_BEGIN, user, cardGame.Value.GetUsers(), cardGame.Value.GetRooms());
+            await Clients.Others.SendAsync(MessagesConstants.CONNECT, user);
+
+            await base.OnConnectedAsync();
+        }
+
+        /// <summary>
+        /// When a user is disconnected,
+        /// He's removed from this Users List
+        /// and from each rooms and every Clients
+        /// are prevented of its disconnection.
+        /// </summary>
+        /// <param name="ex"></param>
+        /// <returns></returns>
+        public override async Task OnDisconnectedAsync(Exception ex)
+        {
+            try
+            {
+                List<string> roomsToUpdate = cardGame.Value.RemovingUser(Context.ConnectionId);
+                foreach(string roomId in roomsToUpdate)
+                {
+                    await UpdateRoom(roomId, Context.ConnectionId);
+                }
+                await Clients.All.SendAsync(MessagesConstants.DISCONNECT, Context.ConnectionId);
+            }
+            catch (UserIsUndefinedException e)
+            {
+
+            }
+        }
+
+        public async Task UpdateRoom(string roomId, string userId)
+        {
+            bool toDestroy = cardGame.Value.UpdateRoom(roomId, userId);
+            if (toDestroy)
+            {
+                RemovingRoom(roomId);
+            }
+            else
+            {
+                await Clients.All.SendAsync(MessagesConstants.PUBLIC_REMOVED, roomId, userId);
+            }
+        }
+
+        public async Task CreatingRoom()
+        {
+            Room room = cardGame.Value.CreatingRoom();
+            await Clients.All.SendAsync(MessagesConstants.ROOM_CREATED, room);
+            AddingPlayer(room.RoomId);
+        }
+
+        public async Task AddingPlayer(string roomId)
+        {
+            try
+            {
+                bool ready = cardGame.Value.AddingPlayer(roomId, Context.ConnectionId);
+                await Clients.All.SendAsync(MessagesConstants.NEW_PLAYER, roomId, Context.ConnectionId);
+                if (ready)
+                {
+                    await Clients.All.SendAsync(MessagesConstants.READY, roomId);
+                }
+            }
+            catch (UserIsUndefinedException e)
+            {
+                
+            }
+            catch (RoomIsUndefinedException e)
+            {
+                await Clients.Caller.SendAsync(MessagesConstants.ROOM_IS_UNDEFINED, roomId);
+            }
+            catch (FulfillRoomException e)
+            {
+                await Clients.Caller.SendAsync(MessagesConstants.ROOM_IS_FULFILL, roomId);
+            }
+            catch (AlreadyInRoomException e)
+            {
+                await Clients.Caller.SendAsync(MessagesConstants.ALREADY_IN_ROOM, roomId);
+            }
+        }
+
+        public async Task AddingPublic(string roomId)
+        {
+            try
+            {
+                cardGame.Value.AddingPublic(roomId, Context.ConnectionId);
+                await Clients.All.SendAsync(MessagesConstants.NEW_PUBLIC, roomId, Context.ConnectionId);
+            }
+            catch (UserIsUndefinedException e)
+            {
+
+            }
+            catch (RoomIsUndefinedException e)
+            {
+                await Clients.Caller.SendAsync(MessagesConstants.ROOM_IS_UNDEFINED, roomId);
+            }
+            catch (AlreadyInRoomException e)
+            {
+                await Clients.Caller.SendAsync(MessagesConstants.ALREADY_IN_ROOM, roomId);
+            }
+        }
+
+        public async Task RemovingPublic(string roomId)
+        {
+            try
+            {
+                cardGame.Value.RemovingPublic(roomId, Context.ConnectionId);
+                await Clients.All.SendAsync(MessagesConstants.PUBLIC_REMOVED, roomId, Context.ConnectionId);
+            }
+            catch (UserIsUndefinedException e)
+            {
+
+            }
+            catch (RoomIsUndefinedException e)
+            {
+                await Clients.Caller.SendAsync(MessagesConstants.ROOM_IS_UNDEFINED, roomId);
+            }
+            catch (NotInThisRoomException e)
+            {
+                await Clients.Caller.SendAsync(MessagesConstants.NOT_IN_THIS_ROOM, roomId);
+            }
+        }
+
+        public async Task RemovingPlayer(string roomId)
+        {
+            try
+            {
+                bool toDestroy = cardGame.Value.RemovingPlayer(roomId, Context.ConnectionId);
+                await Clients.All.SendAsync(MessagesConstants.PLAYER_REMOVED, roomId, Context.ConnectionId);
+                if (toDestroy)
+                {
+                    RemovingRoom(roomId);
+                }
+            }
+            catch (UserIsUndefinedException e)
+            {
+
+            }
+            catch (RoomIsUndefinedException e)
+            {
+                await Clients.Caller.SendAsync(MessagesConstants.ROOM_IS_UNDEFINED, roomId);
+            }
+            catch (NotInThisRoomException e)
+            {
+                await Clients.Caller.SendAsync(MessagesConstants.NOT_IN_THIS_ROOM, roomId);
+            }
+
+        }
+
+        public async Task RemovingRoom(string roomId)
+        {
+            try
+            {
+                List<string> usersToExtract = cardGame.Value.RemovingRoom(roomId);
+                await Clients.All.SendAsync(MessagesConstants.ROOM_REMOVED, roomId);
+                await ExtractingUsers(usersToExtract, roomId);
+            }
+            catch (RoomIsUndefinedException e)
+            {
+
+            }
+        }
+
+        public async Task ExtractingUsers(List<string> usersToExtract, string roomId)
+        {
+            List<string> usersConnectedForExtraction = cardGame.Value.ExtractingUsers(usersToExtract, roomId);
+            foreach(string userId in usersConnectedForExtraction)
+            {
+                await Clients.Client(userId).SendAsync(MessagesConstants.EJECTED_FROM_ROOM, roomId);
+            }
+
+        }
+
+        
+
+        /*
+
+
 
         public Room GetRoom(string roomId)
         {
@@ -150,11 +337,11 @@ namespace Serveur.Hubs
 
                 Console.WriteLine("Task AddPlayer");
 
-                foreach (ApplicationUser user in room.Public.Values)
+                foreach (string user in room.Public)
                 {
-                    if (!Context.ConnectionId.Equals(user.UserId))
+                    if (!Context.ConnectionId.Equals(user))
                     {
-                        await Clients.Client(user.UserId).SendAsync("NewPlayer", currentUser, room);
+                        await Clients.Client(user).SendAsync("NewPlayer", currentUser, room);
                     }
                 }
             }
@@ -195,11 +382,11 @@ namespace Serveur.Hubs
 
                 await Clients.Caller.SendAsync("JoinPublic", room);
                 
-                foreach (ApplicationUser user in room.Public.Values)
+                foreach (string user in room.Public)
                 {
-                    if (!user.UserId.Equals(Context.ConnectionId))
+                    if (!user.Equals(Context.ConnectionId))
                     {
-                        await Clients.Client(user.UserId).SendAsync("NewPublic", currentUser, room);
+                        await Clients.Client(user).SendAsync("NewPublic", currentUser, room);
                     }
                 }
             }
@@ -227,9 +414,9 @@ namespace Serveur.Hubs
 
                 bool erase = LeaveGame(idRoom, Context.ConnectionId);
                 await Clients.Caller.SendAsync("GameIsLeft", room);
-                foreach (ApplicationUser user in room.Public.Values)
+                foreach (string user in room.Public)
                 {
-                    await Clients.Client(user.UserId).SendAsync("LeftTheGame", room, currentUser);
+                    await Clients.Client(user).SendAsync("LeftTheGame", room, currentUser);
                 }
                 if (erase)
                 {
@@ -278,7 +465,7 @@ namespace Serveur.Hubs
             try
             {
                 user = GetUser(idUser);
-                foreach (string r in user.rooms.Keys)
+                foreach (string r in user.rooms)
                 {
                     Console.WriteLine(r);
                     LeavingGame(r);
@@ -292,52 +479,11 @@ namespace Serveur.Hubs
             }
         }
 
-        
-        /// <summary>
-        /// When a user is connected to the server,
-        /// a new Instance of ApplicationUser is created
-        /// and added in Users with the ConnectionId as key.
-        /// </summary>
-        /// <returns></returns>
-        public override async Task OnConnectedAsync()
-        {
-            try
-            {
-                AddingUser(Context.ConnectionId);
-            }
-            catch(UserIsUndefinedException e)
-            {
-                await Clients.Caller.SendAsync("UserIsUndefined", Context.ConnectionId);
-            }
-            finally
-            {
-                await base.OnConnectedAsync();
-            }
-        }
+        */
 
 
-        /// <summary>
-        /// When a user is disconnected,
-        /// He's removed from this Users List
-        /// and from each rooms and every Clients
-        /// are prevented of its disconnection.
-        /// </summary>
-        /// <param name="ex"></param>
-        /// <returns></returns>
-        public override async Task OnDisconnectedAsync(Exception ex)
-        {
-            try
-            {
-                RemovingUser(Context.ConnectionId);
-            }
-            catch(UserIsUndefinedException e)
-            {
-                await Clients.Caller.SendAsync("UserIsUndefined", Context.ConnectionId);
-            }
-            finally
-            {
-                await base.OnDisconnectedAsync(ex);
-            }
-        }
+
+
+
     }
 }

@@ -11,33 +11,42 @@ namespace Serveur.Models
         public string UserId { get; }
         public string UserName { get; set; }
 
-        public ConcurrentDictionary<string, Room> rooms;
+        public List<string> RoomsAsPlayer;
+
+        public List<string> RoomsAsPublic;
 
         public ApplicationUser(string id, string name)
         {
             UserId = id;
             UserName = name;
 
-            rooms = new ConcurrentDictionary<string, Room>();
+            RoomsAsPlayer = new List<string>();
+            RoomsAsPublic = new List<string>();
         }
 
-        /// <summary>
-        /// Adds a Room into the rooms's list
-        /// </summary>
-        /// <param name="room">The Room wich </param>
-        /// <returns>Confirmation of the adding</returns>
-        public bool AddRoom(Room room)
+        public void AddRoomAsPlayer(string idRoom)
         {
-            return rooms.TryAdd(room.RoomId, room);
+            RoomsAsPlayer.Add(idRoom);
         }
 
-        /// <summary>
-        /// Remove a room from the List of rooms
-        /// </summary>
-        /// <param name="room">the room which will be removed</param>
-        internal void RemoveRoom(Room room)
+        public void AddRoomAsPublic(string idRoom)
         {
-            rooms.TryRemove(room.RoomId, out Room value);
+            RoomsAsPublic.Add(idRoom);
+        }
+
+        public void RemoveRoomAsPublic(string idRoom)
+        {
+            RoomsAsPublic.Remove(idRoom);
+        }
+
+        public void RemoveRoomAsPlayer(string roomId)
+        {
+            RoomsAsPlayer.Remove(roomId);
+        }
+
+        public List<string> GetAllRooms()
+        {
+            return RoomsAsPlayer.Concat(RoomsAsPublic).ToList();
         }
     }
 }

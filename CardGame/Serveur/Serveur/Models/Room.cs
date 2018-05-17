@@ -15,7 +15,7 @@ namespace Serveur.Models
         public string RoomId { get; }
         public int MaxOfPlayers { get; }
         public List<string> Players { get; }
-        public Dictionary<string, ApplicationUser> Public { get; }
+        public List<string> Public { get; }
 
 
         public Room(string guid)
@@ -23,7 +23,7 @@ namespace Serveur.Models
             RoomId = guid;
 
             Players = new List<string>();
-            Public  = new Dictionary<string, ApplicationUser>();
+            Public  = new List<string>();
             MaxOfPlayers = 2;
         }
 
@@ -34,29 +34,22 @@ namespace Serveur.Models
         /// </summary>
         /// <param name="newUser">The User which we want to add in the list of Players</param>
         /// <returns>If the number of players is enough to begin the Party</returns>
-        public bool AddPlayer(ApplicationUser newUser)
+        public bool AddPlayer(string newUser)
         {
             if (Players.Count == MaxOfPlayers)
             {
                 throw new FulfillRoomException();
             }
-            else if (Public.Keys.Contains(newUser.UserId))
+            if (Players.Contains(newUser))
             {
-                if (Players.Contains(newUser.UserId))
-                {
-                    throw new AlreadyInRoomException();
-                }
-                else
-                {
-                    Players.Add(newUser.UserId);
-                }
+                throw new AlreadyInRoomException();
             }
-            else
+            if (Public.Contains(newUser))
             {
-                Players.Add(newUser.UserId);
-                Public.Add(newUser.UserId, newUser);
-                //Console.WriteLine(newUser.AddRoom(this));
+                Public.Remove(newUser);
             }
+
+            Players.Add(newUser);
 
             return isComplete();
         }
@@ -66,54 +59,42 @@ namespace Serveur.Models
         /// </summary>
         /// <param name="newUser">The newUser we want to add in the public</param>
         /// <returns></returns>
-        public bool AddPublic(ApplicationUser newUser)
+        public void AddPublic(string newUser)
         {
-            if (Public.Keys.Contains(newUser.UserId))
+            if (Public.Contains(newUser))
             {
                 throw new AlreadyInRoomException();
             }
-            Public.Add(newUser.UserId, newUser);
-            //Console.WriteLine(newUser.AddRoom(this));
-            return true;
+            Public.Add(newUser);
         }
 
-        /// <summary>
-        /// Remove A User From the current Room.
-        /// </summary>
-        /// <param name="user">ApplicationUser which we want to remove</param>
-        /// <returns>If the Room must be deleted</returns>
-        public bool RemoveUser(ApplicationUser user)
+        public void RemovePublic(string user)
         {
-            if (!Public.Keys.Contains(user.UserId))
+            if (!Public.Contains(user))
+            {
+                throw new NotInThisRoomException();
+            }
+            Public.Remove(user);
+        }
+
+        public bool RemovePlayer(string user)
+        {
+            if (!Players.Contains(user))
             {
                 throw new NotInThisRoomException();
             }
             bool before = isComplete();
-            Public.Remove(user.UserId);
-            user.RemoveRoom(this);
-            if (Players.Contains(user.UserId))
-            {
-                Players.Remove(user.UserId);
-                
-            }
-            bool after = isComplete();
-            return (before && !after) || Players.Count == 0;
+            Players.Remove(user);
+            return (before && !isComplete()) || (Players.Count == 0);
         }
 
         /// <summary>
         /// Remove Every Users in this Room.
         /// </summary>
         /// <returns>List of Users which must be prevent of the removing of the Room</returns>
-        internal List<ApplicationUser> EmptyMe()
+        internal List<string> GetAllUsers()
         {
-            List<ApplicationUser> result = new List<ApplicationUser>();
-            foreach (ApplicationUser user in Public.Values)
-            {
-                user.RemoveRoom(this);
-                result.Add(user);
-            }
-
-            return result;
+            return Players.Concat(Public).ToList();
         }
 
         /// <summary>
