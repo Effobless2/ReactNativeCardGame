@@ -28,7 +28,6 @@ class Rooms extends React.Component{
     }
 
     render(){
-        const {cardGame : {Rooms}} = this.props;
         
         return (
             <View  style = {Styles.container}>
@@ -40,5 +39,5 @@ class Rooms extends React.Component{
         );
     }
 }
-const mapStateToProps = ({cardGame}) => ({cardGame :cardGame.cardGame, connected : cardGame.connected, rooms: cardGame.cardGame.Rooms})
+const mapStateToProps = ({cardGame, cpt}) => ({cardGame :cardGame.cardGame, connected : cardGame.connected, rooms: cardGame.cardGame.Rooms, cpt: cardGame.cpt})
 export default connect(mapStateToProps)(Rooms)

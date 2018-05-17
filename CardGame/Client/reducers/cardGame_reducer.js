@@ -11,50 +11,44 @@ import {
 
 const INITIAL_STATE = {
     cardGame : null,
-    connected : false
+    connected : false,
+    cpt: 0
 };
 
 export default (state = INITIAL_STATE, action) => {
     switch(action.type){
         case CONNECTION : {
             let {user, users, rooms} = action.payload;
-            console.log("Connection Reducers");
             return {
                 ...state,
                 connected: true,
-                cardGame: new CardGame(user, users, rooms)
+                cardGame: new CardGame(user, users, rooms),
             };
         }
         case NEW_ROOM: {
-            console.log("newRoom reducer");
             state.cardGame.AddRoom(action.payload)
 
-            return state;
+            return {...state, cpt:state.cpt+1};
         }
         case REMOVE_ROOM: {
-            console.log("Remove Room reducer");
             state.cardGame.RemoveRoom(action.payload);
-            return state;
+            return {...state, cpt:state.cpt+1};
         }
         case NEW_USER: {
-            console.log("newUser reducer");
             state.cardGame.AddUser(action.payload);
-            return state;
+            return {...state, cpt:state.cpt+1};
         }
         case REMOVE_USER: {
-            console.log("removeUser reducer");
             state.cardGame.RemoveUser(action.payload);
-            return state;
+            return {...state, cpt:state.cpt+1};
         }
         case CREATE_ROOM: {
-            console.log("createRoom reducer");
-            return state;
+            return {...state, cpt:state.cpt+1};
         }
 
         case ROOM_CREATED: {
-            console.log("roomCreated reducer");
             state.cardGame.AddRoom(action.payload);
-            return state;
+            return {...state, cpt:state.cpt+1};
         }
         default:
             return state;

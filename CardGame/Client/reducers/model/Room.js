@@ -8,11 +8,13 @@ export class Room{
             this.AddPublic(publics[index])
         }
         this.nbPublics = this.publics.size;
+        this.nbPlayers = this.players.length;
 
     }
 
     AddPublic(user){
         this.publics.set(user.userId, user);
+        this.nbPublics++;
     }
 
 

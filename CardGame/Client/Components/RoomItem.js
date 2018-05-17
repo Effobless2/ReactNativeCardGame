@@ -18,14 +18,20 @@ class RoomItem extends React.Component{
             <View key={this.room.roomId} style = {Styles.roomItem}>
                 <Text>{this.counter}</Text>
                 <View>
-                    <Text>Number of Players Max : {this.room.maxOfPlayers}</Text>
-                    <Text>Number of person in public : {this.room.nbPublics}</Text>
+                    <Text>Number of Players : {this.room.nbPlayers}/{this.room.maxOfPlayers}</Text>
+                    <Text>Number of Public : {this.room.nbPublics}</Text>
 
                 </View>
+                <View>
                 <Button
                     onPress = {() => this.pressButton()}
                     title = "See !"
                 />
+                <Button
+                    onPress = {() => this.pressButton()}
+                    title = "Join !"
+                />
+                </View>
             </View>
         );
     }

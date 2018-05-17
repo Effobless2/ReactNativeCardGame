@@ -5,7 +5,6 @@ import { Styles } from '../Styles';
 export class About extends React.Component{
     constructor(props){
         super(props);
-        console.log("construct About")
     }
 
     render(){

@@ -33,5 +33,5 @@ class Users extends React.Component{
     }
 }
 
-const mapStateToProps = ({cardGame}) => ({cardGame :cardGame.cardGame, connected : cardGame.connected, users: cardGame.cardGame.Users})
+const mapStateToProps = ({cardGame}) => ({cardGame :cardGame.cardGame, connected : cardGame.connected, users: cardGame.cardGame.Users, cpt: cardGame.cpt})
 export default connect(mapStateToProps)(Users)

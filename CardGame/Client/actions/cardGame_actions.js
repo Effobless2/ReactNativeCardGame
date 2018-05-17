@@ -22,21 +22,17 @@ export const removeRoom = datas =>{
 };
 
 export const newUser = datas =>{
-    console.log("Action newUser");
     return {type: NEW_USER, payload: datas};
 };
 
 export const removeUser = datas =>{
-    console.log("Action removeUser");
     return {type: REMOVE_USER, payload: datas};
 };
 
 export const createRoom = () => {
-    console.log("Action createRoom");
     return {type: CREATE_ROOM};
 };
 
 export const roomCreated = datas => {
-    console.log("Action roomCreated");
     return {type: ROOM_CREATED, payload: datas};
 };

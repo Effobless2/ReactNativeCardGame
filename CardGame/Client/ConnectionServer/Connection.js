@@ -19,19 +19,16 @@ class ConnectionServer extends SignalR.HubConnection{
         //this.store = store;
 
         this.on("Connect", (user) => {
-            console.log(user.userName + " s'est connecté.");
             writer.newUser(user);
         });
 
         this.on("ConnectionBegin", (currentUser, users, rooms) => {
             userList = Object.values(users);
             roomList = Object.values(rooms);
-            console.log("Vous êtes désormais connecté sous l'id "+ currentUser.userName);
             writer.connectionBegin(currentUser, userList, roomList);
         });
 
         this.on("Disconnect", (user) => {
-            console.log(user.userName + " s'est déconnecté.");
             writer.removeUser(user);
         });
 
@@ -41,7 +38,6 @@ class ConnectionServer extends SignalR.HubConnection{
 
         this.on("NewRoomCreated", (room) => {
             writer.newRoom(room);
-            console.log("The room number " + room.roomId + " has been created.");
         });
 
         this.on("NewPlayer", (user, room) => {
@@ -74,7 +70,6 @@ class ConnectionServer extends SignalR.HubConnection{
 
         this.on("RoomDestroyed", (room) => {
             writer.removeRoom(room);
-            console.log( "The room " + room.roomId + " has been destroyed.");
         });
 
         this.on("JoinPublic", (room) => {
