@@ -5,6 +5,7 @@ import {
     NEW_PUBLIC,
     NEW_ROOM,
     NEW_USER,
+    REMOVE_PLAYER,
     REMOVE_PUBLIC,
     REMOVE_ROOM,
     REMOVE_USER,
@@ -32,17 +33,21 @@ export const removeUser = datas =>{
 };
 
 export const createRoom = () => {
-    return {type: CREATE_ROOM}
+    return {type: CREATE_ROOM};
 };
 
 export const newPublic = datas => {
-    return {type: NEW_PUBLIC, payload: datas}
+    return {type: NEW_PUBLIC, payload: datas};
 };
 
 export const newPlayer = datas =>{
-    return {type: NEW_PLAYER, payload: datas} 
+    return {type: NEW_PLAYER, payload: datas};
 };
 
 export const removePublic = datas =>{
-    return {type: REMOVE_PUBLIC, payload: datas}
-}
+    return {type: REMOVE_PUBLIC, payload: datas};
+};
+
+export const removePlayer = datas =>{
+    return {type: REMOVE_PLAYER, payload: datas};
+};

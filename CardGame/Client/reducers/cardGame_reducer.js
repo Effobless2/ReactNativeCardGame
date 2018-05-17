@@ -6,6 +6,7 @@ import {
     NEW_PUBLIC,
     NEW_ROOM,
     NEW_USER,
+    REMOVE_PLAYER,
     REMOVE_PUBLIC,
     REMOVE_ROOM,
     REMOVE_USER,
@@ -60,6 +61,11 @@ export default (state = INITIAL_STATE, action) => {
         case REMOVE_PUBLIC: {
             let {roomId, userId} = action.payload;
             state.cardGame.RemovePublic(roomId, userId);
+            return {...state, cpt:state.cpt+1};
+        }
+        case REMOVE_PLAYER: {
+            let {roomId, userId} = action.payload;
+            state.cardGame.RemovePlayer(roomId, userId);
             return {...state, cpt:state.cpt+1};
         }
         default:

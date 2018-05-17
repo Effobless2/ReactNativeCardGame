@@ -27,5 +27,9 @@ export class Room{
         this.nbPublics--;
     }
 
+    RemovePlayer(userId){
+        this.players.splice(this.players.indexOf(userId), 1);
+    }
+
 
 }

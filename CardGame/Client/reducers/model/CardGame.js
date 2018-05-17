@@ -81,8 +81,25 @@ export class CardGame{
         }
     }
 
+    RemovePlayer(roomId, userId){
+        currentRoom = this.Rooms.get(roomId);
+        currentUser = this.Users.get(userId);
+        console.log(this.currentRoom);
+        if ((currentRoom !== undefined && currentUser !== undefined) || userId === this.currentUser.userId){ 
+            currentRoom.RemovePlayer(userId);
+            console.log(currentRoom)
+            if(userId === this.currentUser.userId){
+                this.EjectFromPlayer(roomId);
+            }
+        }
+    }
+
     EjectFromPublic(roomId){
         this.publics.splice(this.roomsAsPublic.indexOf(roomId), 1);
+    }
+
+    EjectFromPlayer(roomId){
+        this.players.splice(this.roomsAsPlayer.indexOf(roomId), 1);
     }
 
 

@@ -8,6 +8,7 @@ import {
     newUser,
     removeUser,
     removePublic,
+    removePlayer,
 } from '../actions';
 
 class InterfaceWriter{
@@ -41,6 +42,10 @@ class InterfaceWriter{
 
     removePublic(roomId, userId){
         store.dispatch(removePublic({roomId: roomId, userId: userId}));
+    }
+
+    removePlayer(roomId, userId){
+        store.dispatch(removePlayer({roomId: roomId, userId: userId}));
     }
 
 
