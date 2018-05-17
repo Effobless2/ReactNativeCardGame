@@ -66,6 +66,8 @@
 
     ConnectionBegin(currentUser, users, rooms) {
         this.currentUser = currentUser;
+        this.currentUser.roomsAsPlayer = new Set();
+        this.currentUser.roomsAsPublic = new Set();
         this.users = new Map();
         users.map((user) => {
             if (user.userId !== currentUser.userId){
@@ -105,6 +107,7 @@
     }
 
     RoomCreated(room) {
+        this.rooms.set(room.roomId, room);
         const li = document.createElement("li");
         console.log(room);
 
@@ -142,6 +145,7 @@
     NewPlayer(room, user) {
         console.log(user + " se joint aux joueurs de " + room);
         if (user == this.currentUser.userId) {
+            this.currentUser.roomsAsPlayer.add(room);
             const li = document.createElement("li");
 
             const text = document.createElement("h3");
@@ -169,6 +173,7 @@
     NewPublic(room, user) {
         console.log(user + " s'est joint au public de " + room);
         if (user == this.currentUser.userId) {
+            this.currentUser.roomsAsPublic.add(room);
             const li = document.createElement("li");
 
             const text = document.createElement("h3");

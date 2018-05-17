@@ -11,9 +11,9 @@ namespace Serveur.Models
         public string UserId { get; }
         public string UserName { get; set; }
 
-        public List<string> RoomsAsPlayer;
+        private List<string> RoomsAsPlayer;
 
-        public List<string> RoomsAsPublic;
+        private List<string> RoomsAsPublic;
 
         public ApplicationUser(string id, string name)
         {

@@ -16,9 +16,8 @@ namespace Serveur.Hubs
         public static Lazy<APICardGame> cardGame = new Lazy<APICardGame>();
         
         /// <summary>
-        /// When a user is connected to the server,
-        /// a new Instance of ApplicationUser is created
-        /// and added in Users with the ConnectionId as key.
+        /// Appelé lorsqu'un nouvel utilisateur se connecte au serveur.
+        /// Envoie l'instance de ce nouvel utilisateur aux autre joueurs et envoie l'ensemble des données du serveur au nouvel utilisateur.
         /// </summary>
         /// <returns></returns>
         public override async Task OnConnectedAsync()
@@ -31,10 +30,9 @@ namespace Serveur.Hubs
         }
 
         /// <summary>
-        /// When a user is disconnected,
-        /// He's removed from this Users List
-        /// and from each rooms and every Clients
-        /// are prevented of its disconnection.
+        /// Appelé lorsqu'un utilisateur se déconnecte.
+        /// Met à jour les données du serveurs en supprimant ce qui doit l'être,
+        /// prévient les autre utilisateurs de la déconnexion et des midifcations.
         /// </summary>
         /// <param name="ex"></param>
         /// <returns></returns>
@@ -55,6 +53,12 @@ namespace Serveur.Hubs
             }
         }
 
+        /// <summary>
+        /// Met à jour l'état d'une Room suite à la déconnexion d'un ApplicationUser et prévient les autre utilisateurs.
+        /// </summary>
+        /// <param name="roomId">Id de la room concernée</param>
+        /// <param name="userId">Id de l'Applicationuser concerné</param>
+        /// <returns></returns>
         public async Task UpdateRoom(string roomId, string userId)
         {
             bool toDestroy = cardGame.Value.UpdateRoom(roomId, userId);
@@ -68,6 +72,10 @@ namespace Serveur.Hubs
             }
         }
 
+        /// <summary>
+        /// Appelée suite à une demande de création de Room. Crée la nouvelle Room et prévient les utilisateurs
+        /// </summary>
+        /// <returns></returns>
         public async Task CreatingRoom()
         {
             Room room = cardGame.Value.CreatingRoom();
@@ -75,6 +83,12 @@ namespace Serveur.Hubs
             AddingPlayer(room.RoomId);
         }
 
+        /// <summary>
+        /// Ajoute l'utilisateur ayant fait la demande dans la liste des joueurs d'une Room et prévient les Utilisateurs.
+        /// Vérifie également si la Partie est prête à commencer et prévient les Utilisateurs.
+        /// </summary>
+        /// <param name="roomId">Id de la Room concernée</param>
+        /// <returns></returns>
         public async Task AddingPlayer(string roomId)
         {
             try
@@ -104,6 +118,11 @@ namespace Serveur.Hubs
             }
         }
 
+        /// <summary>
+        /// Ajoute l'utilisateur ayant fait la demande dans le public d'une Room et prévient les utilisateurs.
+        /// </summary>
+        /// <param name="roomId">Id de la room concernée.</param>
+        /// <returns></returns>
         public async Task AddingPublic(string roomId)
         {
             try
@@ -125,6 +144,11 @@ namespace Serveur.Hubs
             }
         }
 
+        /// <summary>
+        /// Supprime l'utilisateur ayant fait la demande du public d'une Room et prévient les utilisateurs.
+        /// </summary>
+        /// <param name="roomId">Id de la Rooom concecrnée</param>
+        /// <returns></returns>
         public async Task RemovingPublic(string roomId)
         {
             try
@@ -146,6 +170,12 @@ namespace Serveur.Hubs
             }
         }
 
+        /// <summary>
+        /// Supprime l'Utilisateur ayant fait la demande de la liste des joueurs d'un Room
+        /// et prévient les utilisteurs et applique les modification nécéssaires (si besoin).
+        /// </summary>
+        /// <param name="roomId">Id de la Room concernée</param>
+        /// <returns></returns>
         public async Task RemovingPlayer(string roomId)
         {
             try
@@ -172,13 +202,18 @@ namespace Serveur.Hubs
 
         }
 
+        /// <summary>
+        /// Supprime une Room du serveur (suite à une partie annulé par le départ d'un joueur) et prévient les utilisateurs.
+        /// </summary>
+        /// <param name="roomId">Id de la Room concernée</param>
+        /// <returns></returns>
         public async Task RemovingRoom(string roomId)
         {
             try
             {
                 List<string> usersToExtract = cardGame.Value.RemovingRoom(roomId);
-                await Clients.All.SendAsync(MessagesConstants.ROOM_REMOVED, roomId);
                 await ExtractingUsers(usersToExtract, roomId);
+                await Clients.All.SendAsync(MessagesConstants.ROOM_REMOVED, roomId);
             }
             catch (RoomIsUndefinedException e)
             {
@@ -186,6 +221,12 @@ namespace Serveur.Hubs
             }
         }
 
+        /// <summary>
+        /// Prévient l'ensemle des joueurs ayant été dans une Room ayant été supprimée de leur expulsion de la room. 
+        /// </summary>
+        /// <param name="usersToExtract">Liste des identifiants des joueurs concernés</param>
+        /// <param name="roomId">Id de la Room concernée</param>
+        /// <returns></returns>
         public async Task ExtractingUsers(List<string> usersToExtract, string roomId)
         {
             List<string> usersConnectedForExtraction = cardGame.Value.ExtractingUsers(usersToExtract, roomId);
@@ -195,295 +236,5 @@ namespace Serveur.Hubs
             }
 
         }
-
-        
-
-        /*
-
-
-
-        public Room GetRoom(string roomId)
-        {
-            try
-            {
-                return cardGame.Value.GetRoom(roomId);
-            }
-
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        public ApplicationUser GetUser(string userId)
-        {
-            try
-            {
-                return cardGame.Value.GetUser(userId);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        public Room NewRoom()
-        {
-            return cardGame.Value.NewRoom();
-        }
-
-        public ApplicationUser AddUser(string user)
-        {
-            try
-            {
-                return cardGame.Value.AddUser(user);
-            }
-            catch(Exception e)
-            {
-                throw e;
-            }
-        }
-
-        public bool AddPlayer(string idRoom, string idUser)
-        {
-            try
-            {
-                return cardGame.Value.AddPlayer(idRoom, idUser);
-            }
-            catch(Exception e)
-            {
-                throw e;
-            }
-        }
-
-        public bool AddPublic(string idRoom, string idUser)
-        {
-            try
-            {
-                return cardGame.Value.AddPublic(idRoom, idUser);
-            }
-            catch(Exception e)
-            {
-                throw e;
-            }
-        }
-
-        public bool LeaveGame(string idRoom, string idUser)
-        {
-            try
-            {
-                return cardGame.Value.LeaveGame(idRoom, idUser);
-            }
-            catch(Exception e)
-            {
-                throw e;
-            }
-        }
-
-        public List<ApplicationUser> RemoveRoom(string idRoom)
-        {
-            try
-            {
-                return cardGame.Value.RemoveRoom(idRoom);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            
-        }
-
-        public ApplicationUser RemoveUser(string idUser)
-        {
-            try
-            {
-                return cardGame.Value.RemoveUser(idUser);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-
-        public async Task CreatingRoom()
-        {
-            Room room = NewRoom();
-
-            await Clients.Caller.SendAsync("ReceiveNewRoom", room);
-            await Clients.Others.SendAsync("NewRoomCreated", room);
-
-            await AddingPlayer(room.RoomId);
-        }
-
-        public async Task AddingUser(string idUser)
-        {
-            ApplicationUser user = AddUser(idUser);
-            await Clients.Caller.SendAsync("ConnectionBegin", user, cardGame.Value.Users, cardGame.Value.Rooms);
-            await Clients.Others.SendAsync("Connect", user);
-        }
-
-        public async Task AddingPlayer(string idRoom)
-        {
-            Room room = null;
-            try
-            {
-                room = GetRoom(idRoom);
-                AddPlayer(idRoom, Context.ConnectionId);
-
-                await Clients.Caller.SendAsync("JoinPlayers", room);
-                
-                ApplicationUser currentUser = GetUser(Context.ConnectionId);
-
-                Console.WriteLine("Task AddPlayer");
-
-                foreach (string user in room.Public)
-                {
-                    if (!Context.ConnectionId.Equals(user))
-                    {
-                        await Clients.Client(user).SendAsync("NewPlayer", currentUser, room);
-                    }
-                }
-            }
-            catch (AlreadyInRoomException e)
-            {
-                Console.WriteLine("Alreaady ex");
-                await Clients.Caller.SendAsync("AlreadyInRoom", room);
-            }
-            catch (FulfillRoomException e)
-            {
-                Console.WriteLine("Fulfill ex");
-                await Clients.Caller.SendAsync("RoomFulFill", room);
-            }
-
-            catch(UserIsUndefinedException e)
-            {
-                Console.WriteLine("User Undef ex");
-                await Clients.Caller.SendAsync("UserUndefined", Context.ConnectionId);
-            }
-
-            catch(RoomIsUndefinedException e)
-            {
-
-                Console.WriteLine("Room Undef ex");
-                await Clients.Caller.SendAsync("RoomIsUndefined", idRoom);
-            }
-        }
-
-        public async Task AddingPublic(string idRoom)
-        {
-            Room room = null;
-            try
-            {
-                room = GetRoom(idRoom);
-                AddPublic(idRoom, Context.ConnectionId);
-
-                ApplicationUser currentUser = GetUser(Context.ConnectionId);
-
-                await Clients.Caller.SendAsync("JoinPublic", room);
-                
-                foreach (string user in room.Public)
-                {
-                    if (!user.Equals(Context.ConnectionId))
-                    {
-                        await Clients.Client(user).SendAsync("NewPublic", currentUser, room);
-                    }
-                }
-            }
-            catch (AlreadyInRoomException e)
-            {
-                await Clients.Caller.SendAsync("AlreadyInRoom", room);
-            }
-            catch(RoomIsUndefinedException e)
-            {
-                await Clients.Caller.SendAsync("RoomIsUndefined", idRoom);
-            }
-            catch(UserIsUndefinedException e)
-            {
-                await Clients.Caller.SendAsync("UserIsUndefinded", Context.ConnectionId);
-            }
-        }
-
-        public async Task LeavingGame(string idRoom)
-        {
-            Room room = null;
-            try
-            {
-                ApplicationUser currentUser = GetUser(Context.ConnectionId);
-                room = GetRoom(idRoom);
-
-                bool erase = LeaveGame(idRoom, Context.ConnectionId);
-                await Clients.Caller.SendAsync("GameIsLeft", room);
-                foreach (string user in room.Public)
-                {
-                    await Clients.Client(user).SendAsync("LeftTheGame", room, currentUser);
-                }
-                if (erase)
-                {
-                    RemovingRoom(idRoom);
-                }
-            }
-            catch(NotInThisRoomException e)
-            {
-                await Clients.Caller.SendAsync("NotInThisRoom", room);
-            }
-            catch (RoomIsUndefinedException e)
-            {
-                await Clients.Caller.SendAsync("RoomIsUndefined", idRoom);
-            }
-            catch (UserIsUndefinedException e)
-            {
-                await Clients.Caller.SendAsync("UserIsUndefinded", Context.ConnectionId);
-            }
-
-        }
-
-        public async Task RemovingRoom(string idRoom)
-        {
-            try
-            {
-                Room currentRoom = GetRoom(idRoom);
-                List<ApplicationUser> users = RemoveRoom(idRoom);
-
-                foreach (ApplicationUser user in users)
-                {
-                    await Clients.Client(user.UserId).SendAsync("YourRoomIsDestroyed", currentRoom);
-                }
-
-                await Clients.All.SendAsync("RoomDestroyed", currentRoom);
-            }
-            catch(RoomIsUndefinedException e)
-            {
-                await Clients.Caller.SendAsync("RoomIsUndefined", idRoom);
-            }
-        }
-
-        public async Task RemovingUser(string idUser)
-        {
-            ApplicationUser user = null;
-
-            try
-            {
-                user = GetUser(idUser);
-                foreach (string r in user.rooms)
-                {
-                    Console.WriteLine(r);
-                    LeavingGame(r);
-                }
-                RemoveUser(idUser);
-                await Clients.All.SendAsync("Disconnect", user);
-            }
-            catch(UserIsUndefinedException e)
-            {
-                await Clients.Caller.SendAsync("UserIsUndefined", Context.ConnectionId);
-            }
-        }
-
-        */
-
-
-
-
-
     }
 }

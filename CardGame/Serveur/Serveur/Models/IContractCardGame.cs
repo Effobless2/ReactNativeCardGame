@@ -15,70 +15,83 @@ namespace Serveur.Models
     {
 
         /// <summary>
-        /// Search the Room which has the roomId as Id
+        /// Crée un nouvel utilisateur dans le gestionnaire de jeu
         /// </summary>
-        /// <param name="roomId">the id of the wanted Room</param>
-        /// <returns>Room with the id roomId or null</returns>
-        Room GetRoom(string roomId);
+        /// <param name="newId">Token (et identifiant) du nouvel utilisateur et qui permettra de l'identifier</param>
+        /// <returns>Instance de ApplicationUser correspondant au nouvel Utilisateur</returns>
+        ApplicationUser Connection(string newId);
 
         /// <summary>
-        /// Search the ApplicationUser which has the roomId as Id.
+        /// Crée une nouvelle Room dans le gestionnaire de jeu
         /// </summary>
-        /// <param name="userId">The id of the wanted ApplicationUser</param>
-        /// <returns>ApplicationUser with the id userId or null</returns>
-        ApplicationUser GetUser(string userId);
-
-        /// <summary>
-        /// Creates a New Room
-        /// </summary>
-        /// <returns>The new Created Room</returns>
-        Room NewRoom();
-
-        /// <summary>
-        /// Add a new Connected ApplicationUser in the Serveur
-        /// </summary>
-        /// <param name="user">Id of the new ApplicationUser</param>
-        /// <returns>The new Created ApplicationUser</returns>
-        ApplicationUser AddUser(string user);
-
-        /// <summary>
-        /// Add the Player with the id idUser into the Room with id idRoom
-        /// </summary>
-        /// <param name="idRoom">id of the concerned Room</param>
-        /// <param name="idUser">id of the concerned User</param>
         /// <returns></returns>
-        bool AddPlayer(string idRoom, string idUser);
+        Room CreatingRoom();
 
         /// <summary>
-        /// Adds the concerned ApplicationUser into the public of the concerned Room
+        /// Ajoute un ApplicationUser à une Room en tant que Joueur 
         /// </summary>
-        /// <param name="idRoom">Id of the Concerned Room</param>
-        /// <param name="idUser">Id of the concerned ApplicationUser</param>
+        /// <param name="roomId">Id de la room concernée</param>
+        /// <param name="userId">Id de l'Applicationuser concerné</param>
+        /// <returns>true si la partie est prête à commencer</returns>
+        bool AddingPlayer(string roomId, string userId);
+
+        /// <summary>
+        /// Ajoute un ApplicationUser à une Room en tant que Public 
+        /// </summary>
+        /// <param name="roomId">Id de la room concernée</param>
+        /// <param name="userId">Id de l'Applicationuser concerné</param>
+        /// <returns>true si la partie est prête à commencer</returns>
+        void AddingPublic(string roomId, string userId);
+
+        /// <summary>
+        /// Supprime un ApplicationUser de la liste des membres du Public d'une Room
+        /// </summary>
+        /// <param name="roomId">Id de la room concernée</param>
+        /// <param name="userId">Id de l'Applicationuser concerné</param>
+        void RemovingPublic(string roomId, string userId);
+
+        /// <summary>
+        /// Supprime un ApplicationUser de la liste des membres des joueurs d'une Room
+        /// </summary>
+        /// <param name="roomId">Id de la room concernée</param>
+        /// <param name="userId">Id de l'Applicationuser concerné</param>
+        /// <returns>true si la partie doit être supprimée</returns>
+        bool RemovingPlayer(string roomId, string userId);
+
+        /// <summary>
+        /// Supprime une room du gestionnaire de Jeu
+        /// </summary>
+        /// <param name="roomId">Id de la room concernée</param>
+        /// <returns>La liste des identifiants des joueurs devant être éjectés de la Room</returns>
+        List<string> RemovingRoom(string roomId);
+
+        /// <summary>
+        /// Supprime l'Id de la room supprimée de la liste des rooms auquel de la liste des joueurs.
+        /// </summary>
+        /// <param name="usersToExtract">La liste des joueurs qui ont fait partie de la room concernée</param>
+        /// <param name="roomId">Id de la room concernée</param>
+        /// <returns>La liste des Joueurs encore connectés qui doivent être prévenus de leur expulsion</returns>
+        List<string> ExtractingUsers(List<string> usersToExtract, string roomId);
+
+        /// <summary>
+        /// Supprime un utilisateur du gestionnaire de jeu
+        /// </summary>
+        /// <param name="userId">Id de l'ApplicationUser concerné</param>
+        /// <returns>La liste de l'ensemble des parties auquel il a fait partie</returns>
+        List<string> RemovingUser(string userId);
+
+        /// <summary>
+        /// Permet d'obtenir une liste de l'ensemble des ApplicationUser présents
+        /// afin de les envoyer aux nouveaux arrivants
+        /// </summary>
         /// <returns></returns>
-        bool AddPublic(string idRoom, string idUser);
+        List<ApplicationUser> GetUsers();
 
         /// <summary>
-        /// Remove an Application user from a Room
+        /// Permet d'obtenir une liste de l'ensemble des Room présentes
+        /// afin de les envoyer aux nouveaux arrivants
         /// </summary>
-        /// <param name="idRoom">id of the concerned Room</param>
-        /// <param name="idUser">id of the concerned ApplicationUser</param>
-        /// <returns>If the Room must be removed</returns>
-        bool LeaveGame(string idRoom, string idUser);
-
-        /// <summary>
-        /// Removes the Room which has the idRoom.
-        /// </summary>
-        /// <param name="idRoom">Id of the concerned Room</param>
-        /// <returns>The List of ApplicationUser which must be ejected of the Room</returns>
-        List<ApplicationUser> RemoveRoom(string idRoom);
-
-        /// <summary>
-        /// Removes the User into the Application
-        /// </summary>
-        /// <param name="idUser">id of the concerned ApplicationUser</param>
-        /// <returns>the concerned ApplicationUser</returns>
-        ApplicationUser RemoveUser(string idUser);
-
-
+        /// <returns></returns>
+        List<Room> GetRooms();
     }
 }

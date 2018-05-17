@@ -6,46 +6,34 @@ using System.Threading.Tasks;
 
 namespace Serveur.Hubs
 {
-    public class APICardGame
+    public class APICardGame : IContractCardGame
     {
         private CardGame cardGame = new CardGame();
 
-        internal List<ApplicationUser> GetUsers()
+        public List<ApplicationUser> GetUsers()
         {
             return cardGame.GetUsers();
         }
 
-        internal List<Room> GetRooms()
+        public List<Room> GetRooms()
         {
             return cardGame.GetRooms();
         }
 
-        /// <summary>
-        /// Crée un nouvel utilisateur dans le gestionnaire de jeu
-        /// </summary>
-        /// <param name="newId">id du nouvel utilisateur</param>
-        /// <returns>l'instance du nouvel utilisateur</returns>
+        
         public ApplicationUser Connection(string newId)
         {
             return cardGame.Connection(newId);
         }
 
-        /// <summary>
-        /// Crée une nouvelle Room dans le gestionnaire de jeu
-        /// </summary>
-        /// <returns>l'instance de la nouvelle Room</returns>
-        internal Room CreatingRoom()
+        
+        public Room CreatingRoom()
         {
             return cardGame.CreatingRoom();
         }
 
-        /// <summary>
-        /// Ajoute un ApplicationUser à une Room en tant que Joueur 
-        /// </summary>
-        /// <param name="roomId">Id de la room concernée</param>
-        /// <param name="userId">Id de l'Applicationuser concerné</param>
-        /// <returns>true si la partie est prête à commencer</returns>
-        internal bool AddingPlayer(string roomId, string userId)
+        
+        public bool AddingPlayer(string roomId, string userId)
         {
             try
             {
@@ -57,7 +45,7 @@ namespace Serveur.Hubs
             }
         }
 
-        internal void AddingPublic(string roomId, string userId)
+        public void AddingPublic(string roomId, string userId)
         {
             try
             {
@@ -69,7 +57,7 @@ namespace Serveur.Hubs
             }
         }
 
-        internal void RemovingPublic(string roomId, string userId)
+        public void RemovingPublic(string roomId, string userId)
         {
             try
             {
@@ -81,7 +69,7 @@ namespace Serveur.Hubs
             }
         }
 
-        internal bool RemovingPlayer(string roomId, string userId)
+        public bool RemovingPlayer(string roomId, string userId)
         {
             try
             {
@@ -93,7 +81,7 @@ namespace Serveur.Hubs
             }
         }
 
-        internal List<string> RemovingRoom(string roomId)
+        public List<string> RemovingRoom(string roomId)
         {
             try
             {
@@ -105,12 +93,12 @@ namespace Serveur.Hubs
             }
         }
 
-        internal List<string> ExtractingUsers(List<string>usersToExtract, string roomId)
+        public List<string> ExtractingUsers(List<string>usersToExtract, string roomId)
         {
             return cardGame.ExtractingUsers(usersToExtract, roomId);
         }
 
-        internal List<string> RemovingUser(string userId)
+        public List<string> RemovingUser(string userId)
         {
             try
             {
