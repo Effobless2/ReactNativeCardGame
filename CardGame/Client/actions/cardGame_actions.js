@@ -10,6 +10,7 @@ import {
     REMOVE_PUBLIC,
     REMOVE_ROOM,
     REMOVE_USER,
+    ADD_PLAYER,
 } from './types';
 
 export const connection = datas =>{
@@ -55,4 +56,8 @@ export const removePlayer = datas =>{
 
 export const addPublic = datas =>{
     return {type: ADD_PUBLIC, payload: datas};
+};
+
+export const addPlayer = datas =>{
+    return {type: ADD_PLAYER, payload: datas};
 };

@@ -8,6 +8,10 @@ class InterfaceListener{
     addPublic(roomId){
         connection.addPublic(roomId);
     }
+
+    addPlayer(roomId){
+        connection.addPlayer(roomId);
+    }
 }
 
 instance = new InterfaceListener();

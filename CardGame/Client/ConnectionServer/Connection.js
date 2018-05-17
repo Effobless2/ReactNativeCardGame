@@ -19,6 +19,7 @@ import {
     ROOM_IS_UNDEFINED,
     ROOM_REMOVED,
     ADDING_PUBLIC,
+    ADDING_PLAYER
 } from './ConnectionConstants';
 
 class ConnectionServer extends SignalR.HubConnection{
@@ -99,6 +100,10 @@ class ConnectionServer extends SignalR.HubConnection{
 
     addPublic(roomId) {
         this.invoke(ADDING_PUBLIC, roomId);
+    }
+
+    addPlayer(roomId){
+        this.invoke(ADDING_PLAYER, roomId);
     }
 
     leavingGame(room) {
