@@ -2,6 +2,7 @@ import { CardGame } from './model/CardGame';
 import {
     CONNECTION,
     CREATE_ROOM,
+    NEW_PLAYER,
     NEW_PUBLIC,
     NEW_ROOM,
     NEW_USER,
@@ -48,6 +49,11 @@ export default (state = INITIAL_STATE, action) => {
         case NEW_PUBLIC: {
             let {roomId, userId} = action.payload;
             state.cardGame.NewPublic(roomId, userId);
+            return {...state, cpt:state.cpt+1};
+        }
+        case NEW_PLAYER: {
+            let {roomId, userId} = action.payload;
+            state.cardGame.NewPlayer(roomId, userId);
             return {...state, cpt:state.cpt+1};
         }
         default:

@@ -1,6 +1,7 @@
 import {
     CONNECTION,
     CREATE_ROOM,
+    NEW_PLAYER,
     NEW_PUBLIC,
     NEW_ROOM,
     NEW_USER,
@@ -35,4 +36,8 @@ export const createRoom = () => {
 
 export const newPublic = datas => {
     return {type: NEW_PUBLIC, payload: datas}
+};
+
+export const newPlayer = datas =>{
+    return {type: NEW_PLAYER, payload: datas} 
 };

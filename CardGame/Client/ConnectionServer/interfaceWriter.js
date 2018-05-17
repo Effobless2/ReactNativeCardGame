@@ -2,6 +2,7 @@ import store from "../store";
 import {
     connection,
     newRoom,
+    newPlayer,
     newPublic,
     removeRoom,
     newUser,
@@ -31,6 +32,10 @@ class InterfaceWriter{
 
     newPublic(roomId, userId){
         store.dispatch(newPublic({roomId: roomId, userId: userId}));
+    }
+
+    newPlayer(roomId, userId){
+        store.dispatch(newPlayer({roomId: roomId, userId: userId}));
     }
 
 

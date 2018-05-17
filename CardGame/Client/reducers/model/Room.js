@@ -14,5 +14,18 @@ export class Room{
         this.nbPublics++;
     }
 
+    AddPlayer(userId){
+        if (userId in this.publics){
+            RemovePublic(userId);
+        }
+        this.players.push(userId)
+        this.nbPlayers++;
+    }
+
+    RemovePublic(userId){
+        this.publics.splice(this.publics.indexOf(userId), 1);
+        this.nbPublics--;
+    }
+
 
 }

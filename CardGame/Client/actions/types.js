@@ -1,5 +1,6 @@
 export const CONNECTION  = 'connection';
 export const CREATE_ROOM = 'create_room';
+export const NEW_PLAYER  = "new_player";
 export const NEW_PUBLIC  = 'new_public';
 export const NEW_ROOM    = 'new_room';
 export const NEW_USER    = 'new_user';

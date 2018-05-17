@@ -48,9 +48,30 @@ export class CardGame{
     NewPublic(roomId, userId){
         currentRoom = this.Rooms.get(roomId);
         currentUser = this.Users.get(userId);
-        if (currentRoom !== undefined && currentUser !== undefined){
+        if ((currentRoom !== undefined && currentUser !== undefined) || userId === this.currentUser.userId){
             currentRoom.AddPublic(userId);
+            if (userId === this.currentUser.userId){
+                this.roomsAsPublic.push(roomId);
+            }
         }
+    }
+
+    NewPlayer(roomId, userId){
+        currentRoom = this.Rooms.get(roomId);
+        currentUser = this.Users.get(userId);
+        console.log(this.currentRoom);
+        if ((currentRoom !== undefined && currentUser !== undefined) || userId === this.currentUser.userId){ 
+            currentRoom.AddPlayer(userId);
+            console.log(currentRoom)
+            if(userId === this.currentUser.userId){
+                this.EjectFromPublic(roomId);
+                this.roomsAsPlayer.push(userId);
+            }
+        }
+    }
+
+    EjectFromPublic(roomId){
+        this.publics.splice(this.roomsAsPublic.indexOf(roomId), 1);
     }
 
 
