@@ -2,7 +2,7 @@ import connection from './Connection';
 
 class InterfaceListener{
     createRoom(){
-        connection.CreatingRoom();
+        connection.createRoom();
     }
 }
 

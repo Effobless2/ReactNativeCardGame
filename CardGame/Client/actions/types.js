@@ -9,5 +9,3 @@ export const NEW_USER = 'new_user';
 export const REMOVE_USER = 'remove_user';
 
 export const CREATE_ROOM = 'create_room';
-
-export const ROOM_CREATED = 'room_created';

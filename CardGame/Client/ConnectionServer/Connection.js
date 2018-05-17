@@ -5,29 +5,20 @@ import {
     ALREADY_IN_ROOM,
     CONNECT,
     CONNECTION_BEGIN,
+    CREATE_ROOM,
     DISCONNECT,
     EJECTED_FROM_ROOM,
     NEW_PLAYER,
     NEW_PUBLIC,
+    NEW_ROOM,
     NOT_IN_THIS_ROOM,
     PLAYER_REMOVED,
     PUBLIC_REMOVED,
     READY,
-    ROOM_CREATED,
     ROOM_IS_FULFILL,
     ROOM_IS_UNDEFINED,
     ROOM_REMOVED,
 } from './ConnectionConstants';
-
-import {
-    connection,
-    newRoom,
-    removeRoom,
-    newUser,
-    removeUser,
-} from '../actions';
-import { CardGame } from '../reducers/model/CardGame';
-//import store from '../store';
 
 class ConnectionServer extends SignalR.HubConnection{
     
@@ -62,6 +53,10 @@ class ConnectionServer extends SignalR.HubConnection{
             console.log(userId + roomId);
         });
         
+        this.on(NEW_ROOM, (room) => {
+            writer.newRoom(room);
+        });
+
         this.on(NOT_IN_THIS_ROOM, (roomId) => {
             console.log(roomId);
         });
@@ -76,10 +71,6 @@ class ConnectionServer extends SignalR.HubConnection{
         
         this.on(READY, (roomId) => {
             console.log(roomId);
-        });
-
-        this.on(ROOM_CREATED, (room) => {
-            writer.roomCreated(room);
         });
         
         this.on(ROOM_IS_FULFILL, (roomId) => {
@@ -101,8 +92,8 @@ class ConnectionServer extends SignalR.HubConnection{
     }
 
     
-    CreatingRoom(){
-        this.invoke("CreatingRoom");
+    createRoom(){
+        this.invoke(CREATE_ROOM);
     }
 
     AddingPublic(room) {

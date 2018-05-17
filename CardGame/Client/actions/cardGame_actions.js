@@ -4,8 +4,7 @@ import {
     REMOVE_ROOM,
     NEW_USER,
     REMOVE_USER,
-    CREATE_ROOM,
-    ROOM_CREATED
+    CREATE_ROOM
 } from './types';
 
 export const connection = datas =>{
@@ -30,9 +29,5 @@ export const removeUser = datas =>{
 };
 
 export const createRoom = () => {
-    return {type: CREATE_ROOM};
-};
-
-export const roomCreated = datas => {
-    return {type: ROOM_CREATED, payload: datas};
-};
+    return {type: CREATE_ROOM}
+}

@@ -5,7 +5,6 @@ import {
     removeRoom,
     newUser,
     removeUser,
-    roomCreated,
 } from '../actions';
 
 class InterfaceWriter{
@@ -27,10 +26,6 @@ class InterfaceWriter{
 
     removeRoom(roomId){
         store.dispatch(removeRoom( roomId ));
-    }
-
-    roomCreated(room){
-        store.dispatch(roomCreated( room ));
     }
 
 
