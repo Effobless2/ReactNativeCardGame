@@ -9,8 +9,8 @@ export class Room{
 
     }
 
-    AddPublic(user){
-        this.publics.set(user.userId, user);
+    AddPublic(userId){
+        this.publics.push(userId)
         this.nbPublics++;
     }
 

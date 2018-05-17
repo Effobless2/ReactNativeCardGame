@@ -50,7 +50,7 @@ class ConnectionServer extends SignalR.HubConnection{
         });
         
         this.on(NEW_PUBLIC, (roomId, userId) => {
-            console.log(userId + roomId);
+            writer.newPublic(roomId, userId);
         });
         
         this.on(NEW_ROOM, (room) => {

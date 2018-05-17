@@ -7,6 +7,8 @@ export class CardGame{
         this.Users = new Map();
         this.Rooms = new Map();
         this.currentUser = null;
+        this.roomsAsPlayer = [];
+        this.roomsAsPublic = [];
         
         if (currentUser != null){
             this.currentUser = new ApplicationUser(currentUser.userId, currentUser.userName);
@@ -42,4 +44,14 @@ export class CardGame{
             this.Rooms.delete(roomId);
         }
     }
+
+    NewPublic(roomId, userId){
+        currentRoom = this.Rooms.get(roomId);
+        currentUser = this.Users.get(userId);
+        if (currentRoom !== undefined && currentUser !== undefined){
+            currentRoom.AddPublic(userId);
+        }
+    }
+
+
 }

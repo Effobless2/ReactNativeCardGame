@@ -1,10 +1,11 @@
 import {
     CONNECTION,
+    CREATE_ROOM,
+    NEW_PUBLIC,
     NEW_ROOM,
-    REMOVE_ROOM,
     NEW_USER,
+    REMOVE_ROOM,
     REMOVE_USER,
-    CREATE_ROOM
 } from './types';
 
 export const connection = datas =>{
@@ -30,4 +31,8 @@ export const removeUser = datas =>{
 
 export const createRoom = () => {
     return {type: CREATE_ROOM}
-}
+};
+
+export const newPublic = datas => {
+    return {type: NEW_PUBLIC, payload: datas}
+};

@@ -1,11 +1,12 @@
 import { CardGame } from './model/CardGame';
 import {
     CONNECTION,
+    CREATE_ROOM,
+    NEW_PUBLIC,
     NEW_ROOM,
-    REMOVE_ROOM,
     NEW_USER,
+    REMOVE_ROOM,
     REMOVE_USER,
-    CREATE_ROOM
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -42,6 +43,11 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, cpt:state.cpt+1};
         }
         case CREATE_ROOM: {
+            return {...state, cpt:state.cpt+1};
+        }
+        case NEW_PUBLIC: {
+            let {roomId, userId} = action.payload;
+            state.cardGame.NewPublic(roomId, userId);
             return {...state, cpt:state.cpt+1};
         }
         default:
