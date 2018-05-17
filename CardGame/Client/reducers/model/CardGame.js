@@ -45,6 +45,17 @@ export class CardGame{
         }
     }
 
+    RemovePublic(roomId, userId){
+        currentRoom = this.Rooms.get(roomId);
+        currentUser = this.Users.get(userId);
+        if ((currentRoom !== undefined && currentUser !== undefined) || userId === this.currentUser.userId){ 
+            currentRoom.RemovePublic(userId);
+            if (userId === this.currentUser.userId){
+                this.roomsAsPublic.splice(this.this.roomsAsPublic.indexOf(roomId, 1));
+            }
+         }
+    }
+
     NewPublic(roomId, userId){
         currentRoom = this.Rooms.get(roomId);
         currentUser = this.Users.get(userId);

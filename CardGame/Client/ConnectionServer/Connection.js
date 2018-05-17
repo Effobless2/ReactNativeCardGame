@@ -66,7 +66,7 @@ class ConnectionServer extends SignalR.HubConnection{
         });
         
         this.on(PUBLIC_REMOVED, (roomId, userId) => {
-            console.log(userId + roomId);
+            writer.removePublic(roomId, userId);
         });
         
         this.on(READY, (roomId) => {

@@ -5,6 +5,7 @@ import {
     NEW_PUBLIC,
     NEW_ROOM,
     NEW_USER,
+    REMOVE_PUBLIC,
     REMOVE_ROOM,
     REMOVE_USER,
 } from './types';
@@ -41,3 +42,7 @@ export const newPublic = datas => {
 export const newPlayer = datas =>{
     return {type: NEW_PLAYER, payload: datas} 
 };
+
+export const removePublic = datas =>{
+    return {type: REMOVE_PUBLIC, payload: datas}
+}
