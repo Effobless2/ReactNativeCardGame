@@ -37,9 +37,9 @@ export class CardGame{
         this.Users.delete(userId);
     }
 
-    RemoveRoom(room){
-        if (this.Rooms.get(room.roomId) !== undefined){
-            this.Rooms.delete(room.roomId);
+    RemoveRoom(roomId){
+        if (this.Rooms.get(roomId) !== undefined){
+            this.Rooms.delete(roomId);
         }
     }
 }

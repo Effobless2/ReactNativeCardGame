@@ -92,7 +92,7 @@ class ConnectionServer extends SignalR.HubConnection{
         });
 
         this.on(ROOM_REMOVED, (roomId) => {
-            console.log(roomId);
+            writer.removeRoom(roomId);
         });
 
 

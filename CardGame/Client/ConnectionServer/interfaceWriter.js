@@ -25,8 +25,8 @@ class InterfaceWriter{
         store.dispatch(newRoom( room ));
     }
 
-    removeRoom(room){
-        store.dispatch(removeRoom( room ));
+    removeRoom(roomId){
+        store.dispatch(removeRoom( roomId ));
     }
 
     roomCreated(room){
