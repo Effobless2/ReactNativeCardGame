@@ -34,8 +34,8 @@ class ConnectionServer extends SignalR.HubConnection{
     constructor(url){
         super(url);
 
-        this.on(ALREADY_IN_ROOM, (room) => {
-            this.AlreadyInRoom(room);
+        this.on(ALREADY_IN_ROOM, (roomId) => {
+            console.log(roomId);
         });
         
         this.on(CONNECT, (user) => {
@@ -50,49 +50,49 @@ class ConnectionServer extends SignalR.HubConnection{
             writer.removeUser(userId);
         });
         
-        this.on(EJECTED_FROM_ROOM, (room, user) => {
-            this.LeftTheGame(room, user);
+        this.on(EJECTED_FROM_ROOM, (roomId) => {
+            console.log(roomId);
         });
         
-        this.on(NEW_PLAYER, (user, room) => {
-            this.NewPlayer(user, room);
+        this.on(NEW_PLAYER, (roomId, userId) => {
+            console.log(userId + roomId);
         });
         
-        this.on(NEW_PUBLIC, (user, room) => {
-            this.NewPublic(user, room);
+        this.on(NEW_PUBLIC, (roomId, userId) => {
+            console.log(userId + roomId);
         });
         
-        this.on(NOT_IN_THIS_ROOM, (room) => {
-            this.NotInThisRoom(room);
+        this.on(NOT_IN_THIS_ROOM, (roomId) => {
+            console.log(roomId);
         });
         
         this.on(PLAYER_REMOVED, (roomId, userId) => {
-            console.log(userId);
+            console.log(userId + roomId);
         });
         
-        this.on(PUBLIC_REMOVED, (roomid, userId) => {
-            console.log(userId);
+        this.on(PUBLIC_REMOVED, (roomId, userId) => {
+            console.log(userId + roomId);
         });
         
-        this.on(READY, (room) => {
-            this.RoomComplete(room);
+        this.on(READY, (roomId) => {
+            console.log(roomId);
         });
 
         this.on(ROOM_CREATED, (room) => {
             writer.roomCreated(room);
         });
         
-        this.on(ROOM_IS_FULFILL, (room) => {
-            this.RoomFulfill(room);
+        this.on(ROOM_IS_FULFILL, (roomId) => {
+            console.log(roomId);
         });
 
 
         this.on(ROOM_IS_UNDEFINED, (roomId) => {
-            this.RoomIsUndefined(roomId);
+            console.log(roomId);
         });
 
-        this.on(ROOM_REMOVED, (room) => {
-            writer.removeRoom(room);
+        this.on(ROOM_REMOVED, (roomId) => {
+            console.log(roomId);
         });
 
 
@@ -111,59 +111,6 @@ class ConnectionServer extends SignalR.HubConnection{
 
     LeavingGame(room) {
         this.invoke("LeavingGame", room.roomId);
-    }
-    
-   
-    JoinPlayers(room){
-        console.log("You have Joined the room number " + room.roomId);
-    }
-
-    NewPlayer(user, room) {
-        console.log("The user " + user.userId + " plays in the room number " + room.roomId);
-    }
-
-    NewPublic(user, room) {
-        console.log("The user " + user.userName + " is looking the room number " + room.roomId)
-    }
-
-    RoomComplete(room) {
-        console.log("The Room " + room.roomId + " is complete. The game will begin.");
-    }
-
-    GameIsLeft(room) {
-        console.log("You Quit the room " + room.roomId + ".");
-    }
-
-    LeftTheGame(room, user) {
-        console.log("The user " + user.userName + "has left the room " + room.roomId +".");
-    }
-
-    YourRoomIsDestroyed(room) {
-        console.log("The room "+ room.roomId + " has been destroyed. We eject you of this useless room.");
-    }
-
-    JoinPublic(room) {
-        console.log("You are looking the room number " + room.roomId)
-    }
-
-    AlreadyInRoom(room) {
-        console.log("Already in room " + room.roomId);
-    }
-
-    RoomFulfill(room) {
-        console.log("Room number " + room.roomId + " is fulfill.");
-    }
-
-    NotInThisRoom(room) {
-        console.log("You are not in the room number " + room.roomId + ".");
-    }
-
-    UserIsUndefined(userId) {
-        console.log("The user number " + userId + " is undefined.");
-    }
-
-    RoomIsUndefined(roomId) {
-        console.log("The room number " + roomId + " is undefined.");
     }
 }
 

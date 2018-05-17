@@ -3,11 +3,8 @@ export class Room{
         this.roomId = Id;
         this.maxOfPlayers = playersMax;
         this.players = players;
-        this.publics = new Map();
-        for (var index in publics){
-            this.AddPublic(publics[index])
-        }
-        this.nbPublics = this.publics.size;
+        this.publics = publics;
+        this.nbPublics = this.publics.length;
         this.nbPlayers = this.players.length;
 
     }
