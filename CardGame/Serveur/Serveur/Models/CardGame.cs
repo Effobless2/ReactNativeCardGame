@@ -24,6 +24,7 @@ namespace Serveur.Models
                 Room room = GetRoom(idRoom);
                 ApplicationUser user = GetUser(idUser);
                 bool res = room.AddPlayer(user);
+                user.AddRoom(room);
                 Console.WriteLine(res);
                 return res;
             }
@@ -40,6 +41,7 @@ namespace Serveur.Models
             {
                 Room room = GetRoom(idRoom);
                 ApplicationUser user = GetUser(idUser);
+                user.AddRoom(room);
                 return room.AddPublic(user);
             }
             catch (Exception e)

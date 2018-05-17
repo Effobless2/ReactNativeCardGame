@@ -11,7 +11,7 @@ namespace Serveur.Models
         public string UserId { get; }
         public string UserName { get; set; }
 
-        private ConcurrentDictionary<string, Room> rooms;
+        public ConcurrentDictionary<string, Room> rooms;
 
         public ApplicationUser(string id, string name)
         {

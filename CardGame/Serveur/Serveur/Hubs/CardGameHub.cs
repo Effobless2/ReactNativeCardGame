@@ -278,6 +278,11 @@ namespace Serveur.Hubs
             try
             {
                 user = GetUser(idUser);
+                foreach (string r in user.rooms.Keys)
+                {
+                    Console.WriteLine(r);
+                    LeavingGame(r);
+                }
                 RemoveUser(idUser);
                 await Clients.All.SendAsync("Disconnect", user);
             }
