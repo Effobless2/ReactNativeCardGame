@@ -18,6 +18,7 @@ import {
     ROOM_IS_FULFILL,
     ROOM_IS_UNDEFINED,
     ROOM_REMOVED,
+    ADDING_PUBLIC,
 } from './ConnectionConstants';
 
 class ConnectionServer extends SignalR.HubConnection{
@@ -96,11 +97,11 @@ class ConnectionServer extends SignalR.HubConnection{
         this.invoke(CREATE_ROOM);
     }
 
-    AddingPublic(room) {
-        this.invoke("AddingPublic", room.roomId);
+    addPublic(roomId) {
+        this.invoke(ADDING_PUBLIC, roomId);
     }
 
-    LeavingGame(room) {
+    leavingGame(room) {
         this.invoke("LeavingGame", room.roomId);
     }
 }

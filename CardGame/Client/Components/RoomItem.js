@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, Button } from 'react-native';
 import { Styles } from '../Styles';
+import { addPublic } from '../actions';
+import { connect } from 'react-redux';
 
 class RoomItem extends React.Component{
     constructor (props){
@@ -24,7 +26,7 @@ class RoomItem extends React.Component{
                 </View>
                 <View>
                 <Button
-                    onPress = {() => this.pressButton()}
+                    onPress = {() => this.props.addPublic(this.room.roomId)}
                     title = "See !"
                 />
                 <Button
@@ -36,5 +38,5 @@ class RoomItem extends React.Component{
         );
     }
 }
-
-export default RoomItem;
+const mapStateToProps = ({cardGame, cpt}) => ({cardGame :cardGame.cardGame, connected : cardGame.connected, rooms: cardGame.cardGame.Rooms, cpt: cardGame.cpt})
+export default connect(mapStateToProps, {addPublic})(RoomItem)

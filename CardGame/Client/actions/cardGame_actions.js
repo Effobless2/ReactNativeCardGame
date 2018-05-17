@@ -1,4 +1,5 @@
 import {
+    ADD_PUBLIC,
     CONNECTION,
     CREATE_ROOM,
     NEW_PLAYER,
@@ -50,4 +51,8 @@ export const removePublic = datas =>{
 
 export const removePlayer = datas =>{
     return {type: REMOVE_PLAYER, payload: datas};
+};
+
+export const addPublic = datas =>{
+    return {type: ADD_PUBLIC, payload: datas};
 };
