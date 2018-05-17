@@ -75,7 +75,9 @@ export class CardGame{
             currentRoom.AddPlayer(userId);
             console.log(currentRoom)
             if(userId === this.currentUser.userId){
-                this.EjectFromPublic(roomId);
+                if (roomId in this.roomsAsPublic){
+                    this.EjectFromPublic(roomId);
+                }
                 this.roomsAsPlayer.push(userId);
             }
         }
@@ -88,7 +90,7 @@ export class CardGame{
         if ((currentRoom !== undefined && currentUser !== undefined) || userId === this.currentUser.userId){ 
             currentRoom.RemovePlayer(userId);
             console.log(currentRoom)
-            if(userId === this.currentUser.userId){
+            if(userId === this.currentUser.userId && roomId in this.roomsAsPlayer){
                 this.EjectFromPlayer(roomId);
             }
         }

@@ -1,3 +1,6 @@
+
+/*Sent from Server*/
+
 export const  ALREADY_IN_ROOM   = "AlreadyInRoom";
 export const  CONNECT           = "Connect";
 export const  CONNECTION_BEGIN  = "ConnectionBegin";
@@ -14,3 +17,12 @@ export const  READY             = "Ready";
 export const  ROOM_IS_FULFILL   = "RoomFulfill";
 export const  ROOM_IS_UNDEFINED = "RoomIsUndefined";
 export const  ROOM_REMOVED      = "RoomRemoved";
+
+
+/*Sent To Server*/
+
+export const CREATING_ROOM = "CreatingRoom";
+export const ADDING_PLAYER = "AddingPlayer";
+export const ADDING_PUBLIC = "AddingPublic";
+export const REMOVING_PLAYER = "RemovingPlayer";
+export const REMOVING_PUBLIC = "RemovingPublic";
