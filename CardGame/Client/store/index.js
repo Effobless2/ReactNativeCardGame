@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware } from 'redux';
 import reducers from '../reducers';
-import listener from '../connectionServer/interfaceListener';
+import listener from '../ConnectionServer/interfaceListener';
 import {
     CONNECTION,
     NEW_ROOM,

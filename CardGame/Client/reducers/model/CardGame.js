@@ -33,8 +33,8 @@ export class CardGame{
         this.Users.set(user.userId, currentUser);
     }
 
-    RemoveUser(user){
-        this.Users.delete(user.userId);
+    RemoveUser(userId){
+        this.Users.delete(userId);
     }
 
     RemoveRoom(room){

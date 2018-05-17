@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
 import { Styles } from '../Styles';
-import { Tabs } from '../components/Navigator';
+import { Tabs } from '../Components/Navigator';
 import { connect } from 'react-redux';
 import { createRoom } from '../actions';
 

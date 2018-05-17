@@ -5,7 +5,7 @@ import { Styles } from '../Styles';
 
 import Home from './Home';
 import TitleScreen from './TitleScreen';
-import connection from '../connectionServer/Connection'
+import connection from '../ConnectionServer/Connection'
 import { connect } from 'react-redux';
 
 
