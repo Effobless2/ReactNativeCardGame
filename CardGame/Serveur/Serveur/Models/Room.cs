@@ -61,7 +61,7 @@ namespace Serveur.Models
         /// <returns></returns>
         public void AddPublic(string newUser)
         {
-            if (Public.Contains(newUser))
+            if (Public.Contains(newUser) || Players.Contains(newUser))
             {
                 throw new AlreadyInRoomException();
             }
