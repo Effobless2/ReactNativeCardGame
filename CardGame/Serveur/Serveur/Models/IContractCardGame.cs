@@ -93,5 +93,13 @@ namespace Serveur.Models
         /// </summary>
         /// <returns></returns>
         List<Room> GetRooms();
+
+        /// <summary>
+        /// Permet de mettre à jour d'une Room suite à la déconnexion d'un ApplicationUser.
+        /// </summary>
+        /// <param name="roomId">Id de la Room concernée</param>
+        /// <param name="userId">Id de l'ApplicationUser à supprimer de la Room</param>
+        /// <returns>true si la room doit être supprimée</returns>
+        bool UpdateRoom(string roomId, string userId);
     }
 }

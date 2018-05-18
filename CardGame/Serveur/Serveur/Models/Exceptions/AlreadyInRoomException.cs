@@ -7,7 +7,7 @@ namespace Serveur.Models.Exceptions
     /// Exception thrown when an ApplicationUser wants to join a Room where he's already in.
     /// </summary>
     [Serializable]
-    internal class AlreadyInRoomException : Exception
+    public class AlreadyInRoomException : Exception
     {
         public AlreadyInRoomException()
         {

@@ -8,7 +8,7 @@ namespace Serveur.Models.Exceptions
     /// but it must be already Removed.
     /// </summary>
     [Serializable]
-    internal class RoomIsUndefinedException : Exception
+    public class RoomIsUndefinedException : Exception
     {
         public RoomIsUndefinedException()
         {

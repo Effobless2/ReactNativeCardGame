@@ -8,7 +8,7 @@ namespace Serveur.Models.Exceptions
     /// must be Removed from a Room where he's not in.
     /// </summary>
     [Serializable]
-    internal class NotInThisRoomException : Exception
+    public class NotInThisRoomException : Exception
     {
         public NotInThisRoomException()
         {

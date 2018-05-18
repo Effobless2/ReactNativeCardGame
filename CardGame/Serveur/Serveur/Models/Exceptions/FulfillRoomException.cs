@@ -9,7 +9,7 @@ namespace Serveur.Models.Exceptions
     /// players are attempt.
     /// </summary>
     [Serializable]
-    internal class FulfillRoomException : Exception
+    public class FulfillRoomException : Exception
     {
         public FulfillRoomException()
         {

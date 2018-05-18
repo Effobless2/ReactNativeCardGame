@@ -85,89 +85,47 @@ namespace Serveur.Models
         
         public bool AddingPlayer(string roomId, string userId)
         {
-            try
-            {
-                Room room = GetRoomWithId(roomId);
-                ApplicationUser user = GetUserWithId(userId);
-                bool ready = room.AddPlayer(userId);
-                user.AddRoomAsPlayer(roomId);
-                return ready;
-
-            }
-            catch(Exception e)
-            {
-                throw e;
-            }
+            Room room = GetRoomWithId(roomId);
+            ApplicationUser user = GetUserWithId(userId);
+            bool ready = room.AddPlayer(userId);
+            user.AddRoomAsPlayer(roomId);
+            return ready;
         }
 
         public void AddingPublic(string roomId, string userId)
         {
-            try
-            {
-                Room room = GetRoomWithId(roomId);
-                ApplicationUser user = GetUserWithId(userId);
-                room.AddPublic(userId);
-                user.AddRoomAsPublic(roomId);
-
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            Room room = GetRoomWithId(roomId);
+            ApplicationUser user = GetUserWithId(userId);
+            room.AddPublic(userId);
+            user.AddRoomAsPublic(roomId);
         }
 
         public void RemovingPublic(string roomId, string userId)
         {
-            try
-            {
-                Room room = GetRoomWithId(roomId);
-                ApplicationUser user = GetUserWithId(userId);
-                room.RemovePublic(userId);
-                user.RemoveRoomAsPublic(roomId);
-
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            Room room = GetRoomWithId(roomId);
+            ApplicationUser user = GetUserWithId(userId);
+            room.RemovePublic(userId);
+            user.RemoveRoomAsPublic(roomId);
         }
 
         public bool RemovingPlayer(string roomId, string userId)
         {
-            try
-            {
-                Room room = GetRoomWithId(roomId);
-                ApplicationUser user = GetUserWithId(userId);
-                bool toDestroy = room.RemovePlayer(userId);
-                user.RemoveRoomAsPlayer(roomId);
-                return toDestroy;
-
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            Room room = GetRoomWithId(roomId);
+            ApplicationUser user = GetUserWithId(userId);
+            bool toDestroy = room.RemovePlayer(userId);
+            user.RemoveRoomAsPlayer(roomId);
+            return toDestroy;
         }
 
         public List<string> RemovingRoom(string roomId)
         {
-            try
+            Rooms.TryRemove(roomId, out Room room);
+
+            if (room == null)
             {
-                Rooms.TryRemove(roomId, out Room room);
-
-                if (room == null)
-                {
-                    throw new RoomIsUndefinedException();
-                }
-
-                return room.GetAllUsers();
-
-
+                throw new RoomIsUndefinedException();
             }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            return room.GetAllUsers();
         }
 
         public List<string> ExtractingUsers(List<string> usersToExtract, string roomId)
@@ -182,7 +140,7 @@ namespace Serveur.Models
                     currentUser.RemoveRoomAsPublic(roomId);
                     usersConnected.Add(userId);
                 }
-                catch(UserIsUndefinedException e)
+                catch(UserIsUndefinedException)
                 {
 
                 }
@@ -207,15 +165,15 @@ namespace Serveur.Models
                 Room room = GetRoomWithId(roomId);
                 if (room.Players.Contains(userId))
                 {
-                    room.RemovePlayer(userId);
+                    return room.RemovePlayer(userId);
                 }
                 else
                 {
                     room.RemovePublic(userId);
+                    return false;
                 }
-                return true;
             }
-            catch(NotInThisRoomException e)
+            catch(NotInThisRoomException)
             {
                 return false;
             }

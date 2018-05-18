@@ -8,7 +8,7 @@ namespace Serveur.Models.Exceptions
     /// but it's already Removed.
     /// </summary>
     [Serializable]
-    internal class UserIsUndefinedException : Exception
+    public class UserIsUndefinedException : Exception
     {
         public UserIsUndefinedException()
         {

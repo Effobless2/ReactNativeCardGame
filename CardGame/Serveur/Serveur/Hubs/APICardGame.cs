@@ -8,7 +8,7 @@ namespace Serveur.Hubs
 {
     public class APICardGame : IContractCardGame
     {
-        private CardGame cardGame = new CardGame();
+        public CardGame cardGame = new CardGame();
 
         public List<ApplicationUser> GetUsers()
         {
