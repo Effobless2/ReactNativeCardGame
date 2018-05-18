@@ -47,7 +47,7 @@ namespace Serveur.Hubs
                 }
                 await Clients.All.SendAsync(MessagesConstants.DISCONNECT, Context.ConnectionId);
             }
-            catch (UserIsUndefinedException e)
+            catch (UserIsUndefinedException)
             {
 
             }
@@ -100,19 +100,19 @@ namespace Serveur.Hubs
                     await Clients.All.SendAsync(MessagesConstants.READY, roomId);
                 }
             }
-            catch (UserIsUndefinedException e)
+            catch (UserIsUndefinedException)
             {
                 
             }
-            catch (RoomIsUndefinedException e)
+            catch (RoomIsUndefinedException)
             {
                 await Clients.Caller.SendAsync(MessagesConstants.ROOM_IS_UNDEFINED, roomId);
             }
-            catch (FulfillRoomException e)
+            catch (FulfillRoomException)
             {
                 await Clients.Caller.SendAsync(MessagesConstants.ROOM_IS_FULFILL, roomId);
             }
-            catch (AlreadyInRoomException e)
+            catch (AlreadyInRoomException)
             {
                 await Clients.Caller.SendAsync(MessagesConstants.ALREADY_IN_ROOM, roomId);
             }
@@ -130,15 +130,15 @@ namespace Serveur.Hubs
                 cardGame.Value.AddingPublic(roomId, Context.ConnectionId);
                 await Clients.All.SendAsync(MessagesConstants.NEW_PUBLIC, roomId, Context.ConnectionId);
             }
-            catch (UserIsUndefinedException e)
+            catch (UserIsUndefinedException)
             {
 
             }
-            catch (RoomIsUndefinedException e)
+            catch (RoomIsUndefinedException)
             {
                 await Clients.Caller.SendAsync(MessagesConstants.ROOM_IS_UNDEFINED, roomId);
             }
-            catch (AlreadyInRoomException e)
+            catch (AlreadyInRoomException)
             {
                 await Clients.Caller.SendAsync(MessagesConstants.ALREADY_IN_ROOM, roomId);
             }
@@ -156,15 +156,15 @@ namespace Serveur.Hubs
                 cardGame.Value.RemovingPublic(roomId, Context.ConnectionId);
                 await Clients.All.SendAsync(MessagesConstants.PUBLIC_REMOVED, roomId, Context.ConnectionId);
             }
-            catch (UserIsUndefinedException e)
+            catch (UserIsUndefinedException)
             {
 
             }
-            catch (RoomIsUndefinedException e)
+            catch (RoomIsUndefinedException)
             {
                 await Clients.Caller.SendAsync(MessagesConstants.ROOM_IS_UNDEFINED, roomId);
             }
-            catch (NotInThisRoomException e)
+            catch (NotInThisRoomException)
             {
                 await Clients.Caller.SendAsync(MessagesConstants.NOT_IN_THIS_ROOM, roomId);
             }
@@ -187,15 +187,15 @@ namespace Serveur.Hubs
                     RemovingRoom(roomId);
                 }
             }
-            catch (UserIsUndefinedException e)
+            catch (UserIsUndefinedException)
             {
 
             }
-            catch (RoomIsUndefinedException e)
+            catch (RoomIsUndefinedException)
             {
                 await Clients.Caller.SendAsync(MessagesConstants.ROOM_IS_UNDEFINED, roomId);
             }
-            catch (NotInThisRoomException e)
+            catch (NotInThisRoomException)
             {
                 await Clients.Caller.SendAsync(MessagesConstants.NOT_IN_THIS_ROOM, roomId);
             }
@@ -215,7 +215,7 @@ namespace Serveur.Hubs
                 await ExtractingUsers(usersToExtract, roomId);
                 await Clients.All.SendAsync(MessagesConstants.ROOM_REMOVED, roomId);
             }
-            catch (RoomIsUndefinedException e)
+            catch (RoomIsUndefinedException)
             {
 
             }
