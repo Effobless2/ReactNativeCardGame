@@ -13,7 +13,7 @@ namespace Serveur.Models
     public class Room
     {
         public string RoomId { get; }
-        public int MaxOfPlayers { get; }
+        public int MaxOfPlayers { get; set; }
         public List<string> Players { get; }
         public List<string> Public { get; }
 

@@ -129,86 +129,37 @@ namespace CardGameTests
             Assert.AreEqual(0, room.Public.Count);
         }
 
-        [TestMethod]
-        public void GetUndefinedUserWithIdShouldThrowAUserIsUndefinedException()
-        {
-            APICardGame cardGame = new APICardGame();
-            ApplicationUser user;
-            try
-            {
-                user = cardGame.cardGame.GetUserWithId(Guid.NewGuid().ToString());
-            }
-            catch (UserIsUndefinedException)
-            {
-                user = null;
-            }
-            Assert.AreEqual(null, user);
-        }
-
+        [ExpectedException(typeof(RoomIsUndefinedException))]
         [TestMethod]
         public void GetAnUndefinedRoomWithIdShouldThrowRoomIsUndefinedException()
         {
             APICardGame cardGame = new APICardGame();
-            Room room;
-            try
-            {
-                room = cardGame.cardGame.GetRoomWithId(Guid.NewGuid().ToString());
-            }
-            catch (RoomIsUndefinedException)
-            {
-                room = null;
-            }
-            Assert.AreEqual(null, room);
+            cardGame.cardGame.GetRoomWithId(Guid.NewGuid().ToString());
         }
 
+        [ExpectedException(typeof(RoomIsUndefinedException))]
         [TestMethod]
         public void RemovingUndefinedRoomShouldThrowRoomIsUndefinedException()
         {
             APICardGame cardGame = new APICardGame();
-            List<string> users;
-            try
-            {
-                users = cardGame.RemovingRoom(Guid.NewGuid().ToString());
-            }
-            catch (RoomIsUndefinedException)
-            {
-                users = null;
-            }
-            Assert.AreEqual(null, users);
+            cardGame.RemovingRoom(Guid.NewGuid().ToString());
         }
 
+        [ExpectedException(typeof(UserIsUndefinedException))]
         [TestMethod]
         public void RemovingAnUndefinedUserShouldThrowAUserIsUndefinedException()
         {
             APICardGame cardGame = new APICardGame();
-            List<string> user;
-            try
-            {
-                user = cardGame.RemovingUser(Guid.NewGuid().ToString());
-            }
-            catch (UserIsUndefinedException)
-            {
-                user = null;
-            }
-            Assert.AreEqual(null, user);
+            cardGame.RemovingUser(Guid.NewGuid().ToString());
         }
 
+        [ExpectedException(typeof(RoomIsUndefinedException))]
         [TestMethod]
         public void UpdatingRoomWithanUndefinedRoomShouldThrowARoomIsUndefinedException()
         {
             APICardGame cardGame = new APICardGame();
             string guid = Guid.NewGuid().ToString();
-            int i = 0;
-            try
-            {
-                cardGame.UpdateRoom(guid, guid);
-                i = 1;
-            }
-            catch (RoomIsUndefinedException)
-            {
-                i = -1;
-            }
-            Assert.AreEqual(-1, i);
+            cardGame.UpdateRoom(guid, guid);
         }
 
         [TestMethod]
