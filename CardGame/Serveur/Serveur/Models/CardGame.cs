@@ -205,7 +205,14 @@ namespace Serveur.Models
             try
             {
                 Room room = GetRoomWithId(roomId);
-                room.RemovePlayer(userId);
+                if (room.Players.Contains(userId))
+                {
+                    room.RemovePlayer(userId);
+                }
+                else
+                {
+                    room.RemovePublic(userId);
+                }
                 return true;
             }
             catch(NotInThisRoomException e)

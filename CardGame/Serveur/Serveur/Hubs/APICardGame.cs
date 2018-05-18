@@ -35,62 +35,27 @@ namespace Serveur.Hubs
         
         public bool AddingPlayer(string roomId, string userId)
         {
-            try
-            {
-                return cardGame.AddingPlayer(roomId, userId);
-            }
-            catch(Exception e)
-            {
-                throw e;
-            }
+            return cardGame.AddingPlayer(roomId, userId);
         }
 
         public void AddingPublic(string roomId, string userId)
         {
-            try
-            {
-                cardGame.AddingPublic(roomId, userId);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            cardGame.AddingPublic(roomId, userId);
         }
 
         public void RemovingPublic(string roomId, string userId)
         {
-            try
-            {
-                cardGame.RemovingPublic(roomId, userId);
-            }
-            catch(Exception e)
-            {
-                throw e;
-            }
+            cardGame.RemovingPublic(roomId, userId);
         }
 
         public bool RemovingPlayer(string roomId, string userId)
         {
-            try
-            {
-                return cardGame.RemovingPlayer(roomId, userId);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            return cardGame.RemovingPlayer(roomId, userId);
         }
 
         public List<string> RemovingRoom(string roomId)
         {
-            try
-            {
-                return cardGame.RemovingRoom(roomId);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            return cardGame.RemovingRoom(roomId);
         }
 
         public List<string> ExtractingUsers(List<string>usersToExtract, string roomId)
@@ -100,26 +65,12 @@ namespace Serveur.Hubs
 
         public List<string> RemovingUser(string userId)
         {
-            try
-            {
-                return cardGame.RemovingUser(userId);
-            }
-            catch(Exception e)
-            {
-                throw e;
-            }
+            return cardGame.RemovingUser(userId);
         }
 
         public bool UpdateRoom(string roomId, string userId)
         {
-            try
-            {
-                return cardGame.UpdateRoom(roomId, userId);
-            }
-            catch(Exception e)
-            {
-                throw e;
-            }
+            return cardGame.UpdateRoom(roomId, userId);
         }
     }
 }

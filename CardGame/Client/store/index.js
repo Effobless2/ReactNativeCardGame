@@ -9,7 +9,9 @@ import {
     NEW_USER,
     REMOVE_USER,
     CREATE_ROOM,
-    ADD_PLAYER
+    ADD_PLAYER,
+    ESCAPE_PUBLIC,
+    ESCAPE_PLAYER
 } from '../actions/types';
 
 const middleware = store => next => action =>{
@@ -24,6 +26,14 @@ const middleware = store => next => action =>{
         }
         case ADD_PLAYER: {
             listener.addPlayer(action.payload);
+            return next(action);
+        }
+        case ESCAPE_PUBLIC: {
+            listener.escapePublic(action.payload);
+            return next(action);
+        }
+        case ESCAPE_PLAYER: {
+            listener.escapePlayer(action.payload);
             return next(action);
         }
         default:

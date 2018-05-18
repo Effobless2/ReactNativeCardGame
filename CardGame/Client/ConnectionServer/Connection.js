@@ -15,12 +15,14 @@ import {
     PLAYER_REMOVED,
     PUBLIC_REMOVED,
     READY,
+    REMOVING_PUBLIC,
     ROOM_IS_FULFILL,
     ROOM_IS_UNDEFINED,
     ROOM_REMOVED,
     ADDING_PUBLIC,
     ADDING_PLAYER
 } from './ConnectionConstants';
+import { REMOVE_PLAYER } from '../actions/types';
 
 class ConnectionServer extends SignalR.HubConnection{
     
@@ -48,8 +50,6 @@ class ConnectionServer extends SignalR.HubConnection{
         });
         
         this.on(NEW_PLAYER, (roomId, userId) => {
-            console.log("room = " + roomId);
-            console.log("user = " + userId);
             writer.newPlayer(roomId, userId);
         });
         
@@ -108,8 +108,12 @@ class ConnectionServer extends SignalR.HubConnection{
         this.invoke(ADDING_PLAYER, roomId);
     }
 
-    leavingGame(room) {
-        this.invoke("LeavingGame", room.roomId);
+    escapePublic(roomId) {
+        this.invoke(REMOVING_PUBLIC, roomId);
+    }
+
+    escapePlayer(roomId){
+        this.invoke(REMOVE_PLAYER, roomId);
     }
 }
 

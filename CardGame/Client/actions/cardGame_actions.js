@@ -2,6 +2,8 @@ import {
     ADD_PUBLIC,
     CONNECTION,
     CREATE_ROOM,
+    ESCAPE_PLAYER,
+    ESCAPE_PUBLIC,
     NEW_PLAYER,
     NEW_PUBLIC,
     NEW_ROOM,
@@ -59,7 +61,13 @@ export const addPublic = datas =>{
 };
 
 export const addPlayer = datas =>{
-    console.log("room = " + datas.roomId);
-    console.log("user = " + datas.userId);
     return {type: ADD_PLAYER, payload: datas};
+};
+
+export const escapePublic = datas =>{
+    return {type: ESCAPE_PUBLIC, payload: datas};
+};
+
+export const escapePlayer = datas =>{
+    return {type: ESCAPE_PLAYER, payload: datas};
 };
