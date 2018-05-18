@@ -55,6 +55,8 @@ export default (state = INITIAL_STATE, action) => {
         }
         case NEW_PLAYER: {
             let {roomId, userId} = action.payload;
+            console.log("room = " + roomId);
+            console.log("user = " + userId);
             state.cardGame.NewPlayer(roomId, userId);
             return {...state, cpt:state.cpt+1};
         }

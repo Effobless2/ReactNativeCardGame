@@ -59,5 +59,7 @@ export const addPublic = datas =>{
 };
 
 export const addPlayer = datas =>{
+    console.log("room = " + datas.roomId);
+    console.log("user = " + datas.userId);
     return {type: ADD_PLAYER, payload: datas};
 };

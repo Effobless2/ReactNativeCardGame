@@ -48,6 +48,8 @@ class ConnectionServer extends SignalR.HubConnection{
         });
         
         this.on(NEW_PLAYER, (roomId, userId) => {
+            console.log("room = " + roomId);
+            console.log("user = " + userId);
             writer.newPlayer(roomId, userId);
         });
         

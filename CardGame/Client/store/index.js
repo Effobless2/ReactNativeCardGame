@@ -15,7 +15,6 @@ import {
 const middleware = store => next => action =>{
     switch(action.type){
         case CREATE_ROOM : {
-            console.log("createRoom middleware");
             listener.createRoom();
             return next(action);
         }

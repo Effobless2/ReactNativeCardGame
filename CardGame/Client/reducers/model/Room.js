@@ -15,8 +15,9 @@ export class Room{
     }
 
     AddPlayer(userId){
-        if (userId in this.publics){
-            RemovePublic(userId);
+        console.log(this.publics);
+        if (this.publics.includes(userId)){
+            this.RemovePublic(userId);
         }
         this.players.push(userId)
         this.nbPlayers++;
@@ -29,6 +30,7 @@ export class Room{
 
     RemovePlayer(userId){
         this.players.splice(this.players.indexOf(userId), 1);
+        this.nbPlayers--;
     }
 
 
