@@ -229,8 +229,7 @@ namespace Serveur.Hubs
         /// <returns></returns>
         public async Task ExtractingUsers(List<string> usersToExtract, string roomId)
         {
-            List<string> usersConnectedForExtraction = cardGame.Value.ExtractingUsers(usersToExtract, roomId);
-            foreach(string userId in usersConnectedForExtraction)
+            foreach(string userId in usersToExtract)
             {
                 await Clients.Client(userId).SendAsync(MessagesConstants.EJECTED_FROM_ROOM, roomId);
             }

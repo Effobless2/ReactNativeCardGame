@@ -66,14 +66,6 @@ namespace Serveur.Models
         List<string> RemovingRoom(string roomId);
 
         /// <summary>
-        /// Supprime l'Id de la room supprimée de la liste des rooms auquel de la liste des joueurs.
-        /// </summary>
-        /// <param name="usersToExtract">La liste des joueurs qui ont fait partie de la room concernée</param>
-        /// <param name="roomId">Id de la room concernée</param>
-        /// <returns>La liste des Joueurs encore connectés qui doivent être prévenus de leur expulsion</returns>
-        List<string> ExtractingUsers(List<string> usersToExtract, string roomId);
-
-        /// <summary>
         /// Supprime un utilisateur du gestionnaire de jeu
         /// </summary>
         /// <param name="userId">Id de l'ApplicationUser concerné</param>

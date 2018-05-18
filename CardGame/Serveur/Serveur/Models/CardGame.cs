@@ -88,7 +88,6 @@ namespace Serveur.Models
             Room room = GetRoomWithId(roomId);
             ApplicationUser user = GetUserWithId(userId);
             bool ready = room.AddPlayer(userId);
-            user.AddRoomAsPlayer(roomId);
             return ready;
         }
 
@@ -97,7 +96,6 @@ namespace Serveur.Models
             Room room = GetRoomWithId(roomId);
             ApplicationUser user = GetUserWithId(userId);
             room.AddPublic(userId);
-            user.AddRoomAsPublic(roomId);
         }
 
         public void RemovingPublic(string roomId, string userId)
@@ -105,7 +103,6 @@ namespace Serveur.Models
             Room room = GetRoomWithId(roomId);
             ApplicationUser user = GetUserWithId(userId);
             room.RemovePublic(userId);
-            user.RemoveRoomAsPublic(roomId);
         }
 
         public bool RemovingPlayer(string roomId, string userId)
@@ -113,7 +110,6 @@ namespace Serveur.Models
             Room room = GetRoomWithId(roomId);
             ApplicationUser user = GetUserWithId(userId);
             bool toDestroy = room.RemovePlayer(userId);
-            user.RemoveRoomAsPlayer(roomId);
             return toDestroy;
         }
 
@@ -128,26 +124,6 @@ namespace Serveur.Models
             return room.GetAllUsers();
         }
 
-        public List<string> ExtractingUsers(List<string> usersToExtract, string roomId)
-        {
-            List<string> usersConnected = new List<string>();
-            foreach (string userId in usersToExtract)
-            {
-                try
-                {
-                    ApplicationUser currentUser = GetUserWithId(userId);
-                    currentUser.RemoveRoomAsPlayer(roomId);
-                    currentUser.RemoveRoomAsPublic(roomId);
-                    usersConnected.Add(userId);
-                }
-                catch(UserIsUndefinedException)
-                {
-
-                }
-            }
-            return usersConnected;
-        }
-
         public List<string> RemovingUser(string userId)
         {
             Users.TryRemove(userId, out ApplicationUser user);
@@ -155,7 +131,16 @@ namespace Serveur.Models
             {
                 throw new UserIsUndefinedException();
             }
-            return user.GetAllRooms();
+
+            List<string> roomsToPrevent = new List<string>();
+            foreach (Room room in Rooms.Values)
+            {
+                if (room.Players.Contains(userId) || room.Public.Contains(userId))
+                {
+                    roomsToPrevent.Add(room.RoomId);
+                }
+            }
+            return roomsToPrevent;
         }
 
         public bool UpdateRoom(string roomId, string userId)

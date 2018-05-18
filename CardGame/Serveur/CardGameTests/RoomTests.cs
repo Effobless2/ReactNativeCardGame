@@ -74,6 +74,7 @@ namespace CardGameTests
             Assert.AreEqual(true, room.RemovePlayer("a"));
         }
 
+        [TestMethod]
         public void RemoveAPlayerShouldReturnFalseIfThePartyWasNotReady()
         {
             Room room = new Room(Guid.NewGuid().ToString());

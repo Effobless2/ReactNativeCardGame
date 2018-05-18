@@ -58,11 +58,6 @@ namespace Serveur.Hubs
             return cardGame.RemovingRoom(roomId);
         }
 
-        public List<string> ExtractingUsers(List<string>usersToExtract, string roomId)
-        {
-            return cardGame.ExtractingUsers(usersToExtract, roomId);
-        }
-
         public List<string> RemovingUser(string userId)
         {
             return cardGame.RemovingUser(userId);
