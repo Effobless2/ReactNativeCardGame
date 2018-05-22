@@ -6,13 +6,27 @@ import { selectRoom } from '../actions';
 
 class RoomScreen extends React.Component{
 
-    renderRoomList(){
+    renderPlayRoomList(){
         let counter = 0;
-        return this.props.cardGame.roomsAsPlayer.concat(this.props.cardGame.roomsAsPublic).map((roomId) =>{
+        return this.props.cardGame.roomsAsPlayer.map((roomId) =>{
             counter++;
             return (
                 <Picker.Item 
-                    label= {'room '+counter}
+                    label= {'Play '+counter}
+                    value = {roomId}
+                    key = {counter} 
+                />
+            );
+        });
+    }
+
+    renderSeeRoomList(){
+        let counter = 0;
+        return this.props.cardGame.roomsAsPublic.map((roomId) =>{
+            counter++;
+            return (
+                <Picker.Item 
+                    label= {'See '+counter}
                     value = {roomId}
                     key = {counter} 
                 />
@@ -35,7 +49,8 @@ class RoomScreen extends React.Component{
                     style= {{flex: 1}}
                         selectedValue = {this.props.selectedRoom}
                         onValueChange = {(itemValue, itemIndex) => {this.props.selectRoom(itemValue)}}>
-                        {this.renderRoomList()}
+                        {this.renderPlayRoomList()}
+                        {this.renderSeeRoomList()}
                     </Picker>
                     
                 </View>
