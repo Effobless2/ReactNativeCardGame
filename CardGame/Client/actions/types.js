@@ -1,6 +1,7 @@
 /*Sent from Server*/
 
 export const CONNECTION    = 'connection';
+export const EJECTED       = 'ejected'
 export const NEW_PLAYER    = "new_player";
 export const NEW_PUBLIC    = 'new_public';
 export const NEW_ROOM      = 'new_room';

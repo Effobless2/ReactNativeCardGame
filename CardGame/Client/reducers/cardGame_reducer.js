@@ -10,6 +10,7 @@ import {
     REMOVE_PUBLIC,
     REMOVE_ROOM,
     REMOVE_USER,
+    EJECTED,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -69,6 +70,11 @@ export default (state = INITIAL_STATE, action) => {
             let {roomId, userId} = action.payload;
             state.cardGame.RemovePlayer(roomId, userId);
             return {...state, cpt:state.cpt+1};
+        }
+        case EJECTED: {
+            console.log("ejected reducer");
+            state.cardGame.eject(action.payload);
+            return state
         }
         default:
             return state;

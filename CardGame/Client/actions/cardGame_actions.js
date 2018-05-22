@@ -1,6 +1,7 @@
 import {
     ADD_PUBLIC,
     CONNECTION,
+    EJECTED,
     CREATE_ROOM,
     ESCAPE_PLAYER,
     ESCAPE_PUBLIC,
@@ -70,4 +71,8 @@ export const escapePublic = datas =>{
 
 export const escapePlayer = datas =>{
     return {type: ESCAPE_PLAYER, payload: datas};
+};
+
+export const ejected = datas =>{
+    return {type: EJECTED, payload: datas};
 };

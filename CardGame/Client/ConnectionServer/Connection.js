@@ -46,7 +46,7 @@ class ConnectionServer extends SignalR.HubConnection{
         });
         
         this.on(EJECTED_FROM_ROOM, (roomId) => {
-            console.log(roomId);
+            writer.eject(roomId);
         });
         
         this.on(NEW_PLAYER, (roomId, userId) => {

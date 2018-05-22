@@ -104,5 +104,14 @@ export class CardGame{
         return this.Rooms.get(roomId);
     }
 
+    eject(roomId){
+        if (this.roomsAsPlayer.indexOf(roomId) > -1){
+            this.roomsAsPlayer.splice(this.roomsAsPlayer.indexOf(roomId), 1);
+        }
+        else{
+            this.roomsAsPublic.splice(this.roomsAsPublic.indexOf(roomId), 1);
+        }
+    }
+
 
 }
