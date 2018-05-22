@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import {Styles} from '../Styles';
 import { connect } from 'react-redux';
-import CurrentRoom from './JoinedRoomItem';
+import CurrentRoom from './PlayedRoomItem';
 
 class AsPlayerComponent extends React.Component{
 

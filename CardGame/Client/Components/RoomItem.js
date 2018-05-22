@@ -26,12 +26,12 @@ class RoomItem extends React.Component{
                 </View>
                 <View>
                 <Button
-                    onPress = {() => this.props.addPublic(this.room.roomId)}
-                    title = "See !"
+                    onPress = {() => this.props.addPlayer(this.room.roomId)}
+                    title = "Play !"
                 />
                 <Button
-                    onPress = {() => this.props.addPlayer(this.room.roomId)}
-                    title = "Join !"
+                    onPress = {() => this.props.addPublic(this.room.roomId)}
+                    title = "See !"
                 />
                 </View>
             </View>

@@ -86,7 +86,7 @@ export class CardGame{
         currentUser = this.Users.get(userId);
         if ((currentRoom !== undefined && currentUser !== undefined) || userId === this.currentUser.userId){ 
             currentRoom.RemovePlayer(userId);
-            if(userId === this.currentUser.userId && roomId in this.roomsAsPlayer){
+            if(userId === this.currentUser.userId){
                 this.EjectFromPlayer(roomId);
             }
         }

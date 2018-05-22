@@ -3,13 +3,18 @@ import { View, Text, Button } from 'react-native';
 import { connect } from 'react-redux';
 import { Styles } from '../Styles';
 
-class JoinedRoomItem extends React.Component{
+class SeenRoomItem extends React.Component{
     constructor(props){
         super(props)
         console.log("createur roomItem");
         this.room = props.room;
 
     }
+
+    QuitGame(){
+        console.log("quit");
+    }
+
     render(){
         return (
             <View style = {Styles.roomItem}>
@@ -20,9 +25,9 @@ class JoinedRoomItem extends React.Component{
                 <View>
                     <Button
                         onPress = {() => console.log("JoinTheParty")}
-                        title = "Start"/>
+                        title = "Assist"/>
                     <Button
-                        onPress = {() => console.log("Leave")}
+                        onPress = {() => this.QuitGame()}
                         title = "Quit"/>
                 </View>
                  
@@ -32,4 +37,4 @@ class JoinedRoomItem extends React.Component{
 }
 
 const mapStateToProps = ({cardGame}) => ({cardGame :cardGame.cardGame, cpt: cardGame.cpt})
-export default connect(mapStateToProps)(JoinedRoomItem)
+export default connect(mapStateToProps)(SeenRoomItem)

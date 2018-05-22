@@ -15,6 +15,7 @@ import {
     PLAYER_REMOVED,
     PUBLIC_REMOVED,
     READY,
+    REMOVING_PLAYER,
     REMOVING_PUBLIC,
     ROOM_IS_FULFILL,
     ROOM_IS_UNDEFINED,
@@ -22,7 +23,6 @@ import {
     ADDING_PUBLIC,
     ADDING_PLAYER
 } from './ConnectionConstants';
-import { REMOVE_PLAYER } from '../actions/types';
 
 class ConnectionServer extends SignalR.HubConnection{
     
@@ -113,7 +113,7 @@ class ConnectionServer extends SignalR.HubConnection{
     }
 
     escapePlayer(roomId){
-        this.invoke(REMOVE_PLAYER, roomId);
+        this.invoke(REMOVING_PLAYER, roomId);
     }
 }
 
