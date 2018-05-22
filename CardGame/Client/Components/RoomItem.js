@@ -17,7 +17,7 @@ class RoomItem extends React.Component{
 
     render(){
         return (
-            <View key={this.room.roomId} style = {Styles.roomItem}>
+            <View style = {Styles.roomItem}>
                 <Text>{this.counter}</Text>
                 <View>
                     <Text>Number of Players : {this.room.nbPlayers}/{this.room.maxOfPlayers}</Text>

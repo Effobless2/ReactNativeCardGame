@@ -100,5 +100,9 @@ export class CardGame{
         this.roomsAsPlayer.splice(this.roomsAsPlayer.indexOf(roomId), 1);
     }
 
+    getRoom(roomId){
+        return this.Rooms.get(roomId);
+    }
+
 
 }
