@@ -26,7 +26,7 @@ class PlayedRoomItem extends React.Component{
                 <View>
                     <Button
                         onPress = {() => this.props.selectRoom(this.room.roomId)}
-                        title = "Start"/>
+                        title = "Join !"/>
                     <Button
                         onPress = {() => this.QuitGame()}
                         title = "Quit"/>

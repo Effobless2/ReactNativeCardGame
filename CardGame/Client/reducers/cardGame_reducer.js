@@ -72,6 +72,9 @@ export default (state = INITIAL_STATE, action) => {
         }
         case EJECTED: {
             console.log("ejected reducer");
+            if (state.selectedRoom == action.payload){
+                state.selectedRoom = null;
+            }
             state.cardGame.eject(action.payload);
             return state
         }
