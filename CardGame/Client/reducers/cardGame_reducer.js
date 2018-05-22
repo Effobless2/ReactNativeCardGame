@@ -32,7 +32,7 @@ export default (state = INITIAL_STATE, action) => {
         case NEW_ROOM: {
             state.cardGame.AddRoom(action.payload)
 
-            return {...state, cpt:state.cpt+1};
+            return state;
         }
         case REMOVE_ROOM: {
             state.cardGame.RemoveRoom(action.payload);
@@ -44,10 +44,7 @@ export default (state = INITIAL_STATE, action) => {
         }
         case REMOVE_USER: {
             state.cardGame.RemoveUser(action.payload);
-            return {...state, cpt:state.cpt+1};
-        }
-        case CREATE_ROOM: {
-            return {...state, cpt:state.cpt+1};
+            return {...state, cpt: state.cpt+1};
         }
         case NEW_PUBLIC: {
             let {roomId, userId} = action.payload;

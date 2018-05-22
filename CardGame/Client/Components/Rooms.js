@@ -13,6 +13,7 @@ class Rooms extends React.Component{
         let counter = 0;
         return Array.from(this.props.rooms).map(([id, value]) => {
             counter ++;
+            console.log("renderRoomList");
             return (
                 <RoomItem 
                     room={value}
@@ -21,10 +22,6 @@ class Rooms extends React.Component{
                 />
             );
         });
-    }
-
-    componentDidMount(){
-       // console.log(this.connection)
     }
 
     render(){
@@ -39,5 +36,5 @@ class Rooms extends React.Component{
         );
     }
 }
-const mapStateToProps = ({cardGame, cpt}) => ({cardGame :cardGame.cardGame, connected : cardGame.connected, rooms: cardGame.cardGame.Rooms, cpt: cardGame.cpt})
+const mapStateToProps = ({cardGame, rooms, cpt}) => ({cardGame :cardGame.cardGame, rooms: cardGame.cardGame.Rooms, cpt: cardGame.cpt})
 export default connect(mapStateToProps)(Rooms)
