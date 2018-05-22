@@ -1,4 +1,5 @@
 import {
+    SELECT_ROOM,
     ADD_PUBLIC,
     CONNECTION,
     EJECTED,
@@ -75,4 +76,8 @@ export const escapePlayer = datas =>{
 
 export const ejected = datas =>{
     return {type: EJECTED, payload: datas};
+};
+
+export const selectRoom = datas =>{
+    return {type: SELECT_ROOM, payload: datas};
 };

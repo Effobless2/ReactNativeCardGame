@@ -18,3 +18,7 @@ export const ADD_PLAYER    = 'add_player';
 export const ADD_PUBLIC    = 'add_public';
 export const ESCAPE_PLAYER = 'escape_player';
 export const ESCAPE_PUBLIC = 'escape_public';
+
+/*Inside the App*/
+
+export const SELECT_ROOM = 'select_room';

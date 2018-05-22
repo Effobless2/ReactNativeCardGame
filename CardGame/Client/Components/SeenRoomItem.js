@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Button } from 'react-native';
 import { connect } from 'react-redux';
 import { Styles } from '../Styles';
-import { escapePublic } from '../actions'
+import { escapePublic, selectRoom } from '../actions'
 
 class SeenRoomItem extends React.Component{
     constructor(props){
@@ -25,7 +25,7 @@ class SeenRoomItem extends React.Component{
                 </View>
                 <View>
                     <Button
-                        onPress = {() => console.log("JoinTheParty")}
+                        onPress = {() => this.props.selectRoom(this.room.roomId)}
                         title = "Assist"/>
                     <Button
                         onPress = {() => this.QuitGame()}
@@ -38,4 +38,4 @@ class SeenRoomItem extends React.Component{
 }
 
 const mapStateToProps = ({cardGame}) => ({cardGame :cardGame.cardGame, cpt: cardGame.cpt})
-export default connect(mapStateToProps, { escapePublic })(SeenRoomItem)
+export default connect(mapStateToProps, { escapePublic, selectRoom })(SeenRoomItem)

@@ -11,12 +11,14 @@ import {
     REMOVE_ROOM,
     REMOVE_USER,
     EJECTED,
+    SELECT_ROOM,
 } from '../actions/types';
 
 const INITIAL_STATE = {
     cardGame : null,
     connected : false,
-    cpt: 0
+    cpt: 0,
+    selectedRoom : null
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -72,6 +74,10 @@ export default (state = INITIAL_STATE, action) => {
             console.log("ejected reducer");
             state.cardGame.eject(action.payload);
             return state
+        }
+        case SELECT_ROOM: {
+            return {...state,
+                    selectedRoom : action.payload}
         }
         default:
             return {...state, cpt:state.cpt+1};
