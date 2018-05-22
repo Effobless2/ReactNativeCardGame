@@ -6,9 +6,9 @@ import { Styles } from '../Styles';
 import UsersRooms from './UsersRooms';
 
 export const Tabs = createBottomTabNavigator({
+    MyRooms : {screen: UsersRooms },
     Rooms : { screen: Rooms },
     Users : { screen: Users },
-    MyRooms : {screen: UsersRooms },
     About : { screen: About }
   }, {
     tabBarPosition: 'bottom',

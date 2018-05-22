@@ -12,7 +12,7 @@ class RoomScreen extends React.Component{
                     <TouchableOpacity
                         onPress = {() => this.props.selectRoom(null)}>
                         <Text style = {{fontSize: 20}}>
-                            GoBack
+                            Go Back
                         </Text>
                     </TouchableOpacity>
                 </View>
