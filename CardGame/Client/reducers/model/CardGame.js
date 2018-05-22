@@ -51,7 +51,8 @@ export class CardGame{
         if ((currentRoom !== undefined && currentUser !== undefined) || userId === this.currentUser.userId){ 
             currentRoom.RemovePublic(userId);
             if (userId === this.currentUser.userId){
-                this.roomsAsPublic.splice(this.roomsAsPublic.indexOf(roomId, 1));
+                console.log("current")
+                this.EjectFromPublic(roomId);
             }
          }
     }
@@ -73,7 +74,7 @@ export class CardGame{
         if ((currentRoom !== undefined && currentUser !== undefined) || userId === this.currentUser.userId){ 
             currentRoom.AddPlayer(userId);
             if(userId === this.currentUser.userId){
-                if (roomId in this.roomsAsPublic){
+                if (this.roomsAsPublic.includes(roomId)){
                     this.EjectFromPublic(roomId);
                 }
                 this.roomsAsPlayer.push(roomId);
@@ -93,6 +94,7 @@ export class CardGame{
     }
 
     EjectFromPublic(roomId){
+        console.log("ejected from " + roomId);
         this.roomsAsPublic.splice(this.roomsAsPublic.indexOf(roomId), 1);
     }
 

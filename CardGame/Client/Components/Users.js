@@ -16,7 +16,7 @@ class Users extends React.Component{
             counter++;
             if (id != this.props.cardGame.currentUser.userId){
                 return (
-                    <Text key={counter}>{value.userName}</Text>
+                    <Text key={value.userId}>{value.userName}</Text>
                 );
             }
         });

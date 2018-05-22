@@ -8,13 +8,14 @@ class RoomScreen extends React.Component{
 
     renderPlayRoomList(){
         let counter = 0;
-        return this.props.cardGame.roomsAsPlayer.map((roomId) =>{
+        return this.props.asPlayer.map((roomId) =>{
             counter++;
             return (
                 <Picker.Item 
+                    color = "#f00"
                     label= {'Play '+counter}
                     value = {roomId}
-                    key = {counter} 
+                    key = {roomId} 
                 />
             );
         });
@@ -22,19 +23,28 @@ class RoomScreen extends React.Component{
 
     renderSeeRoomList(){
         let counter = 0;
-        return this.props.cardGame.roomsAsPublic.map((roomId) =>{
+        return this.props.asPublic.map((roomId) =>{
             counter++;
             return (
-                <Picker.Item 
+                <Picker.Item
+                    color = "#0f0"
                     label= {'See '+counter}
                     value = {roomId}
-                    key = {counter} 
+                    key = {roomId} 
                 />
             );
         });
     }
 
     render(){
+        let room = this.props.cardGame.getRoom(this.props.selectedRoom);
+        let content;
+        if (room === undefined){
+            content = <Text>This room has been closed</Text>
+        }
+        else{
+            content = <Text>{room.roomId}</Text>
+        }
         return (
             <View style = {{flex: 1}}>
                 <View style = {{height: 50, paddingTop: 20, marginLeft: 10, marginRight: 10, flexDirection:"row", justifyContent:"space-between", alignItems:"center"}}>
@@ -46,7 +56,7 @@ class RoomScreen extends React.Component{
                         </Text>
                     </TouchableOpacity>
                     <Picker
-                    style= {{flex: 1}}
+                    style= {{flex: 1,}}
                         selectedValue = {this.props.selectedRoom}
                         onValueChange = {(itemValue, itemIndex) => {this.props.selectRoom(itemValue)}}>
                         {this.renderPlayRoomList()}
@@ -55,14 +65,12 @@ class RoomScreen extends React.Component{
                     
                 </View>
                 <View style = {Styles.container}>
-                    <Text>
-                        {this.props.cardGame.getRoom(this.props.selectedRoom).roomId}
-                    </Text>
+                    {content}
                 </View>
             </View>
         )
     }
 }
 
-const mapStateToProps = ({cardGame, selectedRoom}) => ({cardGame :cardGame.cardGame, connected : cardGame.connected, selectedRoom: cardGame.selectedRoom})
+const mapStateToProps = ({cardGame, asPlayer, asPublic, selectedRoom}) => ({cardGame :cardGame.cardGame,  asPlayer: cardGame.cardGame.roomsAsPlayer, asPublic: cardGame.cardGame.roomsAsPublic, selectedRoom: cardGame.selectedRoom})
 export default connect(mapStateToProps, { selectRoom })(RoomScreen);

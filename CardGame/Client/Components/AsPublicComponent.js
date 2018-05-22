@@ -8,8 +8,8 @@ class AsPublicComponent extends React.Component{
 
     renderRoomList(){
         let counter = 0;
-        console.log(this.props.cardGame.roomsAsPlayer.length)
-        return this.props.cardGame.roomsAsPublic.map(element => {
+        console.log(this.props.rooms.length)
+        return this.props.rooms.map(element => {
             counter ++;
             console.log("renderROomList")
             return (
@@ -30,5 +30,5 @@ class AsPublicComponent extends React.Component{
     }
 }
 
-const mapStateToProps = ({cardGame}) => ({cardGame :cardGame.cardGame, cpt: cardGame.cpt})
+const mapStateToProps = ({cardGame, rooms}) => ({cardGame :cardGame.cardGame, rooms: cardGame.cardGame.roomsAsPublic, cpt: cardGame.cpt})
 export default connect(mapStateToProps)(AsPublicComponent)
