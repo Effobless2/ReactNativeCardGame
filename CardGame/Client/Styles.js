@@ -9,6 +9,20 @@ import {
 
 
 export const Styles = StyleSheet.create({
+  backUsersRoom : {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 10
+  },
+  usersRoomComponents : {
+    flex: 1,
+    backgroundColor: COMPONENTS,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: "100%",
+    margin: 5,
+  },
     container: {
       flex: 1,
       backgroundColor: COMPONENTS,

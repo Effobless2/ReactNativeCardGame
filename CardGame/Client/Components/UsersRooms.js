@@ -6,10 +6,13 @@ import { connect } from 'react-redux';
 class UsersRooms extends React.Component{
     render(){
         return (
-            <View style = {Styles.container}>
-                <Text>
-                    Hello World
-                </Text>
+            <View style = {Styles.backUsersRoom}>
+                <View style = {Styles.usersRoomComponents}>
+                    <Text> As Player </Text>
+                </View>
+                <View style = {Styles.usersRoomComponents}>
+                    <Text> As Public </Text>
+                </View>
             </View>
         );
     }
