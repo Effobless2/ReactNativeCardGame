@@ -51,7 +51,7 @@ export class CardGame{
         if ((currentRoom !== undefined && currentUser !== undefined) || userId === this.currentUser.userId){ 
             currentRoom.RemovePublic(userId);
             if (userId === this.currentUser.userId){
-                this.roomsAsPublic.splice(this.this.roomsAsPublic.indexOf(roomId, 1));
+                this.roomsAsPublic.splice(this.roomsAsPublic.indexOf(roomId, 1));
             }
          }
     }
