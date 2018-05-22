@@ -29,5 +29,5 @@ class AsPlayerComponent extends React.Component{
     }
 }
 
-const mapStateToProps = ({cardGame}) => ({cardGame :cardGame.cardGame, connected : cardGame.connected, rooms: cardGame.cardGame.Rooms, cpt: cardGame.cpt})
+const mapStateToProps = ({cardGame}) => ({cardGame :cardGame.cardGame, cpt: cardGame.cpt})
 export default connect(mapStateToProps)(AsPlayerComponent)

@@ -30,5 +30,5 @@ class AsPublicComponent extends React.Component{
     }
 }
 
-const mapStateToProps = ({cardGame}) => ({cardGame :cardGame.cardGame, connected : cardGame.connected, users: cardGame.cardGame.Users, cpt: cardGame.cpt})
+const mapStateToProps = ({cardGame}) => ({cardGame :cardGame.cardGame, cpt: cardGame.cpt})
 export default connect(mapStateToProps)(AsPublicComponent)

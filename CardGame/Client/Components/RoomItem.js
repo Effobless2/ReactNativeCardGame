@@ -38,5 +38,5 @@ class RoomItem extends React.Component{
         );
     }
 }
-const mapStateToProps = ({cardGame, cpt}) => ({cardGame :cardGame.cardGame, connected : cardGame.connected, rooms: cardGame.cardGame.Rooms, cpt: cardGame.cpt})
+const mapStateToProps = ({cardGame, cpt}) => ({cardGame :cardGame.cardGame, cpt: cardGame.cpt})
 export default connect(mapStateToProps, {addPublic, addPlayer})(RoomItem)
