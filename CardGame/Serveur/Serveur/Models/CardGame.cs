@@ -1,4 +1,5 @@
-﻿using Serveur.Models.Exceptions;
+﻿using Serveur.Models.BatailleModels;
+using Serveur.Models.Exceptions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -166,6 +167,12 @@ namespace Serveur.Models
             {
                 throw e;
             }
+        }
+
+        public List<Player> BatailleBegin(string roomId)
+        {
+            Room room = GetRoomWithId(roomId);
+            return room.BatailleBegin();
         }
     }
 }

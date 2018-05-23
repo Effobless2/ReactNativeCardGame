@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Serveur.Models;
+using Serveur.Models.BatailleModels;
 using Serveur.Models.Exceptions;
 
 namespace Serveur.Hubs
@@ -98,6 +99,8 @@ namespace Serveur.Hubs
                 if (ready)
                 {
                     await Clients.All.SendAsync(MessagesConstants.READY, roomId);
+                    BatailleBegin(roomId);
+                    
                 }
             }
             catch (UserIsUndefinedException)
@@ -234,6 +237,15 @@ namespace Serveur.Hubs
                 await Clients.Client(userId).SendAsync(MessagesConstants.EJECTED_FROM_ROOM, roomId);
             }
 
+        }
+
+        public async Task BatailleBegin(string roomId)
+        {
+            List<Player> players = cardGame.Value.BatailleBegin(roomId);
+            foreach(Player p in players)
+            {
+                await Clients.Client(p.UserId).SendAsync("Begin", roomId, p.Hand);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Serveur.Models;
+using Serveur.Models.BatailleModels;
 using Serveur.Models.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace Serveur.Models
         public int MaxOfPlayers { get; set; }
         public List<string> Players { get; }
         public List<string> Public { get; }
+        public Bataille bataille;
 
 
         public Room(string guid)
@@ -105,6 +107,12 @@ namespace Serveur.Models
         public bool isComplete()
         {
             return Players.Count == MaxOfPlayers;
+        }
+
+        public List<Player> BatailleBegin()
+        {
+            bataille = new Bataille(Players);
+            return bataille.Players;
         }
     }
 }

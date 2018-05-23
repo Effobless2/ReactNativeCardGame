@@ -1,4 +1,5 @@
 ﻿using Serveur.Models;
+using Serveur.Models.BatailleModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,6 +67,11 @@ namespace Serveur.Hubs
         public bool UpdateRoom(string roomId, string userId)
         {
             return cardGame.UpdateRoom(roomId, userId);
+        }
+
+        public List<Player> BatailleBegin(string roomId)
+        {
+            return cardGame.BatailleBegin(roomId);
         }
     }
 }

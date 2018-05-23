@@ -90,6 +90,11 @@ class ConnectionServer extends SignalR.HubConnection{
             writer.removeRoom(roomId);
         });
 
+        this.on("Begin", (roomId, handCard) =>{
+            console.log(roomId);
+            console.log(handCard);
+        })
+
 
 
         this.start()
