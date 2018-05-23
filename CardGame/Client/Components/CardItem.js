@@ -12,12 +12,12 @@ class CardItem extends React.Component{
     }
 
     render(){
-        console.log("rip")
+        console.log(this.props)
         url = IMAGESPATH[this.props.card.value+this.props.card.color];
         return (
             <TouchableOpacity
                 style = {{padding: 2}}
-                onPress = {() => this.props.cardPlayed({roomId: this.props.room.roomId, cardIndex: this.props.key})}>
+                onPress = {() => this.props.cardPlayed({roomId: this.props.room.roomId, cardIndex: this.props.index})}>
                 <Image
                     source = {url}
                     style= {{width: 45, height:78}}

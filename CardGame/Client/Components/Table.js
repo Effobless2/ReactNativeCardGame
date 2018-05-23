@@ -18,6 +18,7 @@ class Table extends React.Component{
             return (
                 <CardItem
                     key = {index}
+                    index = {index}
                     room = {this.props.room}
                     card = {card}
                 />)
