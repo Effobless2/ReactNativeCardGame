@@ -37,7 +37,7 @@ namespace CardGameTests
             ids.Add("a");
             ids.Add("b");
             Bataille bataille = new Bataille(ids);
-            foreach(Player p in bataille.Players)
+            foreach (Player p in bataille.Players.Values)
             {
                 Assert.AreEqual(7, p.Hand.Count);
             }
@@ -50,10 +50,37 @@ namespace CardGameTests
             ids.Add("a");
             ids.Add("b");
             Bataille bataille = new Bataille(ids);
-            foreach (Player p in bataille.Players)
+            foreach (Player p in bataille.Players.Values)
             {
                 Assert.AreEqual(19, p.Deck.Count);
             }
+        }
+
+        [TestMethod]
+        public void WhenFirstPlayerPlayACardItIsRemovedFromHandandTransferedFromPlayedCard()
+        {
+            List<string> ids = new List<string>();
+            ids.Add("a");
+            ids.Add("b");
+            Bataille bataille = new Bataille(ids);
+            Card currentCard = bataille.Players.GetValueOrDefault("a").Hand[0];
+            Assert.AreEqual(false, bataille.CardPlayed("a", 0));
+            Assert.AreEqual(6, bataille.Players.GetValueOrDefault("a").Hand.Count);
+            Assert.AreEqual(currentCard, bataille.Players.GetValueOrDefault("a").PlayedCard);
+
+        }
+
+        [TestMethod]
+        public void WhenLastPlayerPlayACardTourIsReady()
+        {
+            List<string> ids = new List<string>();
+            ids.Add("a");
+            ids.Add("b");
+            Bataille bataille = new Bataille(ids);
+            bataille.CardPlayed("a", 0);
+            Assert.AreEqual(true, bataille.CardPlayed("b", 0));
+
+
         }
     }
 }

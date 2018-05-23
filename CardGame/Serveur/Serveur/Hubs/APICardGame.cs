@@ -73,5 +73,10 @@ namespace Serveur.Hubs
         {
             return cardGame.BatailleBegin(roomId);
         }
+
+        public bool CardPlayed(string roomId, string userId, int cardIndex)
+        {
+            return cardGame.CardPlayed(roomId, userId, cardIndex);
+        }
     }
 }

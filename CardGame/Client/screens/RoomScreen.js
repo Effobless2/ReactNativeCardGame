@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Picker } from 'react-native';
 import { connect } from 'react-redux';
 import { Styles } from '../Styles';
 import { selectRoom } from '../actions';
+import Table from '../Components/Table';
 
 class RoomScreen extends React.Component{
 
@@ -43,7 +44,7 @@ class RoomScreen extends React.Component{
             content = <Text>This room has been closed</Text>
         }
         else{
-            content = <Text>{room.roomId}</Text>
+            content = <Table room={room}/>
         }
         return (
             <View style = {{flex: 1}}>

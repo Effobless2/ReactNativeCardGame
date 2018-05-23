@@ -9,7 +9,7 @@ namespace Serveur.Models.BatailleModels
         public string UserId;
         public List<Card> Deck;
         public List<Card> Hand;
-        public Card PlayedIndex = null;
+        public Card PlayedCard = null;
 
         public Player(string id)
         {
@@ -27,6 +27,12 @@ namespace Serveur.Models.BatailleModels
         {
             Hand = Deck.Skip(0).Take(7).ToList();
             Deck = Deck.Skip(7).ToList();
+        }
+
+        public void PlayCard(int cardIndex)
+        {
+            PlayedCard = Hand[cardIndex];
+            Hand.RemoveAt(cardIndex);
         }
     }
 }

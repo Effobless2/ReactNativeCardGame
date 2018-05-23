@@ -174,5 +174,11 @@ namespace Serveur.Models
             Room room = GetRoomWithId(roomId);
             return room.BatailleBegin();
         }
+
+        public bool CardPlayed(string roomId, string userId, int cardIndex)
+        {
+            Room room = GetRoomWithId(roomId);
+            return room.CardPlayed(userId, cardIndex);
+        }
     }
 }

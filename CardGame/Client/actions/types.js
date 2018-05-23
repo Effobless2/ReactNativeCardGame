@@ -10,6 +10,7 @@ export const REMOVE_PLAYER = 'remove_player';
 export const REMOVE_PUBLIC = 'remove_public';
 export const REMOVE_ROOM   = 'remove_room';
 export const REMOVE_USER   = 'remove_user';
+export const BEGIN         = 'Begin';
 
 /*Sent to Server*/
 
@@ -18,6 +19,7 @@ export const ADD_PLAYER    = 'add_player';
 export const ADD_PUBLIC    = 'add_public';
 export const ESCAPE_PLAYER = 'escape_player';
 export const ESCAPE_PUBLIC = 'escape_public';
+export const CARD_PLAYED   = 'card_played';
 
 /*Inside the App*/
 

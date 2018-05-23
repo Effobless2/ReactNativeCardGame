@@ -10,6 +10,7 @@ import {
     removePublic,
     removePlayer,
     ejected,
+    begin,
 } from '../actions';
 
 class InterfaceWriter{
@@ -52,6 +53,10 @@ class InterfaceWriter{
     eject(roomId){
         store.dispatch(ejected(roomId))
     }
+
+    Begin(roomId, handCards){
+        store.dispatch(begin({roomId: roomId, cards:handCards}));
+    };
 
 
 }

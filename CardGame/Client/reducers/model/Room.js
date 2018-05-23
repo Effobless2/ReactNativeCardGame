@@ -1,3 +1,5 @@
+import { Card } from './Card'
+
 export class Room{
     constructor(Id, playersMax, players, publics){
         this.roomId = Id;
@@ -6,6 +8,7 @@ export class Room{
         this.publics = publics;
         this.nbPublics = this.publics.length;
         this.nbPlayers = this.players.length;
+        this.currentHand = [];
 
     }
 
@@ -31,6 +34,13 @@ export class Room{
     RemovePlayer(userId){
         this.players.splice(this.players.indexOf(userId), 1);
         this.nbPlayers--;
+    }
+
+    begin(handCard){
+        handCard.forEach(card => {
+            this.currentHand.push(new Card(card.colour, card.value));
+        });
+        console.log(this.currentHand);
     }
 
 

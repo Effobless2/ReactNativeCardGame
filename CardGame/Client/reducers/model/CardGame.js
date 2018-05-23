@@ -115,5 +115,9 @@ export class CardGame{
         }
     }
 
+    begin(roomId, handCard){
+        this.getRoom(roomId).begin(handCard);
+    }
+
 
 }

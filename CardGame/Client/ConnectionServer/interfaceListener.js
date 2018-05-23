@@ -20,6 +20,10 @@ class InterfaceListener{
     escapePlayer(roomId){
         connection.escapePlayer(roomId);
     }
+
+    cardPlayed(roomId, cardIndex){
+        connection.cardPlayed(roomId, cardIndex);
+    }
 }
 
 instance = new InterfaceListener();

@@ -112,7 +112,12 @@ namespace Serveur.Models
         public List<Player> BatailleBegin()
         {
             bataille = new Bataille(Players);
-            return bataille.Players;
+            return bataille.Players.Values.ToList();
+        }
+
+        public bool CardPlayed(string userId, int cardIndex)
+        {
+            return bataille.CardPlayed(userId, cardIndex);
         }
     }
 }

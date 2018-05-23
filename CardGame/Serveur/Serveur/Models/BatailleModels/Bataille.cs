@@ -7,14 +7,14 @@ namespace Serveur.Models.BatailleModels
 {
     public class Bataille
     {
-        public List<Player> Players = new List<Player>();
+        public Dictionary<string,Player> Players = new Dictionary<string,Player>();
         public List<Card> JeuDeCartes = new List<Card>();
 
         public Bataille(List<string> playersId)
         {
             foreach(string id in playersId)
             {
-                Players.Add(new Player(id));
+                Players.Add(id,new Player(id));
             }
             string[] colours = { "coeur", "trèfle", "pique", "carreau" };
             foreach (string color in colours)
@@ -29,14 +29,27 @@ namespace Serveur.Models.BatailleModels
 
             for (int i = 0; i < JeuDeCartes.Count; i++)
             {
-                Players[i % Players.Count].AddToDeck(JeuDeCartes[i]);
+                Players.GetValueOrDefault(Players.Keys.ToList()[i%Players.Keys.Count]).AddToDeck(JeuDeCartes[i]);
             }
 
-            foreach(Player p in Players)
+            foreach(Player p in Players.Values)
             {
                 p.begin();
             }
 
+        }
+
+        public bool CardPlayed(string userId, int cardIndex)
+        {
+            Players.GetValueOrDefault(userId).PlayCard(cardIndex);
+            foreach(Player p in Players.Values)
+            {
+                if (p.PlayedCard == null)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

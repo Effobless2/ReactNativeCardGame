@@ -1,6 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Serveur.Hubs;
 using Serveur.Models;
+using Serveur.Models.BatailleModels;
 using Serveur.Models.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -170,6 +171,52 @@ namespace CardGameTests
             Room room = cardGame.CreatingRoom();
             bool result = cardGame.UpdateRoom(room.RoomId, guid);
             Assert.AreEqual(false, result);
+        }
+
+        [TestMethod]
+        public void BatailleCreatedWhenBatailleBegins()
+        {
+            APICardGame cardGame = new APICardGame();
+            Room room = cardGame.CreatingRoom();
+            ApplicationUser userA = cardGame.Connection("a");
+            ApplicationUser userB = cardGame.Connection("b");
+            cardGame.AddingPlayer(room.RoomId, userA.UserId);
+            cardGame.AddingPlayer(room.RoomId, userB.UserId);
+            List<Player> result = cardGame.BatailleBegin(room.RoomId);
+            Assert.AreEqual(2, result.Count);
+        }
+
+        [TestMethod]
+        public void WhenFirstPlayerPlayACardItIsRemovedFromHandandTransferedFromPlayedCard()
+        {
+            APICardGame cardGame = new APICardGame();
+            Room room = cardGame.CreatingRoom();
+            ApplicationUser userA = cardGame.Connection("a");
+            ApplicationUser userB = cardGame.Connection("b");
+            cardGame.AddingPlayer(room.RoomId, userA.UserId);
+            cardGame.AddingPlayer(room.RoomId, userB.UserId);
+            cardGame.BatailleBegin(room.RoomId);
+            Card currentCard = room.bataille.Players.GetValueOrDefault("a").Hand[0];
+            Assert.AreEqual(false, cardGame.CardPlayed(room.RoomId, userA.UserId, 0));
+            Assert.AreEqual(6, room.bataille.Players.GetValueOrDefault("a").Hand.Count);
+            Assert.AreEqual(currentCard, room.bataille.Players.GetValueOrDefault("a").PlayedCard);
+
+        }
+
+        [TestMethod]
+        public void WhenLastPlayerPlayACardTourIsReady()
+        {
+            APICardGame cardGame = new APICardGame();
+            Room room = cardGame.CreatingRoom();
+            ApplicationUser userA = cardGame.Connection("a");
+            ApplicationUser userB = cardGame.Connection("b");
+            cardGame.AddingPlayer(room.RoomId, userA.UserId);
+            cardGame.AddingPlayer(room.RoomId, userB.UserId);
+            cardGame.BatailleBegin(room.RoomId);
+            Card currentCard = room.bataille.Players.GetValueOrDefault("a").Hand[0];
+            cardGame.CardPlayed(room.RoomId, userA.UserId, 0);
+            Assert.AreEqual(true, cardGame.CardPlayed(room.RoomId, userB.UserId, 0));
+
         }
     }
 }

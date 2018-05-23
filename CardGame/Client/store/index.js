@@ -11,7 +11,8 @@ import {
     CREATE_ROOM,
     ADD_PLAYER,
     ESCAPE_PUBLIC,
-    ESCAPE_PLAYER
+    ESCAPE_PLAYER,
+    CARD_PLAYED
 } from '../actions/types';
 
 const middleware = store => next => action =>{
@@ -34,6 +35,10 @@ const middleware = store => next => action =>{
         }
         case ESCAPE_PLAYER: {
             listener.escapePlayer(action.payload);
+            return next(action);
+        }
+        case CARD_PLAYED: {
+            listener.cardPlayed(action.payload.roomId, action.payload.cardIndex);
             return next(action);
         }
         default:

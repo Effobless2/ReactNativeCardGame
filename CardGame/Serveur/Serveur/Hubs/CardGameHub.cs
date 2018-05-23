@@ -247,5 +247,22 @@ namespace Serveur.Hubs
                 await Clients.Client(p.UserId).SendAsync("Begin", roomId, p.Hand);
             }
         }
+
+        public async Task CardPlayed(string roomId, int cardIndex)
+        {
+            Console.WriteLine("Received");
+            bool ready = cardGame.Value.CardPlayed(roomId, Context.ConnectionId, cardIndex);
+            await Clients.Caller.SendAsync("ConfirmCard", roomId, cardIndex);
+            if (ready)
+            {
+                FinalizeTour(roomId);
+            }
+        }
+
+        public async Task FinalizeTour(string roomId)
+        {
+            
+
+        }
     }
 }

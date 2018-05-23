@@ -1,6 +1,8 @@
 import {
     SELECT_ROOM,
     ADD_PUBLIC,
+    BEGIN,
+    CARD_PLAYED,
     CONNECTION,
     EJECTED,
     CREATE_ROOM,
@@ -80,4 +82,12 @@ export const ejected = datas =>{
 
 export const selectRoom = datas =>{
     return {type: SELECT_ROOM, payload: datas};
+};
+
+export const begin = datas =>{
+    return {type: BEGIN, payload: datas};
+};
+
+export const cardPlayed = datas =>{
+    return {type: CARD_PLAYED, payload: datas};
 };

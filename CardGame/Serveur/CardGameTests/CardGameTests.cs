@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Serveur.Models;
+using Serveur.Models.BatailleModels;
 using Serveur.Models.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,19 @@ namespace CardGameTests
             List<string> result = cardGame.RemovingUser(user.UserId);
             Assert.AreEqual(true, result.Contains(r1.RoomId) && result.Contains(r2.RoomId));
 
+        }
+
+        [TestMethod]
+        public void BatailleCreatedWhenBatailleBegins()
+        {
+            CardGame cardGame = new CardGame();
+            Room room = cardGame.CreatingRoom();
+            ApplicationUser userA = cardGame.Connection("a");
+            ApplicationUser userB = cardGame.Connection("b");
+            cardGame.AddingPlayer(room.RoomId, userA.UserId);
+            cardGame.AddingPlayer(room.RoomId, userB.UserId);
+            List<Player> result = cardGame.BatailleBegin(room.RoomId);
+            Assert.AreEqual(2, result.Count);
         }
     }
 }

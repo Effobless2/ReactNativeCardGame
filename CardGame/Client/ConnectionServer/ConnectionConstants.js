@@ -26,3 +26,4 @@ export const ADDING_PLAYER = "AddingPlayer";
 export const ADDING_PUBLIC = "AddingPublic";
 export const REMOVING_PLAYER = "RemovingPlayer";
 export const REMOVING_PUBLIC = "RemovingPublic";
+export const CARD_PLAYED = "CardPlayed";

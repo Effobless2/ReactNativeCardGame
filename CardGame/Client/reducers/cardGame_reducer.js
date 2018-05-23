@@ -12,6 +12,7 @@ import {
     REMOVE_USER,
     EJECTED,
     SELECT_ROOM,
+    BEGIN,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -81,6 +82,10 @@ export default (state = INITIAL_STATE, action) => {
         case SELECT_ROOM: {
             return {...state,
                     selectedRoom : action.payload}
+        }
+        case BEGIN: {
+            state.cardGame.begin(action.payload.roomId, action.payload.cards);
+            return state;
         }
         default:
             return {...state, cpt:state.cpt+1};

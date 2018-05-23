@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import writer from './interfaceWriter';
 import {
     ALREADY_IN_ROOM,
+    CARD_PLAYED,
     CONNECT,
     CONNECTION_BEGIN,
     CREATE_ROOM,
@@ -91,8 +92,7 @@ class ConnectionServer extends SignalR.HubConnection{
         });
 
         this.on("Begin", (roomId, handCard) =>{
-            console.log(roomId);
-            console.log(handCard);
+            writer.Begin(roomId, handCard);
         })
 
 
@@ -119,6 +119,10 @@ class ConnectionServer extends SignalR.HubConnection{
 
     escapePlayer(roomId){
         this.invoke(REMOVING_PLAYER, roomId);
+    }
+
+    cardPlayed(roomId, cardIndex){
+        this.invoke(CARD_PLAYED, roomId, cardIndex);
     }
 }
 
