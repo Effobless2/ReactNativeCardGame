@@ -4,6 +4,7 @@ import {Text, View, Button, Image, TouchableOpacity} from 'react-native';
 import { Styles } from '../Styles';
 import { cardPlayed } from '../actions';
 import { IMAGESPATH } from '../icons';
+import { CardItem } from './CardItem';
 
 class Table extends React.Component{
     constructor(props){
@@ -13,16 +14,11 @@ class Table extends React.Component{
 
     renderHandCards(){
         return this.props.room.currentHand.map((card, index) => {
-            url = IMAGESPATH[card.value+card.color];
-            return <TouchableOpacity
-            style = {{padding: 2}}
+            return <CardItem
                         key = {index}
-                        onPress = {() => this.props.cardPlayed({roomId: this.props.room.roomId, cardIndex: index})}>
-                        <Image
-                            source = {url}
-                            style= {{width: 45, height:78}}
-                        />
-                    </TouchableOpacity>
+                        room = {this.props.room}
+                        card = {card}
+                    />
         });
     }
 
