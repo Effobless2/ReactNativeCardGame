@@ -39,15 +39,9 @@ class RoomScreen extends React.Component{
 
     render(){
         let room = this.props.cardGame.getRoom(this.props.selectedRoom);
-        let content;
-        if (room === undefined){
-            content = <Text>This room has been closed</Text>
-        }
-        else{
-            content = <Table/>
-        }
         return (
             <View style = {{flex: 1}}>
+            <View>
                 <View style = {{height: 50, paddingTop: 20, marginLeft: 10, marginRight: 10, flexDirection:"row", justifyContent:"space-between", alignItems:"center"}}>
                     <TouchableOpacity
                     style = {{flex: 1}}
@@ -65,9 +59,10 @@ class RoomScreen extends React.Component{
                     </Picker>
                     
                 </View>
-                <View style = {Styles.container}>
-                    {content}
-                </View>
+                <Text>{room === undefined ? "This Room is Removed" : room.roomId}</Text>
+                
+            </View>
+            {room===undefined ? <Text>This room has been closed</Text> : <Table/>}
             </View>
         )
     }
