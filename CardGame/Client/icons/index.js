@@ -1,4 +1,4 @@
-export const IMAGESPATH = {
+const IMAGESPATH = {
     '1H' : require('../icons/cards/1H.png'),
     '2H' : require('../icons/cards/2H.png'),
     '3H' : require('../icons/cards/3H.png'),
@@ -50,6 +50,8 @@ export const IMAGESPATH = {
     '10D' : require('../icons/cards/10D.png'),
     '11D' : require('../icons/cards/11D.png'),
     '12D' : require('../icons/cards/12D.png'),
-    '13D' : require('../icons/cards/13D.png'),
-
+    '13D'     : require('../icons/cards/13D.png'),
+    'unknown' : require('../icons/cards/unknown.png'),
 }
+
+export default IMAGESPATH;

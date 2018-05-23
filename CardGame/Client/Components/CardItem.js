@@ -2,17 +2,16 @@ import React from 'react';
 import { Image, TouchableOpacity } from 'react-native';
 
 import { cardPlayed } from '../actions';
-import { IMAGESPATH } from '../icons';
+import IMAGESPATH from '../icons';
 import { connect } from 'react-redux';
 
 class CardItem extends React.Component{
     constructor(props){
         super(props);
-        console.log("construct")
     }
 
     render(){
-        console.log(this.props)
+        console.log(this.props.index)
         url = IMAGESPATH[this.props.card.value+this.props.card.color];
         return (
             <TouchableOpacity

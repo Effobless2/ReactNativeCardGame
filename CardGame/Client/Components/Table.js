@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {Text, View, Button, Image, TouchableOpacity} from 'react-native';
 import { Styles } from '../Styles';
 import { cardPlayed } from '../actions';
-import { IMAGESPATH } from '../icons';
+import IMAGESPATH from '../icons';
 import CardItem from './CardItem';
 
 class Table extends React.Component{
@@ -14,7 +14,6 @@ class Table extends React.Component{
 
     renderHandCards(){
         return this.props.room.currentHand.map((card, index) => {
-            console.log("rlrlrlrl")
             return (
                 <CardItem
                     key = {index}
@@ -37,8 +36,22 @@ class Table extends React.Component{
                     </View>
                 </View>
                 <View style = {{flex: 1, width: "100%", alignItems:'center'}}>
-                    <View style = {{flex: 1, alignItems:'center'}}>
-                        <Text> Ma Zone Jouée</Text>
+                    <View style = {{flex: 1, justifyContent:'space-between', flexDirection:'row', alignItems:'center'}}>
+                        <View style={{flex: 1, alignItems:'center'}}>
+                            <Text>MaCarte</Text>
+                            <Image 
+                                source = {
+                                    this.props.room.personalPlayedCard === null ? 
+                                    IMAGESPATH["unknown"] : 
+                                    IMAGESPATH[this.props.room.personalPlayedCard.value+this.props.room.personalPlayedCard.color]
+                                }
+                                style = {{width: 45, height:78}}
+                                />
+                        </View>
+                        <View style={{flex: 1, alignItems:'center'}}>
+                            <Text> Mon Deck</Text>
+                            <Text>?</Text>
+                        </View>
                     </View>
                     <View style = {{flex: 1, flexDirection:"row", alignItems:'center'}}>
                         {this.renderHandCards()}

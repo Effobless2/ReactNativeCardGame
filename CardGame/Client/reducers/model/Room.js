@@ -9,6 +9,7 @@ export class Room{
         this.nbPublics = this.publics.length;
         this.nbPlayers = this.players.length;
         this.currentHand = [];
+        this.personalPlayedCard = null;
 
     }
 
