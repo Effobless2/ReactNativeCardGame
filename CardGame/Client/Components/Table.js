@@ -4,7 +4,7 @@ import {Text, View, Button, Image, TouchableOpacity} from 'react-native';
 import { Styles } from '../Styles';
 import { cardPlayed } from '../actions';
 import { IMAGESPATH } from '../icons';
-import { CardItem } from './CardItem';
+import CardItem from './CardItem';
 
 class Table extends React.Component{
     constructor(props){
@@ -14,11 +14,13 @@ class Table extends React.Component{
 
     renderHandCards(){
         return this.props.room.currentHand.map((card, index) => {
-            return <CardItem
-                        key = {index}
-                        room = {this.props.room}
-                        card = {card}
-                    />
+            console.log("rlrlrlrl")
+            return (
+                <CardItem
+                    key = {index}
+                    room = {this.props.room}
+                    card = {card}
+                />)
         });
     }
 
