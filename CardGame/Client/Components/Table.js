@@ -7,32 +7,30 @@ import { cardPlayed } from '../actions';
 class Table extends React.Component{
     constructor(props){
         super(props);
-        this.room = this.props.cardGame.getRoom(this.props.selectedRoom);
         
     }
 
-    renderHandCards(room){
-        return room.currentHand.map((card, index) => {
+    renderHandCards(){
+        return this.props.room.currentHand.map((card, index) => {
             return <Button
                         title = {card.color + " : " + card.value}
-                        onPress = {() => this.props.cardPlayed({roomId: room.roomId, cardIndex: index})}
+                        onPress = {() => this.props.cardPlayed({roomId: this.props.room.roomId, cardIndex: index})}
                         key = {index}
                     />
         });
     }
 
     render(){
-        let room = this.props.cardGame.getRoom(this.props.selectedRoom);
         return (
             <View>
-                <Text>{room.roomId}</Text>
+                <Text>{this.props.room.roomId}</Text>
                 <View>
-                    {this.renderHandCards(room)}
+                    {this.renderHandCards()}
                 </View>
             </View>
         )
     }
 }
 
-const mapStateToProps = ({cardGame, asPlayer, asPublic, selectedRoom}) => ({cardGame :cardGame.cardGame,  asPlayer: cardGame.cardGame.roomsAsPlayer, asPublic: cardGame.cardGame.roomsAsPublic, selectedRoom: cardGame.selectedRoom})
+const mapStateToProps = ({cardGame, room, selectedRoom, cpt}) => ({cardGame :cardGame.cardGame, room: cardGame.cardGame.getRoom(cardGame.selectedRoom), selectedRoom: cardGame.selectedRoom, cpt: cardGame.cpt})
 export default connect(mapStateToProps, { cardPlayed })(Table);

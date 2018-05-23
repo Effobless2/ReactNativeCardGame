@@ -44,7 +44,7 @@ class RoomScreen extends React.Component{
             content = <Text>This room has been closed</Text>
         }
         else{
-            content = <Table room={room}/>
+            content = <Table/>
         }
         return (
             <View style = {{flex: 1}}>
