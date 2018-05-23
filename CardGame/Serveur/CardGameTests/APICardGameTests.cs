@@ -198,7 +198,7 @@ namespace CardGameTests
             cardGame.BatailleBegin(room.RoomId);
             Card currentCard = room.bataille.Players.GetValueOrDefault("a").Hand[0];
             Assert.AreEqual(false, cardGame.CardPlayed(room.RoomId, userA.UserId, 0));
-            Assert.AreEqual(6, room.bataille.Players.GetValueOrDefault("a").Hand.Count);
+            Assert.AreEqual(5, room.bataille.Players.GetValueOrDefault("a").Hand.Count);
             Assert.AreEqual(currentCard, room.bataille.Players.GetValueOrDefault("a").PlayedCard);
 
         }

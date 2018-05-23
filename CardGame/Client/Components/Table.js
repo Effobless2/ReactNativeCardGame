@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {Text, View, Button} from 'react-native';
+import {Text, View, Button, Image, TouchableOpacity} from 'react-native';
 import { Styles } from '../Styles';
 import { cardPlayed } from '../actions';
+import { IMAGESPATH } from '../icons';
 
 class Table extends React.Component{
     constructor(props){
@@ -12,11 +13,15 @@ class Table extends React.Component{
 
     renderHandCards(){
         return this.props.room.currentHand.map((card, index) => {
-            return <Button
-                        title = {card.color + " : " + card.value}
-                        onPress = {() => this.props.cardPlayed({roomId: this.props.room.roomId, cardIndex: index})}
+            url = IMAGESPATH[card.value+card.color];
+            return <TouchableOpacity
                         key = {index}
-                    />
+                        onPress = {() => this.props.cardPlayed({roomId: this.props.room.roomId, cardIndex: index})}>
+                        <Image
+                            source = {url}
+                            style= {{width: 50, height:80}}
+                        />
+                    </TouchableOpacity>
         });
     }
 
@@ -24,7 +29,7 @@ class Table extends React.Component{
         return (
             <View>
                 <Text>{this.props.room.roomId}</Text>
-                <View>
+                <View style = {{ flexDirection:"row"}}>
                     {this.renderHandCards()}
                 </View>
             </View>

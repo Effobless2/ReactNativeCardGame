@@ -25,8 +25,8 @@ namespace Serveur.Models.BatailleModels
 
         public void begin()
         {
-            Hand = Deck.Skip(0).Take(7).ToList();
-            Deck = Deck.Skip(7).ToList();
+            Hand = Deck.Skip(0).Take(6).ToList();
+            Deck = Deck.Skip(6).ToList();
         }
 
         public void PlayCard(int cardIndex)

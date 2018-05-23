@@ -39,7 +39,7 @@ namespace CardGameTests
             Bataille bataille = new Bataille(ids);
             foreach (Player p in bataille.Players.Values)
             {
-                Assert.AreEqual(7, p.Hand.Count);
+                Assert.AreEqual(6, p.Hand.Count);
             }
         }
 
@@ -52,7 +52,7 @@ namespace CardGameTests
             Bataille bataille = new Bataille(ids);
             foreach (Player p in bataille.Players.Values)
             {
-                Assert.AreEqual(19, p.Deck.Count);
+                Assert.AreEqual(20, p.Deck.Count);
             }
         }
 
@@ -65,7 +65,7 @@ namespace CardGameTests
             Bataille bataille = new Bataille(ids);
             Card currentCard = bataille.Players.GetValueOrDefault("a").Hand[0];
             Assert.AreEqual(false, bataille.CardPlayed("a", 0));
-            Assert.AreEqual(6, bataille.Players.GetValueOrDefault("a").Hand.Count);
+            Assert.AreEqual(5, bataille.Players.GetValueOrDefault("a").Hand.Count);
             Assert.AreEqual(currentCard, bataille.Players.GetValueOrDefault("a").PlayedCard);
 
         }

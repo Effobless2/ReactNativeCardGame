@@ -16,7 +16,7 @@ namespace Serveur.Models.BatailleModels
             {
                 Players.Add(id,new Player(id));
             }
-            string[] colours = { "coeur", "trèfle", "pique", "carreau" };
+            string[] colours = { "C", "D", "H", "S" };
             foreach (string color in colours)
             {
                 for (int i = 1; i < 14; i++)
