@@ -13,7 +13,7 @@ namespace Serveur
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .UseUrls("http://192.168.1.70:5000")
+                .UseUrls("http://192.168.1.62:5000")
                 .Build();
     }
 }

@@ -117,5 +117,5 @@ class ConnectionServer extends SignalR.HubConnection{
     }
 }
 
-HubConnection = new ConnectionServer("http://192.168.1.70:5000/cardgame/");
+HubConnection = new ConnectionServer("http://192.168.1.62:5000/cardgame/");
 export default HubConnection;
