@@ -1,5 +1,6 @@
 import { CardGame } from './model/CardGame';
 import {
+    CONFIRM_CARD,
     CONNECTION,
     CREATE_ROOM,
     NEW_PLAYER,
@@ -87,6 +88,11 @@ export default (state = INITIAL_STATE, action) => {
             state.cardGame.begin(action.payload.roomId, action.payload.cards);
             return {...state,
                     cpt:state.cpt+1};
+        }
+        case CONFIRM_CARD: {
+            state.cardGame.confirmCard(action.payload.roomId, action.payload.cardIndex);
+            return {...state,
+                cpt:state.cpt+1};
         }
         default:
             return {...state, cpt:state.cpt+1};

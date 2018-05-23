@@ -1,8 +1,9 @@
 import {
-    SELECT_ROOM,
+    ADD_PLAYER,
     ADD_PUBLIC,
     BEGIN,
     CARD_PLAYED,
+    CONFIRM_CARD,
     CONNECTION,
     EJECTED,
     CREATE_ROOM,
@@ -16,7 +17,7 @@ import {
     REMOVE_PUBLIC,
     REMOVE_ROOM,
     REMOVE_USER,
-    ADD_PLAYER,
+    SELECT_ROOM,
 } from './types';
 
 export const connection = datas =>{
@@ -90,4 +91,8 @@ export const begin = datas =>{
 
 export const cardPlayed = datas =>{
     return {type: CARD_PLAYED, payload: datas};
+};
+
+export const confirmCard = datas =>{
+    return {type: CONFIRM_CARD, payload: datas};
 };

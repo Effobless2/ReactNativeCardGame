@@ -1,6 +1,9 @@
 import store from "../store";
 import {
+    begin,
+    confirmCard,
     connection,
+    ejected,
     newRoom,
     newPlayer,
     newPublic,
@@ -9,8 +12,6 @@ import {
     removeUser,
     removePublic,
     removePlayer,
-    ejected,
-    begin,
 } from '../actions';
 
 class InterfaceWriter{
@@ -57,6 +58,10 @@ class InterfaceWriter{
     Begin(roomId, handCards){
         store.dispatch(begin({roomId: roomId, cards:handCards}));
     };
+
+    ConfirmCard(roomId, cardIndex){
+        store.dispatch(confirmCard({roomId: roomId, cardIndex: cardIndex}));
+    }
 
 
 }

@@ -119,5 +119,9 @@ export class CardGame{
         this.getRoom(roomId).begin(handCard);
     }
 
+    confirmCard(roomId, cardIndex){
+        this.getRoom(roomId).confirmCard(cardIndex);
+    }
+
 
 }

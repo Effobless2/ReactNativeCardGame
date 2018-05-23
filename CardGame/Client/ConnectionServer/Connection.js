@@ -96,7 +96,7 @@ class ConnectionServer extends SignalR.HubConnection{
         })
 
         this.on("ConfirmCard", (roomId, cardIndex) =>{
-            console.log("Carte " + cardIndex + "confirmed");
+            writer.ConfirmCard(roomId, cardIndex);
         });
 
 

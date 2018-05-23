@@ -1,5 +1,7 @@
 /*Sent from Server*/
 
+export const BEGIN         = 'begin';
+export const CONFIRM_CARD  = 'confirm_card';
 export const CONNECTION    = 'connection';
 export const EJECTED       = 'ejected'
 export const NEW_PLAYER    = "new_player";
@@ -10,7 +12,6 @@ export const REMOVE_PLAYER = 'remove_player';
 export const REMOVE_PUBLIC = 'remove_public';
 export const REMOVE_ROOM   = 'remove_room';
 export const REMOVE_USER   = 'remove_user';
-export const BEGIN         = 'Begin';
 
 /*Sent to Server*/
 

@@ -44,5 +44,10 @@ export class Room{
         console.log(this.currentHand);
     }
 
+    confirmCard(cardIndex){
+        this.personalPlayedCard = this.currentHand[cardIndex];
+        this.currentHand.splice(cardIndex,1);
+    }
+
 
 }
