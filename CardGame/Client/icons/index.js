@@ -1,57 +1,60 @@
-const IMAGESPATH = {
-    "1H" : require("../icons/cards/1H.png"),
-    "2H" : require("../icons/cards/2H.png"),
-    "3H" : require("../icons/cards/3H.png"),
-    "4H" : require("../icons/cards/4H.png"),
-    "5H" : require("../icons/cards/5H.png"),
-    "6H" : require("../icons/cards/6H.png"),
-    "7H" : require("../icons/cards/7H.png"),
-    "8H" : require("../icons/cards/8H.png"),
-    "9H" : require("../icons/cards/9H.png"),
-    "10H" : require("../icons/cards/10H.png"),
-    "11H" : require("../icons/cards/11H.png"),
-    "12H" : require("../icons/cards/12H.png"),
-    "13H" : require("../icons/cards/13H.png"),
-    "1S" : require("../icons/cards/1S.png"),
-    "2S" : require("../icons/cards/2S.png"),
-    "3S" : require("../icons/cards/3S.png"),
-    "4S" : require("../icons/cards/4S.png"),
-    "5S" : require("../icons/cards/5S.png"),
-    "6S" : require("../icons/cards/6S.png"),
-    "7S" : require("../icons/cards/7S.png"),
-    "8S" : require("../icons/cards/8S.png"),
-    "9S" : require("../icons/cards/9S.png"),
-    "10S" : require("../icons/cards/10S.png"),
-    "11S" : require("../icons/cards/11S.png"),
-    "12S" : require("../icons/cards/12S.png"),
-    "13S" : require("../icons/cards/13S.png"),
-    "1C" : require("../icons/cards/1C.png"),
-    "2C" : require("../icons/cards/2C.png"),
-    "3C" : require("../icons/cards/3C.png"),
-    "4C" : require("../icons/cards/4C.png"),
-    "5C" : require("../icons/cards/5C.png"),
-    "6C" : require("../icons/cards/6C.png"),
-    "7C" : require("../icons/cards/7C.png"),
-    "8C" : require("../icons/cards/8C.png"),
-    "9C" : require("../icons/cards/9C.png"),
-    "10C" : require( "../icons/cards/10C.png"),
-    "11C" : require( "../icons/cards/11C.png"),
-    "12C" : require( "../icons/cards/12C.png"),
-    "13C" : require( "../icons/cards/13C.png"),
-    "1D" : require( "../icons/cards/1D.png"),
-    "2D" : require( "../icons/cards/2D.png"),
-    "3D" : require( "../icons/cards/3D.png"),
-    "4D" : require( "../icons/cards/4D.png"),
-    "5D" : require( "../icons/cards/5D.png"),
-    "6D" : require( "../icons/cards/6D.png"),
-    "7D" : require( "../icons/cards/7D.png"),
-    "8D" : require( "../icons/cards/8D.png"),
-    "9D" : require( "../icons/cards/9D.png"),
-    "10D" : require( "../icons/cards/10D.png"),
-    "11D" : require( "../icons/cards/11D.png"),
-    "12D" : require( "../icons/cards/12D.png"),
-    "13D" : require( "../icons/cards/13D.png"),
-    "unknown" : require( "../icons/cards/unknown.png")
+const IMAGESPATH = card => {
+    switch (card.value + card.color){
+        case "1H" : {return require("../icons/cards/1H.png")}
+        case "2H" : {return require("../icons/cards/2H.png")}
+        case "3H" : {return require("../icons/cards/3H.png")}
+        case "4H" : {return require("../icons/cards/4H.png")}
+        case "5H" : {return require("../icons/cards/5H.png")}
+        case "6H" : {return require("../icons/cards/6H.png")}
+        case "7H" : {return require("../icons/cards/7H.png")}
+        case "8H" : {return require("../icons/cards/8H.png")}
+        case "9H" : {return require("../icons/cards/9H.png")}
+        case "10H" : {return require("../icons/cards/10H.png")}
+        case "11H" : {return require("../icons/cards/11H.png")}
+        case "12H" : {return require("../icons/cards/12H.png")}
+        case "13H" : {return require("../icons/cards/13H.png")}
+        case "1S" : {return require("../icons/cards/1S.png")}
+        case "2S" : {return require("../icons/cards/2S.png")}
+        case "3S" : {return require("../icons/cards/3S.png")}
+        case "4S" : {return require("../icons/cards/4S.png")}
+        case "5S" : {return require("../icons/cards/5S.png")}
+        case "6S" : {return require("../icons/cards/6S.png")}
+        case "7S" : {return require("../icons/cards/7S.png")}
+        case "8S" : {return require("../icons/cards/8S.png")}
+        case "9S" : {return require("../icons/cards/9S.png")}
+        case "10S" : {return require("../icons/cards/10S.png")}
+        case "11S" : {return require("../icons/cards/11S.png")}
+        case "12S" : {return require("../icons/cards/12S.png")}
+        case "13S" : {return require("../icons/cards/13S.png")}
+        case "1C" : {return require("../icons/cards/1C.png")}
+        case "2C" : {return require("../icons/cards/2C.png")}
+        case "3C" : {return require("../icons/cards/3C.png")}
+        case "4C" : {return require("../icons/cards/4C.png")}
+        case "5C" : {return require("../icons/cards/5C.png")}
+        case "6C" : {return require("../icons/cards/6C.png")}
+        case "7C" : {return require("../icons/cards/7C.png")}
+        case "8C" : {return require("../icons/cards/8C.png")}
+        case "9C" : {return require("../icons/cards/9C.png")}
+        case "10C" : {return require( "../icons/cards/10C.png")}
+        case "11C" : {return require( "../icons/cards/11C.png")}
+        case "12C" : {return require( "../icons/cards/12C.png")}
+        case "13C" : {return require( "../icons/cards/13C.png")}
+        case "1D" : {return require( "../icons/cards/1D.png")}
+        case "2D" : {return require( "../icons/cards/2D.png")}
+        case "3D" : {return require( "../icons/cards/3D.png")}
+        case "4D" : {return require( "../icons/cards/4D.png")}
+        case "5D" : {return require( "../icons/cards/5D.png")}
+        case "6D" : {return require( "../icons/cards/6D.png")}
+        case "7D" : {return require( "../icons/cards/7D.png")}
+        case "8D" : {return require( "../icons/cards/8D.png")}
+        case "9D" : {return require( "../icons/cards/9D.png")}
+        case "10D" : {return require( "../icons/cards/10D.png")}
+        case "11D" : {return require( "../icons/cards/11D.png")}
+        case "12D" : {return require( "../icons/cards/12D.png")}
+        case "13D" : {return require( "../icons/cards/13D.png")}
+        case "unknown" : {return require( "../icons/cards/unknown.png")}
+    }
+    
 }
 
 export default IMAGESPATH;

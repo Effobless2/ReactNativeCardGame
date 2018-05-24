@@ -5,6 +5,7 @@ import { Styles } from '../Styles';
 import { cardPlayed } from '../actions';
 import IMAGESPATH from '../icons';
 import CardItem from './CardItem';
+import { Card } from '../reducers/model/Card';
 
 class Table extends React.Component{
     constructor(props){
@@ -19,7 +20,7 @@ class Table extends React.Component{
                     key = {index}
                     index = {index}
                     room = {this.props.room}
-                    card = {card}
+                    image = {IMAGESPATH(card)}
                 />)
         });
     }
@@ -42,8 +43,8 @@ class Table extends React.Component{
                             <Image 
                                 source = {
                                     null=== null ? 
-                                    IMAGESPATH["unknown"] : 
-                                    IMAGESPATH["unknown"]
+                                    IMAGESPATH(new Card("unknown","")) : 
+                                    IMAGESPATH("unknown")
                                 }
                                 style = {{width: 45, height:78}}
                                 />
