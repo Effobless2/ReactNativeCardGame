@@ -41,5 +41,9 @@ namespace Serveur.Hubs
 
 
         public const string EJECTED_FROM_ROOM = "EjectedFromRoom";
+
+        public const string PARTY_BEGIN = "Begin";
+
+        public const string CARD_CONFIRMED = "ConfirmCard";
     }
 }

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import writer from './interfaceWriter';
 import {
     ALREADY_IN_ROOM,
+    CARD_CONFIRMED,
     CARD_PLAYED,
     CONNECT,
     CONNECTION_BEGIN,
@@ -13,6 +14,7 @@ import {
     NEW_PUBLIC,
     NEW_ROOM,
     NOT_IN_THIS_ROOM,
+    PARTY_BEGIN,
     PLAYER_REMOVED,
     PUBLIC_REMOVED,
     READY,
@@ -91,11 +93,11 @@ class ConnectionServer extends SignalR.HubConnection{
             writer.removeRoom(roomId);
         });
 
-        this.on("Begin", (roomId, handCard) =>{
+        this.on(PARTY_BEGIN, (roomId, handCard) =>{
             writer.Begin(roomId, handCard);
         })
 
-        this.on("ConfirmCard", (roomId, cardIndex) =>{
+        this.on(CARD_CONFIRMED, (roomId, cardIndex) =>{
             writer.ConfirmCard(roomId, cardIndex);
         });
 
@@ -130,5 +132,5 @@ class ConnectionServer extends SignalR.HubConnection{
     }
 }
 
-HubConnection = new ConnectionServer("http://192.168.1.70:5000/cardgame/");
+HubConnection = new ConnectionServer("http://192.168.1.62:5000/cardgame/");
 export default HubConnection;

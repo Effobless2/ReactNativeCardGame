@@ -244,7 +244,7 @@ namespace Serveur.Hubs
             List<Player> players = cardGame.Value.BatailleBegin(roomId);
             foreach(Player p in players)
             {
-                await Clients.Client(p.UserId).SendAsync("Begin", roomId, p.Hand);
+                await Clients.Client(p.UserId).SendAsync(MessagesConstants.PARTY_BEGIN, roomId, p.Hand);
             }
         }
 
@@ -252,7 +252,7 @@ namespace Serveur.Hubs
         {
             Console.WriteLine("Received");
             bool ready = cardGame.Value.CardPlayed(roomId, Context.ConnectionId, cardIndex);
-            await Clients.Caller.SendAsync("ConfirmCard", roomId, cardIndex);
+            await Clients.Caller.SendAsync(MessagesConstants.CARD_CONFIRMED, roomId, cardIndex);
             if (ready)
             {
                 FinalizeTour(roomId);

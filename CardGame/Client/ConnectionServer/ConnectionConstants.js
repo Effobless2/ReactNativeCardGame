@@ -2,6 +2,7 @@
 /*Sent from Server*/
 
 export const  ALREADY_IN_ROOM   = "AlreadyInRoom";
+export const  CARD_CONFIRMED    = "ConfirmCard";
 export const  CONNECT           = "Connect";
 export const  CONNECTION_BEGIN  = "ConnectionBegin";
 export const  CREATE_ROOM       = "CreatingRoom";
@@ -11,6 +12,7 @@ export const  NEW_PLAYER        = "NewPlayer";
 export const  NEW_PUBLIC        = "NewPublic";
 export const  NEW_ROOM          = "RoomCreated";
 export const  NOT_IN_THIS_ROOM  = "NotInThisRoom";
+export const  PARTY_BEGIN       = "Begin";
 export const  PLAYER_REMOVED    = "PlayerRemoved";
 export const  PUBLIC_REMOVED    = "PublicRemoved";
 export const  READY             = "Ready";
