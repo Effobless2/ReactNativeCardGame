@@ -7,32 +7,45 @@ namespace Serveur.Models.BatailleModels
     public class Player
     {
         public string UserId;
-        public List<Card> Deck;
-        public List<Card> Hand;
+        private List<Card> Deck;
+        private List<Card> Hand;
         public Card PlayedCard = null;
+        public int DeckCount;
+        public int HandCount;
 
         public Player(string id)
         {
             UserId = id;
             Deck = new List<Card>();
             Hand = new List<Card>();
-        }
+            DeckCount = 0;
+            HandCount = 0;
+    }
 
         public void AddToDeck(Card card)
         {
             Deck.Add(card);
+            DeckCount++;
         }
 
         public void begin()
         {
             Hand = Deck.Skip(0).Take(6).ToList();
+            HandCount = 6;
             Deck = Deck.Skip(6).ToList();
+            DeckCount -= 6;
         }
 
         public void PlayCard(int cardIndex)
         {
             PlayedCard = Hand[cardIndex];
             Hand.RemoveAt(cardIndex);
+            HandCount--;
+        }
+
+        public List<Card> GetHand()
+        {
+            return Hand;
         }
     }
 }

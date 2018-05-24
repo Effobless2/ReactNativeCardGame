@@ -242,9 +242,13 @@ namespace Serveur.Hubs
         public async Task BatailleBegin(string roomId)
         {
             List<Player> players = cardGame.Value.BatailleBegin(roomId);
-            foreach(Player p in players)
+            foreach (string token in cardGame.Value.GetAllUsers(roomId))
             {
-                await Clients.Client(p.UserId).SendAsync(MessagesConstants.PARTY_BEGIN, roomId, p.Hand, p.Deck.Count);
+                await Clients.Client(token).SendAsync(MessagesConstants.PARTY_BEGIN, roomId, players);
+            }
+            foreach (Player p in players)
+            {
+                await Clients.Client(p.UserId).SendAsync("ReceiveHand", roomId, p.UserId, p.GetHand());
             }
         }
 

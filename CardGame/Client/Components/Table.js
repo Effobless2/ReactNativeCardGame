@@ -13,7 +13,7 @@ class Table extends React.Component{
     }
 
     renderHandCards(){
-        return this.props.room.currentHand.map((card, index) => {
+        return this.props.room.party.players.get(this.props.cardGame.currentUser.userId).hand.map((card, index) => {
             return (
                 <CardItem
                     key = {index}
@@ -41,9 +41,9 @@ class Table extends React.Component{
                             <Text>MaCarte</Text>
                             <Image 
                                 source = {
-                                    this.props.room.personalPlayedCard === null ? 
+                                    null=== null ? 
                                     IMAGESPATH["unknown"] : 
-                                    IMAGESPATH[this.props.room.personalPlayedCard.value+this.props.room.personalPlayedCard.color]
+                                    IMAGESPATH["unknown"]
                                 }
                                 style = {{width: 45, height:78}}
                                 />
@@ -54,7 +54,7 @@ class Table extends React.Component{
                         </View>
                     </View>
                     <View style = {{flex: 1, flexDirection:"row", alignItems:'center'}}>
-                        {this.renderHandCards()}
+                        {this.props.room.party === null ? <Text>En attente</Text> : this.renderHandCards()}
                     </View>
                 </View>
                 

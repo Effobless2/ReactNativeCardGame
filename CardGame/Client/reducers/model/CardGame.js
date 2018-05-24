@@ -115,12 +115,16 @@ export class CardGame{
         }
     }
 
-    begin(roomId, handCard, deckSize){
-        this.getRoom(roomId).begin(handCard, deckSize);
+    begin(roomId, players){
+        this.getRoom(roomId).begin(players);
     }
 
     confirmCard(roomId, cardIndex){
         this.getRoom(roomId).confirmCard(cardIndex);
+    }
+
+    receiveHand(roomId, playerId, hand){
+        this.getRoom(roomId).receiveHand(playerId, hand);
     }
 
 

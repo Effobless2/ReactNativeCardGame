@@ -180,5 +180,10 @@ namespace Serveur.Models
             Room room = GetRoomWithId(roomId);
             return room.CardPlayed(userId, cardIndex);
         }
+
+        public List<string> GetAllUsers(string roomId)
+        {
+            return GetRoomWithId(roomId).GetAllUsers();
+        }
     }
 }

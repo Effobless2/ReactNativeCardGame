@@ -1,16 +1,14 @@
-import { Card } from './Card'
+import { Bataille } from './Bataille'
 
 export class Room{
-    constructor(Id, playersMax, players, publics){
-        this.roomId = Id;
+    constructor(roomId, playersMax, players, publics){
+        this.roomId = roomId;
         this.maxOfPlayers = playersMax;
         this.players = players;
         this.publics = publics;
         this.nbPublics = this.publics.length;
         this.nbPlayers = this.players.length;
-        this.currentHand = [];
-        this.personalPlayedCard = null;
-        this.deckSize = 0;
+        this.party = null;
 
     }
 
@@ -38,17 +36,20 @@ export class Room{
         this.nbPlayers--;
     }
 
-    begin(handCard, deckSize){
-        handCard.forEach(card => {
-            this.currentHand.push(new Card(card.colour, card.value));
-            this.deckSize = deckSize;
-        });
-        console.log(this.currentHand);
+    begin(players){
+        this.party = new Bataille(players);
+    }
+
+    AddHand(color, value){
+        this.party.AddHand(colour, value);
     }
 
     confirmCard(cardIndex){
-        this.personalPlayedCard = this.currentHand[cardIndex];
-        this.currentHand.splice(cardIndex,1);
+        this.party.PlayCard(cardIndex);
+    }
+
+    receiveHand(playerId, hand){
+        this.party.receiveHand(playerId, hand);
     }
 
 

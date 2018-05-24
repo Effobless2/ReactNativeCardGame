@@ -78,5 +78,10 @@ namespace Serveur.Hubs
         {
             return cardGame.CardPlayed(roomId, userId, cardIndex);
         }
+
+        public List<string> GetAllUsers(string roomId)
+        {
+            return cardGame.GetAllUsers(roomId);
+        }
     }
 }

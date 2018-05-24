@@ -12,6 +12,7 @@ export const REMOVE_PLAYER = 'remove_player';
 export const REMOVE_PUBLIC = 'remove_public';
 export const REMOVE_ROOM   = 'remove_room';
 export const REMOVE_USER   = 'remove_user';
+export const RECEIVE_HAND  = 'receive_hand';
 
 /*Sent to Server*/
 

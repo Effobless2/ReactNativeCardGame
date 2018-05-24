@@ -9,6 +9,7 @@ import {
     newPublic,
     removeRoom,
     newUser,
+    receiveHand,
     removeUser,
     removePublic,
     removePlayer,
@@ -55,12 +56,16 @@ class InterfaceWriter{
         store.dispatch(ejected(roomId))
     }
 
-    Begin(roomId, handCards, deckSize){
-        store.dispatch(begin({roomId: roomId, cards:handCards, deckSize: deckSize}));
+    Begin(roomId, players){
+        store.dispatch(begin({roomId: roomId, players: players}));
     };
 
     ConfirmCard(roomId, cardIndex){
         store.dispatch(confirmCard({roomId: roomId, cardIndex: cardIndex}));
+    }
+
+    receiveHand(roomId, playerId, hand){
+        store.dispatch(receiveHand({roomId: roomId, playerId: playerId, hand: hand}))
     }
 
 

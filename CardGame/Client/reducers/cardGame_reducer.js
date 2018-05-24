@@ -14,13 +14,16 @@ import {
     EJECTED,
     SELECT_ROOM,
     BEGIN,
+    RECEIVE_HAND,
 } from '../actions/types';
+import IMAGESPATH from '../icons';
 
 const INITIAL_STATE = {
     cardGame : null,
     connected : false,
     cpt: 0,
-    selectedRoom : null
+    selectedRoom : null,
+    IMAGESPATH : IMAGESPATH
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -85,12 +88,17 @@ export default (state = INITIAL_STATE, action) => {
                     selectedRoom : action.payload}
         }
         case BEGIN: {
-            state.cardGame.begin(action.payload.roomId, action.payload.cards, action.payload.deckSize);
+            state.cardGame.begin(action.payload.roomId, action.payload.players);
             return {...state,
                     cpt:state.cpt+1};
         }
         case CONFIRM_CARD: {
             state.cardGame.confirmCard(action.payload.roomId, action.payload.cardIndex);
+            return {...state,
+                cpt:state.cpt+1};
+        }
+        case RECEIVE_HAND: {
+            state.cardGame.receiveHand(action.payload.roomId, action.payload.playerId, action.payload.hand);
             return {...state,
                 cpt:state.cpt+1};
         }
