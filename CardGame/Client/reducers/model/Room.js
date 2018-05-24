@@ -10,6 +10,7 @@ export class Room{
         this.nbPlayers = this.players.length;
         this.currentHand = [];
         this.personalPlayedCard = null;
+        this.deckSize = 0;
 
     }
 
@@ -37,9 +38,10 @@ export class Room{
         this.nbPlayers--;
     }
 
-    begin(handCard){
+    begin(handCard, deckSize){
         handCard.forEach(card => {
             this.currentHand.push(new Card(card.colour, card.value));
+            this.deckSize = deckSize;
         });
         console.log(this.currentHand);
     }

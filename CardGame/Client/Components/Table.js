@@ -50,7 +50,7 @@ class Table extends React.Component{
                         </View>
                         <View style={{flex: 1, alignItems:'center'}}>
                             <Text> Mon Deck</Text>
-                            <Text>?</Text>
+                            <Text>{this.props.room.deckSize}</Text>
                         </View>
                     </View>
                     <View style = {{flex: 1, flexDirection:"row", alignItems:'center'}}>

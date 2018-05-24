@@ -93,8 +93,8 @@ class ConnectionServer extends SignalR.HubConnection{
             writer.removeRoom(roomId);
         });
 
-        this.on(PARTY_BEGIN, (roomId, handCard) =>{
-            writer.Begin(roomId, handCard);
+        this.on(PARTY_BEGIN, (roomId, handCard, deckSize) =>{
+            writer.Begin(roomId, handCard, deckSize);
         })
 
         this.on(CARD_CONFIRMED, (roomId, cardIndex) =>{

@@ -244,7 +244,7 @@ namespace Serveur.Hubs
             List<Player> players = cardGame.Value.BatailleBegin(roomId);
             foreach(Player p in players)
             {
-                await Clients.Client(p.UserId).SendAsync(MessagesConstants.PARTY_BEGIN, roomId, p.Hand);
+                await Clients.Client(p.UserId).SendAsync(MessagesConstants.PARTY_BEGIN, roomId, p.Hand, p.Deck.Count);
             }
         }
 

@@ -85,7 +85,7 @@ export default (state = INITIAL_STATE, action) => {
                     selectedRoom : action.payload}
         }
         case BEGIN: {
-            state.cardGame.begin(action.payload.roomId, action.payload.cards);
+            state.cardGame.begin(action.payload.roomId, action.payload.cards, action.payload.deckSize);
             return {...state,
                     cpt:state.cpt+1};
         }

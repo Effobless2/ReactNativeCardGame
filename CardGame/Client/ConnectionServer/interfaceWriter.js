@@ -55,8 +55,8 @@ class InterfaceWriter{
         store.dispatch(ejected(roomId))
     }
 
-    Begin(roomId, handCards){
-        store.dispatch(begin({roomId: roomId, cards:handCards}));
+    Begin(roomId, handCards, deckSize){
+        store.dispatch(begin({roomId: roomId, cards:handCards, deckSize: deckSize}));
     };
 
     ConfirmCard(roomId, cardIndex){
