@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, TouchableOpacity } from 'react-native';
+import { Image, TouchableOpacity, Text } from 'react-native';
 
 import { cardPlayed } from '../actions';
 import { connect } from 'react-redux';
@@ -14,10 +14,7 @@ class CardItem extends React.Component{
             <TouchableOpacity
                 style = {{padding: 2}}
                 onPress = {() => this.props.cardPlayed({roomId: this.props.room.roomId, cardIndex: this.props.index})}>
-                <Image
-                    source = {this.props.image}
-                    style= {{width: 45, height:78}}
-                />
+                <Text>{this.props.card.value+this.props.card.color}</Text>
             </TouchableOpacity>
         );
     }

@@ -19,6 +19,7 @@ class Table extends React.Component{
                 <CardItem
                     key = {index}
                     index = {index}
+                    card = {card}
                     room = {this.props.room}
                     image = {IMAGESPATH(card)}
                 />)
@@ -31,6 +32,7 @@ class Table extends React.Component{
                 return <View key = {player}>
                     <View style = {{flex: 1, alignItems:'center'}}>
                         <Text>{ this.props.room.party === null ? "En attente" : "Deck de l'adversaire : " + this.props.room.party.players.get(player).deckSize }</Text>
+                        <Text>{ this.props.room.party === null ? "En attente" : "Main de l'adversaire : " + this.props.room.party.players.get(player).handSize }</Text>
                     </View>
                     <View style={{flex:1, alignItems:'center'}}>
                         <Text>Zone Jouée de l'adversaire</Text>
