@@ -51,7 +51,9 @@ class Table extends React.Component{
                         </View>
                         <View style={{flex: 1, alignItems:'center'}}>
                             <Text> Mon Deck</Text>
-                            <Text>{this.props.room.deckSize}</Text>
+                            <Text>{(this.props.room.party === null) ?
+                                "En attente" :
+                                this.props.room.party.players.get(this.props.cardGame.currentUser.userId).deckSize}</Text>
                         </View>
                     </View>
                     <View style = {{flex: 1, flexDirection:"row", alignItems:'center'}}>
