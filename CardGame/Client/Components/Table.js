@@ -42,9 +42,9 @@ class Table extends React.Component{
                             <Text>MaCarte</Text>
                             <Image 
                                 source = {
-                                    null=== null ? 
+                                    (this.props.room.party === null || this.props.room.party.players.get(this.props.cardGame.currentUser.userId).playedCard === null) ? 
                                     IMAGESPATH(new Card("unknown","")) : 
-                                    IMAGESPATH("unknown")
+                                    IMAGESPATH(this.props.room.party.players.get(this.props.cardGame.currentUser.userId).playedCard)
                                 }
                                 style = {{width: 45, height:78}}
                                 />
