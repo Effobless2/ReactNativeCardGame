@@ -60,8 +60,8 @@ class InterfaceWriter{
         store.dispatch(begin({roomId: roomId, players: players}));
     };
 
-    ConfirmCard(roomId, cardIndex){
-        store.dispatch(confirmCard({roomId: roomId, cardIndex: cardIndex}));
+    ConfirmCard(roomId, playerId, cardIndex){
+        store.dispatch(confirmCard({roomId: roomId, playerId: playerId, cardIndex: cardIndex}));
     }
 
     receiveHand(roomId, playerId, hand){

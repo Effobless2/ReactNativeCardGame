@@ -21,6 +21,6 @@ export class Bataille{
     }
 
     PlayCard(playerId, cardIndex){
-        this.players[playerId].PlayCard(cardIndex);
+        this.players.get(playerId).PlayCard(cardIndex);
     }
 }

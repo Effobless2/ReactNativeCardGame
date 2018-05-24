@@ -93,7 +93,7 @@ export default (state = INITIAL_STATE, action) => {
                     cpt:state.cpt+1};
         }
         case CONFIRM_CARD: {
-            state.cardGame.confirmCard(action.payload.roomId, action.payload.cardIndex);
+            state.cardGame.confirmCard(action.payload.roomId, action.payload.playerId, action.payload.cardIndex);
             return {...state,
                 cpt:state.cpt+1};
         }

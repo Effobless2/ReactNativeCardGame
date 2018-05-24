@@ -97,8 +97,8 @@ class ConnectionServer extends SignalR.HubConnection{
             writer.Begin(roomId, players);
         })
 
-        this.on(CARD_CONFIRMED, (roomId, cardIndex) =>{
-            writer.ConfirmCard(roomId, cardIndex);
+        this.on(CARD_CONFIRMED, (roomId, playerId, cardIndex) =>{
+            writer.ConfirmCard(roomId, playerId, cardIndex);
         });
 
         this.on("ReceiveHand", (roomId, playerId, hand) => {

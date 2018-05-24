@@ -44,8 +44,8 @@ export class Room{
         this.party.AddHand(colour, value);
     }
 
-    confirmCard(cardIndex){
-        this.party.PlayCard(cardIndex);
+    confirmCard(playerId, cardIndex){
+        this.party.PlayCard(playerId, cardIndex);
     }
 
     receiveHand(playerId, hand){

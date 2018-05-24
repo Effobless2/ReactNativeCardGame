@@ -11,8 +11,8 @@ export class Player{
         this.hand.push(card);
     }
 
-    playedCard(cardIndex){
-        this.playedCard = this.party.hand[cardIndex];
+    PlayCard(cardIndex){
+        this.playedCard = this.hand[cardIndex];
         this.hand.splice(cardIndex, 1);
     }
 }

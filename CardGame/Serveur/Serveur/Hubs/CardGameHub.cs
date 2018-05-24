@@ -256,7 +256,7 @@ namespace Serveur.Hubs
         {
             Console.WriteLine("Received");
             bool ready = cardGame.Value.CardPlayed(roomId, Context.ConnectionId, cardIndex);
-            await Clients.Caller.SendAsync(MessagesConstants.CARD_CONFIRMED, roomId, cardIndex);
+            await Clients.Caller.SendAsync(MessagesConstants.CARD_CONFIRMED, roomId, Context.ConnectionId, cardIndex);
             if (ready)
             {
                 FinalizeTour(roomId);
