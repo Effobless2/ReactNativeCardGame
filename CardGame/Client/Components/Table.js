@@ -33,6 +33,14 @@ class Table extends React.Component{
                     <View style = {{flex: 1, alignItems:'center'}}>
                         <Text>{ this.props.room.party === null ? "En attente" : "Deck de l'adversaire : " + this.props.room.party.players.get(player).deckSize }</Text>
                         <Text>{ this.props.room.party === null ? "En attente" : "Main de l'adversaire : " + this.props.room.party.players.get(player).handSize }</Text>
+                        <Image 
+                                source = {
+                                    (this.props.room.party === null || this.props.room.party.players.get(player).playedCard === null) ? 
+                                    IMAGESPATH(new Card("?","")) : 
+                                    IMAGESPATH(this.props.room.party.players.get(player).playedCard)
+                                }
+                                style = {{width: 45, height:78}}
+                                />
                     </View>
                     <View style={{flex:1, alignItems:'center'}}>
                         <Text>Zone Jouée de l'adversaire</Text>
