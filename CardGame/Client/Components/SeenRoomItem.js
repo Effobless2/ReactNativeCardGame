@@ -20,6 +20,7 @@ class SeenRoomItem extends React.Component{
         return (
             <View style = {Styles.roomItem}>
                 <View>
+                    <Text>Room : {this.room.name}</Text>
                     <Text>Number of Players : {this.room.nbPlayers}/{this.room.maxOfPlayers}</Text>
                     <Text>Number of Public : {this.room.nbPublics}</Text>
                 </View>

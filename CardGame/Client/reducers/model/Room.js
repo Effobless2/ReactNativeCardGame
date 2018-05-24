@@ -9,6 +9,7 @@ export class Room{
         this.nbPublics = this.publics.length;
         this.nbPlayers = this.players.length;
         this.party = null;
+        this.name = this.roomId.slice(0,5);
 
     }
 

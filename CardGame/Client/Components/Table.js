@@ -25,16 +25,30 @@ class Table extends React.Component{
         });
     }
 
-    render(){
-        return (
-            <View style={[Styles.container]}>
-                <View style = {{flex: 1, width: "100%", alignItems:'center'}}>
+    renderOtherPlayers(){
+        return this.props.room.players.map(player => {
+            if (player != this.props.cardGame.currentUser.userId){
+                return <View key = {player}>
                     <View style = {{flex: 1, alignItems:'center'}}>
-                        <Text> Deck de l'adversaire </Text>
+                        <Text>{ this.props.room.party === null ? "En attente" : "Deck de l'adversaire : " + this.props.room.party.players.get(player).deckSize }</Text>
                     </View>
                     <View style={{flex:1, alignItems:'center'}}>
                         <Text>Zone Jouée de l'adversaire</Text>
                     </View>
+                </View>
+                    
+            }
+        })
+
+
+        
+    }
+
+    render(){
+        return (
+            <View style={[Styles.container]}>
+                <View style = {{flex: 1, width: "100%", alignItems:'center', justifyContent: 'center', flexDirection:"row"}}>
+                    {this.renderOtherPlayers()}
                 </View>
                 <View style = {{flex: 1, width: "100%", alignItems:'center'}}>
                     <View style = {{flex: 1, justifyContent:'space-between', flexDirection:'row', alignItems:'center'}}>

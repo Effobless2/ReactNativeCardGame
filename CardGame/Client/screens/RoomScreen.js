@@ -14,7 +14,7 @@ class RoomScreen extends React.Component{
             return (
                 <Picker.Item 
                     color = "#f00"
-                    label= {'Play '+counter}
+                    label= {'Play '+ roomId.slice(0,5)}
                     value = {roomId}
                     key = {roomId} 
                 />
@@ -29,7 +29,7 @@ class RoomScreen extends React.Component{
             return (
                 <Picker.Item
                     color = "#0f0"
-                    label= {'See '+counter}
+                    label= {'See '+roomId.slice(0,5)}
                     value = {roomId}
                     key = {roomId} 
                 />
@@ -59,7 +59,6 @@ class RoomScreen extends React.Component{
                     </Picker>
                     
                 </View>
-                <Text>{room === undefined ? "This Room is Removed" : room.roomId}</Text>
                 
             </View>
             {room===undefined ? <Text>This room has been closed</Text> : <Table/>}
