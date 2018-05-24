@@ -15,10 +15,12 @@ export const  NOT_IN_THIS_ROOM  = "NotInThisRoom";
 export const  PARTY_BEGIN       = "Begin";
 export const  PLAYER_REMOVED    = "PlayerRemoved";
 export const  PUBLIC_REMOVED    = "PublicRemoved";
+export const  RECEIVE_HAND      = "ReceiveHand";
 export const  READY             = "Ready";
 export const  ROOM_IS_FULFILL   = "RoomFulfill";
 export const  ROOM_IS_UNDEFINED = "RoomIsUndefined";
 export const  ROOM_REMOVED      = "RoomRemoved";
+export const  PLAYER_HAS_PLAYED = "PlayerHasPlayed"
 
 
 /*Sent To Server*/

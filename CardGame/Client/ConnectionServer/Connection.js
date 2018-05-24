@@ -17,6 +17,7 @@ import {
     PARTY_BEGIN,
     PLAYER_REMOVED,
     PUBLIC_REMOVED,
+    RECEIVE_HAND,
     READY,
     REMOVING_PLAYER,
     REMOVING_PUBLIC,
@@ -24,7 +25,8 @@ import {
     ROOM_IS_UNDEFINED,
     ROOM_REMOVED,
     ADDING_PUBLIC,
-    ADDING_PLAYER
+    ADDING_PLAYER,
+    PLAYER_HAS_PLAYED,
 } from './ConnectionConstants';
 
 class ConnectionServer extends SignalR.HubConnection{
@@ -101,11 +103,11 @@ class ConnectionServer extends SignalR.HubConnection{
             writer.ConfirmCard(roomId, playerId, cardIndex);
         });
 
-        this.on("ReceiveHand", (roomId, playerId, hand) => {
+        this.on(RECEIVE_HAND, (roomId, playerId, hand) => {
             writer.receiveHand(roomId, playerId, hand);
         });
 
-        this.on("PlayerHasPlayed", (roomId, playerId) => {
+        this.on(PLAYER_HAS_PLAYED, (roomId, playerId) => {
             writer.playerHasPlayed(roomId, playerId);
         });
 
