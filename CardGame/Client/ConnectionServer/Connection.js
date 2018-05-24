@@ -105,6 +105,10 @@ class ConnectionServer extends SignalR.HubConnection{
             writer.receiveHand(roomId, playerId, hand);
         });
 
+        this.on("PlayerHasPlayed", (roomId, playerId) => {
+            writer.playerHasPlayed(roomId, playerId);
+        });
+
 
 
         this.start()

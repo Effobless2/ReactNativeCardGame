@@ -7,6 +7,7 @@ import {
     NEW_PUBLIC,
     NEW_ROOM,
     NEW_USER,
+    PLAYER_HAS_PLAYED,
     REMOVE_PLAYER,
     REMOVE_PUBLIC,
     REMOVE_ROOM,
@@ -99,6 +100,11 @@ export default (state = INITIAL_STATE, action) => {
         }
         case RECEIVE_HAND: {
             state.cardGame.receiveHand(action.payload.roomId, action.payload.playerId, action.payload.hand);
+            return {...state,
+                cpt:state.cpt+1};
+        }
+        case PLAYER_HAS_PLAYED: {
+            state.cardGame.playerHasPlayed(action.payload.roomId, action.payload.playerId);
             return {...state,
                 cpt:state.cpt+1};
         }

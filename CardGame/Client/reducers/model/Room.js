@@ -52,5 +52,9 @@ export class Room{
         this.party.receiveHand(playerId, hand);
     }
 
+    playerHasPlayed(playerId){
+        this.party.playerHasPlayed(playerId);
+    }
+
 
 }

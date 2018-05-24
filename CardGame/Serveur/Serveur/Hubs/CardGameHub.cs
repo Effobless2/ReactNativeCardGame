@@ -257,6 +257,14 @@ namespace Serveur.Hubs
             Console.WriteLine("Received");
             bool ready = cardGame.Value.CardPlayed(roomId, Context.ConnectionId, cardIndex);
             await Clients.Caller.SendAsync(MessagesConstants.CARD_CONFIRMED, roomId, Context.ConnectionId, cardIndex);
+            List<string> members = cardGame.Value.GetAllUsers(roomId);
+            foreach(string id in members)
+            {
+                if (id != Context.ConnectionId)
+                {
+                    await Clients.Client(id).SendAsync("PlayerHasPlayed", roomId, Context.ConnectionId);
+                }
+            }
             if (ready)
             {
                 FinalizeTour(roomId);

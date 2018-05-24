@@ -127,5 +127,7 @@ export class CardGame{
         this.getRoom(roomId).receiveHand(playerId, hand);
     }
 
-
+    playerHasPlayed(roomId, playerId){
+        this.getRoom(roomId).playerHasPlayed(playerId);
+    }
 }

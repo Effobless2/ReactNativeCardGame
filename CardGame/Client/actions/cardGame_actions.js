@@ -13,6 +13,7 @@ import {
     NEW_PUBLIC,
     NEW_ROOM,
     NEW_USER,
+    PLAYER_HAS_PLAYED,
     RECEIVE_HAND,
     REMOVE_PLAYER,
     REMOVE_PUBLIC,
@@ -100,4 +101,8 @@ export const confirmCard = datas =>{
 
 export const receiveHand = datas =>{
     return {type: RECEIVE_HAND, payload: datas};
+};
+
+export const playerHasPlayed = datas =>{
+    return {type: PLAYER_HAS_PLAYED, payload: datas};
 };

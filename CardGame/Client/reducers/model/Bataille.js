@@ -23,4 +23,8 @@ export class Bataille{
     PlayCard(playerId, cardIndex){
         this.players.get(playerId).PlayCard(cardIndex);
     }
+
+    playerHasPlayed(playerId){
+        this.players.get(playerId).hasPlayed();
+    }
 }

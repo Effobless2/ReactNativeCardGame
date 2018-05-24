@@ -7,6 +7,7 @@ import {
     newRoom,
     newPlayer,
     newPublic,
+    playerHasPlayed,
     removeRoom,
     newUser,
     receiveHand,
@@ -65,7 +66,11 @@ class InterfaceWriter{
     }
 
     receiveHand(roomId, playerId, hand){
-        store.dispatch(receiveHand({roomId: roomId, playerId: playerId, hand: hand}))
+        store.dispatch(receiveHand({roomId: roomId, playerId: playerId, hand: hand}));
+    }
+
+    playerHasPlayed(roomId, playerId){
+        store.dispatch(playerHasPlayed({roomId: roomId, playerId: playerId}));
     }
 
 
