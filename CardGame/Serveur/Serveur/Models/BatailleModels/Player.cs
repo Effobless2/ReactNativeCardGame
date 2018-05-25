@@ -59,10 +59,17 @@ namespace Serveur.Models.BatailleModels
         public void reset()
         {
             PlayedCard = null;
-            Hand.Add(Deck[0]);
+            Hand.Add(TakeFirstOfTheDeck());
             HandCount++;
+            
+        }
+
+        public Card TakeFirstOfTheDeck()
+        {
+            Card c = Deck[0];
             Deck.RemoveAt(0);
             DeckCount--;
+            return c;
         }
     }
 }

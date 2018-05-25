@@ -75,6 +75,13 @@ namespace Serveur.Models.BatailleModels
                 players[0].WinRound(CartesEnJeu);
                 CartesEnJeu = new List<Card>();
             }
+            else
+            {
+                foreach(Player p in players)
+                {
+                    CartesEnJeu.Add(p.TakeFirstOfTheDeck());
+                }
+            }
             foreach (Player p in Players.Values)
             {
                 p.reset();
