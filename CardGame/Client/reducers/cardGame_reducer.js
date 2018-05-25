@@ -23,8 +23,7 @@ const INITIAL_STATE = {
     cardGame : null,
     connected : false,
     cpt: 0,
-    selectedRoom : null,
-    IMAGESPATH : IMAGESPATH
+    selectedRoom : null
 };
 
 export default (state = INITIAL_STATE, action) => {

@@ -74,5 +74,9 @@ export const Styles = StyleSheet.create({
       borderLeftWidth: 1,
       borderColor: BLACK,
       borderColor: BLACK,
+    },
+    cardSize: {
+      width: 45,
+      height:78
     }
   });

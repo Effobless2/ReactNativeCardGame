@@ -39,7 +39,7 @@ class Table extends React.Component{
                                     IMAGESPATH(new Card("?","")) : 
                                     IMAGESPATH(this.props.room.party.players.get(player).playedCard)
                                 }
-                                style = {{width: 45, height:78}}
+                                style = {Styles.cardSize}
                                 />
                     </View>
                     <View style={{flex:1, alignItems:'center'}}>
