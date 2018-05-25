@@ -130,4 +130,8 @@ export class CardGame{
     playerHasPlayed(roomId, playerId){
         this.getRoom(roomId).playerHasPlayed(playerId);
     }
+
+    discover(roomId, playerId, cardPlayed){
+        this.getRoom(roomId).discover(playerId, cardPlayed);
+    }
 }

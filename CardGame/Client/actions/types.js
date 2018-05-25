@@ -14,6 +14,7 @@ export const REMOVE_PUBLIC = 'remove_public';
 export const REMOVE_ROOM   = 'remove_room';
 export const REMOVE_USER   = 'remove_user';
 export const RECEIVE_HAND  = 'receive_hand';
+export const DISCOVER      = "discover";
 
 /*Sent to Server*/
 

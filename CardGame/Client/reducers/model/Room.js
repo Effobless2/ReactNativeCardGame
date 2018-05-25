@@ -1,4 +1,5 @@
 import { Bataille } from './Bataille'
+import { cardPlayed } from '../../actions';
 
 export class Room{
     constructor(roomId, playersMax, players, publics){
@@ -55,6 +56,10 @@ export class Room{
 
     playerHasPlayed(playerId){
         this.party.playerHasPlayed(playerId);
+    }
+
+    discover(playerId, cardPlayed){
+        this.party.discover(playerId, cardPlayed);
     }
 
 

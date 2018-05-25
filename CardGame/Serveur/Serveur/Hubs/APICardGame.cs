@@ -21,6 +21,11 @@ namespace Serveur.Hubs
             return cardGame.GetRooms();
         }
 
+        public Room GetRoomWithId(string roomId)
+        {
+            return cardGame.GetRoomWithId(roomId);
+        }
+
         
         public ApplicationUser Connection(string newId)
         {

@@ -16,6 +16,7 @@ import {
     SELECT_ROOM,
     BEGIN,
     RECEIVE_HAND,
+    DISCOVER,
 } from '../actions/types';
 import IMAGESPATH from '../icons';
 
@@ -104,6 +105,12 @@ export default (state = INITIAL_STATE, action) => {
         }
         case PLAYER_HAS_PLAYED: {
             state.cardGame.playerHasPlayed(action.payload.roomId, action.payload.playerId);
+            return {...state,
+                cpt:state.cpt+1};
+        }
+        case DISCOVER: {
+            let {roomId, playerId, cardPlayed} = action.payload;
+            state.cardGame.discover(roomId, playerId, cardPlayed);
             return {...state,
                 cpt:state.cpt+1};
         }

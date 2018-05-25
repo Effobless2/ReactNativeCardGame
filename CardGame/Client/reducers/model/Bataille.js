@@ -27,4 +27,8 @@ export class Bataille{
     playerHasPlayed(playerId){
         this.players.get(playerId).hasPlayed();
     }
+
+    discover(playerId, cardPlayed){
+        this.players.get(playerId).discover(new Card(cardPlayed.colour, cardPlayed.value));
+    }
 }

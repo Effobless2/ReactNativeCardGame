@@ -281,7 +281,20 @@ namespace Serveur.Hubs
 
         public async Task FinalizeTour(string roomId)
         {
-            
+            try
+            {
+                Room room = cardGame.Value.GetRoomWithId(roomId);
+                List<string> toPrevent = room.GetAllUsers();
+                foreach (string id in toPrevent)
+                {
+                    foreach (Player p in room.bataille.Players.Values)
+                    {
+                        await Clients.Client(id).SendAsync("Discover", roomId, p.UserId, p.PlayedCard);
+                    }
+                }
+                
+            }
+            catch (Exception) { }
 
         }
     }

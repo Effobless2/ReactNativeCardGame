@@ -20,7 +20,8 @@ export const  READY             = "Ready";
 export const  ROOM_IS_FULFILL   = "RoomFulfill";
 export const  ROOM_IS_UNDEFINED = "RoomIsUndefined";
 export const  ROOM_REMOVED      = "RoomRemoved";
-export const  PLAYER_HAS_PLAYED = "PlayerHasPlayed"
+export const  PLAYER_HAS_PLAYED = "PlayerHasPlayed";
+export const  DISCOVER          = "Discover";
 
 
 /*Sent To Server*/

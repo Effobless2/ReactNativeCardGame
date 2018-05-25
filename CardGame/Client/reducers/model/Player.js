@@ -24,4 +24,10 @@ export class Player{
         this.handSize --;
         console.log(this.playedCard);
     }
+
+    discover(cardPlayed){
+        console.log(cardPlayed)
+        this.playedCard = cardPlayed;
+        console.log(this.playedCard);
+    }
 }

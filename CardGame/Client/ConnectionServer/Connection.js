@@ -27,6 +27,7 @@ import {
     ADDING_PUBLIC,
     ADDING_PLAYER,
     PLAYER_HAS_PLAYED,
+    DISCOVER,
 } from './ConnectionConstants';
 
 class ConnectionServer extends SignalR.HubConnection{
@@ -110,6 +111,10 @@ class ConnectionServer extends SignalR.HubConnection{
         this.on(PLAYER_HAS_PLAYED, (roomId, playerId) => {
             writer.playerHasPlayed(roomId, playerId);
         });
+
+        this.on(DISCOVER, (roomId, playerId, cardPlayed) => {
+            writer.discover(roomId, playerId, cardPlayed);
+        })
 
 
 

@@ -14,6 +14,7 @@ import {
     removeUser,
     removePublic,
     removePlayer,
+    discover,
 } from '../actions';
 
 class InterfaceWriter{
@@ -71,6 +72,10 @@ class InterfaceWriter{
 
     playerHasPlayed(roomId, playerId){
         store.dispatch(playerHasPlayed({roomId: roomId, playerId: playerId}));
+    }
+
+    discover(roomId, playerId, cardPlayed){
+        store.dispatch(discover({roomId: roomId, playerId: playerId, cardPlayed: cardPlayed}));
     }
 
 

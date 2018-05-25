@@ -20,6 +20,7 @@ import {
     REMOVE_ROOM,
     REMOVE_USER,
     SELECT_ROOM,
+    DISCOVER,
 } from './types';
 
 export const connection = datas =>{
@@ -105,4 +106,8 @@ export const receiveHand = datas =>{
 
 export const playerHasPlayed = datas =>{
     return {type: PLAYER_HAS_PLAYED, payload: datas};
+};
+
+export const discover = datas =>{
+    return {type: DISCOVER, payload: datas};
 };
