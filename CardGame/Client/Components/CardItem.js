@@ -15,7 +15,8 @@ class CardItem extends React.Component{
             <TouchableOpacity
                 style = {{padding: 2}}
                 onPress = {() => this.props.cardPlayed({roomId: this.props.room.roomId, cardIndex: this.props.index})}>
-                <Image style = {Styles.cardSize} source = {this.props.image} text = {this.props.card.value+this.props.card.color}/>
+                <Text>{this.props.card.value+this.props.card.color}</Text>
+                {/*<Image style = {Styles.cardSize} source = {this.props.image} text = {this.props.card.value+this.props.card.color}/>*/}
             </TouchableOpacity>
         );
     }

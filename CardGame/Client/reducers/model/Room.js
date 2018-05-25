@@ -62,5 +62,9 @@ export class Room{
         this.party.discover(playerId, cardPlayed);
     }
 
+    roundWon(playerId){
+        this.party.roundWon(playerId);
+    }
+
 
 }

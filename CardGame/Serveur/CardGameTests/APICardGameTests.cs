@@ -196,9 +196,9 @@ namespace CardGameTests
             cardGame.AddingPlayer(room.RoomId, userA.UserId);
             cardGame.AddingPlayer(room.RoomId, userB.UserId);
             cardGame.BatailleBegin(room.RoomId);
-            Card currentCard = room.bataille.Players.GetValueOrDefault("a").Hand[0];
+            Card currentCard = room.bataille.Players.GetValueOrDefault("a").GetHand()[0];
             Assert.AreEqual(false, cardGame.CardPlayed(room.RoomId, userA.UserId, 0));
-            Assert.AreEqual(5, room.bataille.Players.GetValueOrDefault("a").Hand.Count);
+            Assert.AreEqual(5, room.bataille.Players.GetValueOrDefault("a").GetHand().Count);
             Assert.AreEqual(currentCard, room.bataille.Players.GetValueOrDefault("a").PlayedCard);
 
         }
@@ -213,7 +213,7 @@ namespace CardGameTests
             cardGame.AddingPlayer(room.RoomId, userA.UserId);
             cardGame.AddingPlayer(room.RoomId, userB.UserId);
             cardGame.BatailleBegin(room.RoomId);
-            Card currentCard = room.bataille.Players.GetValueOrDefault("a").Hand[0];
+            Card currentCard = room.bataille.Players.GetValueOrDefault("a").GetHand()[0];
             cardGame.CardPlayed(room.RoomId, userA.UserId, 0);
             Assert.AreEqual(true, cardGame.CardPlayed(room.RoomId, userB.UserId, 0));
 

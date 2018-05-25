@@ -134,4 +134,8 @@ export class CardGame{
     discover(roomId, playerId, cardPlayed){
         this.getRoom(roomId).discover(playerId, cardPlayed);
     }
+
+    roundWon(roomId, playerId){
+        this.getRoom(roomId).roundWon(playerId);
+    }
 }

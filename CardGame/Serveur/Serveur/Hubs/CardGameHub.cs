@@ -292,6 +292,12 @@ namespace Serveur.Hubs
                         await Clients.Client(id).SendAsync("Discover", roomId, p.UserId, p.PlayedCard);
                     }
                 }
+                Player winner = cardGame.Value.FinalizeTour(roomId);
+
+                foreach (string id in toPrevent)
+                {
+                    await Clients.Client(id).SendAsync("RoundWon", roomId, winner.UserId);
+                }
                 
             }
             catch (Exception) { }

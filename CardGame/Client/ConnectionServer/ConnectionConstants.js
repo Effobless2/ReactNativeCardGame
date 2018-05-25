@@ -22,6 +22,7 @@ export const  ROOM_IS_UNDEFINED = "RoomIsUndefined";
 export const  ROOM_REMOVED      = "RoomRemoved";
 export const  PLAYER_HAS_PLAYED = "PlayerHasPlayed";
 export const  DISCOVER          = "Discover";
+export const  ROUND_WON          = "RoundWon";
 
 
 /*Sent To Server*/

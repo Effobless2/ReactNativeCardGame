@@ -88,5 +88,11 @@ namespace Serveur.Hubs
         {
             return cardGame.GetAllUsers(roomId);
         }
+
+
+        public Player FinalizeTour(string roomId)
+        {
+            return cardGame.FinalizeTour(roomId);
+        }
     }
 }

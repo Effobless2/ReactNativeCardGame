@@ -24,6 +24,7 @@ import {
     ROOM_IS_FULFILL,
     ROOM_IS_UNDEFINED,
     ROOM_REMOVED,
+    ROUND_WON,
     ADDING_PUBLIC,
     ADDING_PLAYER,
     PLAYER_HAS_PLAYED,
@@ -114,6 +115,10 @@ class ConnectionServer extends SignalR.HubConnection{
 
         this.on(DISCOVER, (roomId, playerId, cardPlayed) => {
             writer.discover(roomId, playerId, cardPlayed);
+        })
+
+        this.on(ROUND_WON, (roomId, playerId) =>{
+            writer.roundWon(roomId, playerId);
         })
 
 

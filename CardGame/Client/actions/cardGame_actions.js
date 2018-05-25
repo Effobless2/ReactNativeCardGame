@@ -21,6 +21,7 @@ import {
     REMOVE_USER,
     SELECT_ROOM,
     DISCOVER,
+    ROUND_WON,
 } from './types';
 
 export const connection = datas =>{
@@ -110,4 +111,8 @@ export const playerHasPlayed = datas =>{
 
 export const discover = datas =>{
     return {type: DISCOVER, payload: datas};
+};
+
+export const roundWon = datas =>{
+    return {type: ROUND_WON, payload: datas};
 };

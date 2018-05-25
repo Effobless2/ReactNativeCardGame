@@ -17,6 +17,7 @@ import {
     BEGIN,
     RECEIVE_HAND,
     DISCOVER,
+    ROUND_WON,
 } from '../actions/types';
 import IMAGESPATH from '../icons';
 
@@ -111,6 +112,12 @@ export default (state = INITIAL_STATE, action) => {
         case DISCOVER: {
             let {roomId, playerId, cardPlayed} = action.payload;
             state.cardGame.discover(roomId, playerId, cardPlayed);
+            return {...state,
+                cpt:state.cpt+1};
+        }
+        case ROUND_WON: {
+            let {roomId, playerId} = action.payload;
+            state.cardGame.roundWon(roomId, playerId);
             return {...state,
                 cpt:state.cpt+1};
         }

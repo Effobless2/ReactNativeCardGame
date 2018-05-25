@@ -31,4 +31,8 @@ export class Bataille{
     discover(playerId, cardPlayed){
         this.players.get(playerId).discover(new Card(cardPlayed.colour, cardPlayed.value));
     }
+
+    roundWon(playerId){
+        this.players.get(playerId).roundWon();
+    }
 }

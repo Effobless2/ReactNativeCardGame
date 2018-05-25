@@ -185,5 +185,10 @@ namespace Serveur.Models
         {
             return GetRoomWithId(roomId).GetAllUsers();
         }
+
+        public Player FinalizeTour(string roomId)
+        {
+            return GetRoomWithId(roomId).FinalizeTour();
+        }
     }
 }

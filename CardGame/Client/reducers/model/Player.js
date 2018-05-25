@@ -7,6 +7,7 @@ export class Player{
         this.handSize = handSize;
         this.playedCard = null;
         this.hand = [];
+        this.roundWin = false;
     }
 
     AddHand(card){
@@ -29,5 +30,10 @@ export class Player{
         console.log(cardPlayed)
         this.playedCard = cardPlayed;
         console.log(this.playedCard);
+    }
+
+    roundWon(){
+        this.roundWin = true;
+        console.log("roundWin")
     }
 }

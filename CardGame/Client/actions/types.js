@@ -15,6 +15,7 @@ export const REMOVE_ROOM   = 'remove_room';
 export const REMOVE_USER   = 'remove_user';
 export const RECEIVE_HAND  = 'receive_hand';
 export const DISCOVER      = "discover";
+export const ROUND_WON    = "round_won";
 
 /*Sent to Server*/
 

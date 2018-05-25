@@ -119,5 +119,10 @@ namespace Serveur.Models
         {
             return bataille.CardPlayed(userId, cardIndex);
         }
+
+        public Player FinalizeTour()
+        {
+           return bataille.FinalizeTour();
+        }
     }
 }

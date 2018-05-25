@@ -10,6 +10,7 @@ namespace Serveur.Models.BatailleModels
     {
         public Dictionary<string,Player> Players = new Dictionary<string,Player>();
         public List<Card> JeuDeCartes = new List<Card>();
+        public List<Card> CartesEnJeu = new List<Card>();
 
         public Bataille(List<string> playersId)
         {
@@ -46,6 +47,7 @@ namespace Serveur.Models.BatailleModels
             if (currentPlayer.PlayedCard == null)
             {
                 currentPlayer.PlayCard(cardIndex);
+                CartesEnJeu.Add(currentPlayer.PlayedCard);
                 foreach (Player p in Players.Values)
                 {
                     if (p.PlayedCard == null)
@@ -60,6 +62,29 @@ namespace Serveur.Models.BatailleModels
                 throw new PlayerHasAlreadyPlayedException();
             }
             
+        }
+
+        public Player FinalizeTour()
+        {
+            List<Player> players = Players.Values.ToList();
+            CardComparator comparator = new CardComparator();
+            players.Sort((p1, p2) => comparator.Compare(p1.PlayedCard, p2.PlayedCard));
+            if (comparator.Compare(players[0].PlayedCard,players[1].PlayedCard) == 0)
+            {
+                foreach(Player p in Players.Values)
+                {
+                    p.PlayedCard = null;
+                }
+                throw new EqualityException();
+            }
+            else
+            {
+                foreach (Player p in Players.Values)
+                {
+                    p.PlayedCard = null;
+                }
+                return players[0];
+            }
         }
     }
 }
