@@ -2,8 +2,8 @@
     constructor(url, log) {
         super(url, log);
 
-        this.on("ConnectionBegin", (currentUser, users, rooms) => {
-            this.ConnectionBegin(currentUser, users, rooms);
+        this.on("ConnectionBegin", (currentUser, users) => {
+            this.ConnectionBegin(currentUser, users);
         });
 
         this.on("Connect", (user) => {
@@ -68,7 +68,7 @@
 
     }
 
-    ConnectionBegin(currentUser, users, rooms) {
+    ConnectionBegin(currentUser, users) {
         this.currentUser = currentUser;
         this.currentUser.roomsAsPlayer = new Set();
         this.currentUser.roomsAsPublic = new Set();
@@ -79,9 +79,7 @@
             }
         });
         this.rooms = new Map();
-        rooms.map((room) => {
-           this.rooms.set(room.roomId, room);
-        });
+        
         console.log(this.currentUser);
         console.log(this.rooms);
         console.log(this.users);

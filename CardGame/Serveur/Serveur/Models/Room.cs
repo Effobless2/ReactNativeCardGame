@@ -2,6 +2,7 @@
 using Serveur.Models.BatailleModels;
 using Serveur.Models.Exceptions;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,17 +16,18 @@ namespace Serveur.Models
     {
         public string RoomId { get; }
         public int MaxOfPlayers { get; set; }
-        public List<string> Players { get; }
-        public List<string> Public { get; }
-        public Bataille bataille;
+        private ConcurrentDictionary<string,Player> _players { get; }
+        public List<string> PublicMembers { get; }
+        public List<Card> EnJeu;
 
 
         public Room(string guid)
         {
             RoomId = guid;
 
-            Players = new List<string>();
-            Public  = new List<string>();
+            _players = new ConcurrentDictionary<string, Player>();
+            PublicMembers  = new List<string>();
+            EnJeu = new List<Card>();
             MaxOfPlayers = 2;
         }
 
@@ -36,22 +38,22 @@ namespace Serveur.Models
         /// </summary>
         /// <param name="newUser">The User which we want to add in the list of Players</param>
         /// <returns>If the number of players is enough to begin the Party</returns>
-        public bool AddPlayer(string newUser)
+        public bool AddPlayer(ApplicationUser newUser)
         {
-            if (Players.Count == MaxOfPlayers)
+            if (_players.Count == MaxOfPlayers)
             {
                 throw new FulfillRoomException();
             }
-            if (Players.Contains(newUser))
+            if (_players.Keys.Contains(newUser.UserId))
             {
                 throw new AlreadyInRoomException();
             }
-            if (Public.Contains(newUser))
+            if (PublicMembers.Contains(newUser.UserId))
             {
-                Public.Remove(newUser);
+                PublicMembers.Remove(newUser.UserId);
             }
 
-            Players.Add(newUser);
+            _players.TryAdd(newUser.UserId, new Player(newUser));
 
             return isComplete();
         }
@@ -63,31 +65,31 @@ namespace Serveur.Models
         /// <returns></returns>
         public void AddPublic(string newUser)
         {
-            if (Public.Contains(newUser) || Players.Contains(newUser))
+            if (PublicMembers.Contains(newUser) || _players.Keys.Contains(newUser))
             {
                 throw new AlreadyInRoomException();
             }
-            Public.Add(newUser);
+            PublicMembers.Add(newUser);
         }
 
         public void RemovePublic(string user)
         {
-            if (!Public.Contains(user))
+            if (!PublicMembers.Contains(user))
             {
                 throw new NotInThisRoomException();
             }
-            Public.Remove(user);
+            PublicMembers.Remove(user);
         }
 
         public bool RemovePlayer(string user)
         {
-            if (!Players.Contains(user))
+            if (!_players.Keys.Contains(user))
             {
                 throw new NotInThisRoomException();
             }
             bool before = isComplete();
-            Players.Remove(user);
-            return (before && !isComplete()) || (Players.Count == 0);
+            _players.TryRemove(user, out Player suppressed);
+            return (before && !isComplete()) || (_players.Count == 0);
         }
 
         /// <summary>
@@ -96,7 +98,7 @@ namespace Serveur.Models
         /// <returns>List of Users which must be prevent of the removing of the Room</returns>
         internal List<string> GetAllUsers()
         {
-            return Players.Concat(Public).ToList();
+            return _players.Keys.Concat(PublicMembers).ToList();
         }
 
         /// <summary>
@@ -106,23 +108,87 @@ namespace Serveur.Models
         /// <returns>boolean</returns>
         public bool isComplete()
         {
-            return Players.Count == MaxOfPlayers;
+            return _players.Count == MaxOfPlayers;
         }
 
         public List<Player> BatailleBegin()
         {
-            bataille = new Bataille(Players);
-            return bataille.Players.Values.ToList();
+            List<Card> Cards = new List<Card>();
+            string[] colors = { "C", "D", "H", "S" };
+            foreach(string color in colors)
+            {
+                for(int i = 1; i < 14; i++)
+                {
+                    Cards.Add(new Card(color, i));
+                }
+            }
+            var random = new System.Random();
+            Cards.Sort((x, y) => random.Next(-1, 2));
+            for (int i = 0; i < Cards.Count; i++)
+            {
+                _players.GetValueOrDefault(_players.Keys.ToList()[i % _players.Keys.Count]).AddToDeck(Cards[i]);
+            }
+            foreach (Player p in _players.Values)
+            {
+                p.Begin();
+            }
+            return _players.Values.ToList();
         }
 
         public bool CardPlayed(string userId, int cardIndex)
         {
-            return bataille.CardPlayed(userId, cardIndex);
+            Player currentPlayer = _players.GetValueOrDefault(userId);
+            if (currentPlayer.PlayedCard == null)
+            {
+                currentPlayer.PlayCard(cardIndex);
+                EnJeu.Add(currentPlayer.PlayedCard);
+                foreach (Player p in _players.Values)
+                {
+                    if (p.PlayedCard == null)
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                throw new PlayerHasAlreadyPlayedException();
+            }
         }
 
         public void FinalizeTour()
         {
-           bataille.FinalizeTour();
+            List<Player> players = _players.Values.ToList();
+            CardComparator comparator = new CardComparator();
+            players.Sort((p1, p2) => comparator.Compare(p2.PlayedCard, p1.PlayedCard));
+
+            if (comparator.Compare(players[0].PlayedCard, players[1].PlayedCard) != 0)
+            {
+                players[0].WinRound(EnJeu);
+                EnJeu = new List<Card>();
+            }
+            else
+            {
+                foreach (Player p in players)
+                {
+                    EnJeu.Add(p.TakeFirstOfTheDeck());
+                }
+            }
+            foreach (Player p in _players.Values)
+            {
+                p.Reset();
+            }
+        }
+
+        internal List<Player> GetPlayers()
+        {
+            return _players.Values.ToList();
+        }
+
+        public List<string> GetPlayersId()
+        {
+            return _players.Keys.ToList();
         }
     }
 }

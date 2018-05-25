@@ -31,15 +31,16 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
     switch(action.type){
         case CONNECTION : {
-            let {user, users, rooms} = action.payload;
+            let {user, users} = action.payload;
             return {
                 ...state,
                 connected: true,
-                cardGame: new CardGame(user, users, rooms),
+                cardGame: new CardGame(user, users),
             };
         }
         case NEW_ROOM: {
-            state.cardGame.AddRoom(action.payload)
+            let {room, players} = action.payload;
+            state.cardGame.AddRoom(room, players)
 
             return state;
         }

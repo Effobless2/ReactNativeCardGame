@@ -6,6 +6,7 @@ import { cardPlayed } from '../actions';
 import IMAGESPATH from '../icons';
 import CardItem from './CardItem';
 import { Card } from '../reducers/model/Card';
+import OtherPlayersSpace from './OtherPlayersSpace';
 
 class Table extends React.Component{
     constructor(props){
@@ -14,7 +15,7 @@ class Table extends React.Component{
     }
 
     renderHandCards(){
-        return this.props.room.party.players.get(this.props.cardGame.currentUser.userId).hand.map((card, index) => {
+        return this.props.room.players.get(this.props.cardGame.currentUser.userId).hand.map((card, index) => {
             return (
                 <CardItem
                     key = {index}
@@ -27,40 +28,15 @@ class Table extends React.Component{
     }
 
     renderOtherPlayers(){
-        return this.props.room.players.map(player => {
-            if (player != this.props.cardGame.currentUser.userId){
-                return <View key = {player}>
-                    <View style = {{flex: 1, alignItems:'center'}}>
-                        <Text>{ this.props.room.party === null ? "En attente" : "Deck de l'adversaire : " + this.props.room.party.players.get(player).deckSize }</Text>
-                        <Text>{ this.props.room.party === null ? "En attente" : "Main de l'adversaire : " + this.props.room.party.players.get(player).handSize }</Text>
-                        {/*<Image 
-                                source = {
-                                    (this.props.room.party === null || this.props.room.party.players.get(player).playedCard === null) ? 
-                                    IMAGESPATH(new Card("?","")) : 
-                                    IMAGESPATH(this.props.room.party.players.get(player).playedCard)
-                                }
-                                style = {Styles.cardSize}
-                                />*/}
-                        <Text>{this.props.room.party === null || this.props.room.party.players.get(player).playedCard === null ?
-                                "?" :
-                                this.props.room.party.players.get(player).playedCard.value + this.props.room.party.players.get(player).playedCard.color}</Text>
-                    </View>
-                    <View style={{flex:1, alignItems:'center'}}>
-                        <Text>Zone Jouée de l'adversaire</Text>
-                    </View>
-                </View>
-                    
-            }
-        })
-
-
-        
+        return Array.from(this.props.room.players).map(([id, player]) => {
+            return (<OtherPlayersSpace key={id} player={player}/>);
+        });
     }
 
     render(){
         return (
             <View style={[Styles.container]}>
-                <View style = {{flex: 1, width: "100%", alignItems:'center', justifyContent: 'center', flexDirection:"row"}}>
+                <View style = {{flex: 1, width: "100%", alignItems:'center', justifyContent: 'space-between', flexDirection:"row"}}>
                     {this.renderOtherPlayers()}
                 </View>
                 <View style = {{flex: 1, width: "100%", alignItems:'center'}}>
@@ -75,20 +51,20 @@ class Table extends React.Component{
                                 }
                                 style = {{width: 45, height:78}}
                             />*/}
-                            <Text>{(this.props.room.party === null || this.props.room.party.players.get(this.props.cardGame.currentUser.userId).playedCard === null) ? 
+                            <Text>{(this.props.room.maxOfPlayers !== this.props.room.players.size || this.props.room.players.get(this.props.cardGame.currentUser.userId).playedCard === null) ? 
                                     "?" : 
-                                    this.props.room.party.players.get(this.props.cardGame.currentUser.userId).playedCard.value + this.props.room.party.players.get(this.props.cardGame.currentUser.userId).playedCard.color}
+                                    this.props.room.players.get(this.props.cardGame.currentUser.userId).playedCard.value + this.props.room.players.get(this.props.cardGame.currentUser.userId).playedCard.color}
                                     </Text>
                         </View>
                         <View style={{flex: 1, alignItems:'center'}}>
                             <Text> Mon Deck</Text>
-                            <Text>{(this.props.room.party === null) ?
+                            <Text>{(this.props.room.maxOfPlayers !== this.props.room.players.size) ?
                                 "En attente" :
-                                this.props.room.party.players.get(this.props.cardGame.currentUser.userId).deckSize}</Text>
+                                this.props.room.players.get(this.props.cardGame.currentUser.userId).deckSize}</Text>
                         </View>
                     </View>
                     <View style = {{flex: 1, flexDirection:"row", alignItems:'center'}}>
-                        {this.props.room.party === null ? <Text>En attente</Text> : this.renderHandCards()}
+                        {this.props.room.maxOfPlayers !== this.props.room.players.size ? <Text>En attente</Text> : this.renderHandCards()}
                     </View>
                 </View>
                 

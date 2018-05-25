@@ -24,8 +24,13 @@ namespace Serveur.Hubs
         public override async Task OnConnectedAsync()
         {
             ApplicationUser user = cardGame.Value.Connection(Context.ConnectionId);
-            await Clients.Caller.SendAsync(MessagesConstants.CONNECTION_BEGIN, user, cardGame.Value.GetUsers(), cardGame.Value.GetRooms());
+            await Clients.Caller.SendAsync(MessagesConstants.CONNECTION_BEGIN, user, cardGame.Value.GetUsers());
             await Clients.Others.SendAsync(MessagesConstants.CONNECT, user);
+
+            foreach(Room room in cardGame.Value.GetRooms())
+            {
+                await Clients.Caller.SendAsync(MessagesConstants.ROOM_CREATED, room, room.GetPlayers());
+            }
 
             await base.OnConnectedAsync();
         }
@@ -80,7 +85,7 @@ namespace Serveur.Hubs
         public async Task CreatingRoom()
         {
             Room room = cardGame.Value.CreatingRoom();
-            await Clients.All.SendAsync(MessagesConstants.ROOM_CREATED, room);
+            await Clients.All.SendAsync(MessagesConstants.ROOM_CREATED, room, room.GetPlayers());
             AddingPlayer(room.RoomId);
         }
 
@@ -287,7 +292,7 @@ namespace Serveur.Hubs
                 List<string> toPrevent = room.GetAllUsers();
                 foreach (string id in toPrevent)
                 {
-                    foreach (Player p in room.bataille.Players.Values)
+                    foreach (Player p in room.GetPlayers())
                     {
                         await Clients.Client(id).SendAsync("Discover", roomId, p.UserId, p.PlayedCard);
                     }
@@ -299,9 +304,9 @@ namespace Serveur.Hubs
                 
                 foreach (string token in cardGame.Value.GetAllUsers(roomId))
                 {
-                    await Clients.Client(token).SendAsync(MessagesConstants.PARTY_BEGIN, roomId, room.bataille.Players.Values);
+                    await Clients.Client(token).SendAsync(MessagesConstants.PARTY_BEGIN, roomId, room.GetPlayers());
                 }
-                foreach (Player p in room.bataille.Players.Values)
+                foreach (Player p in room.GetPlayers())
                 {
                     await Clients.Client(p.UserId).SendAsync("ReceiveHand", roomId, p.UserId, p.GetHand());
                 }

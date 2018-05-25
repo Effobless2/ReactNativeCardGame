@@ -88,7 +88,7 @@ namespace Serveur.Models
         {
             Room room = GetRoomWithId(roomId);
             ApplicationUser user = GetUserWithId(userId);
-            bool ready = room.AddPlayer(userId);
+            bool ready = room.AddPlayer(user);
             return ready;
         }
 
@@ -136,7 +136,7 @@ namespace Serveur.Models
             List<string> roomsToPrevent = new List<string>();
             foreach (Room room in Rooms.Values)
             {
-                if (room.Players.Contains(userId) || room.Public.Contains(userId))
+                if (room.GetPlayersId().Contains(userId) || room.PublicMembers.Contains(userId))
                 {
                     roomsToPrevent.Add(room.RoomId);
                 }
@@ -149,7 +149,7 @@ namespace Serveur.Models
             try
             {
                 Room room = GetRoomWithId(roomId);
-                if (room.Players.Contains(userId))
+                if (room.GetPlayersId().Contains(userId))
                 {
                     return room.RemovePlayer(userId);
                 }

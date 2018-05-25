@@ -1,15 +1,17 @@
-import { Bataille } from './Bataille'
 import { cardPlayed } from '../../actions';
-
+import { Player } from './Player';
+import { Card } from './Card';
 export class Room{
     constructor(roomId, playersMax, players, publics){
         this.roomId = roomId;
         this.maxOfPlayers = playersMax;
-        this.players = players;
         this.publics = publics;
         this.nbPublics = this.publics.length;
-        this.nbPlayers = this.players.length;
-        this.party = null;
+        this.players = new Map();
+        players.forEach(element => {
+            this.AddPlayer(new Player(element.userId, element.deckCount, element.handCount, element.playedCard))
+        });
+        this.nbPlayers = this.players.size;
         this.name = this.roomId.slice(0,5);
 
     }
@@ -19,12 +21,11 @@ export class Room{
         this.nbPublics++;
     }
 
-    AddPlayer(userId){
-        console.log(this.publics);
-        if (this.publics.includes(userId)){
-            this.RemovePublic(userId);
+    AddPlayer(player){
+        if (this.publics.includes(player.userId)){
+            this.RemovePublic(player.userId);
         }
-        this.players.push(userId)
+        this.players.set(player.userId, player);
         this.nbPlayers++;
     }
 
@@ -34,36 +35,48 @@ export class Room{
     }
 
     RemovePlayer(userId){
-        this.players.splice(this.players.indexOf(userId), 1);
+        this.players.delete(userId);
         this.nbPlayers--;
     }
 
-    begin(players){
-        this.party = new Bataille(players);
-    }
 
-    AddHand(color, value){
-        this.party.AddHand(colour, value);
+
+
+
+    begin(players){
+        players.forEach(player => {
+            this.players.get(player.userId).setDeck(player.deckCount);
+            this.players.get(player.userId).setHand(player.handCount);
+            this.players.get(player.userId).playedCard = null
+        });
     }
 
     confirmCard(playerId, cardIndex){
-        this.party.PlayCard(playerId, cardIndex);
+        this.players.get(playerId).PlayCard(cardIndex);
     }
 
     receiveHand(playerId, hand){
-        this.party.receiveHand(playerId, hand);
+        this.players.get(playerId).hand = [];
+        this.players.get(playerId).setHand(0);
+        hand.forEach(card =>{
+            this.AddHand(playerId, new Card(card.colour, card.value));
+        })
+    }
+
+    AddHand(playerId, card){
+        this.players.get(playerId).AddHand(card);
     }
 
     playerHasPlayed(playerId){
-        this.party.playerHasPlayed(playerId);
+        this.players.get(playerId).hasPlayed();
     }
 
     discover(playerId, cardPlayed){
-        this.party.discover(playerId, cardPlayed);
+        this.players.get(playerId).discover(new Card(cardPlayed.colour, cardPlayed.value));
     }
 
     roundWon(playerId){
-        this.party.roundWon(playerId);
+        console.log("rien")
     }
 
 

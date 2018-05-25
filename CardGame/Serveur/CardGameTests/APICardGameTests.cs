@@ -61,7 +61,7 @@ namespace CardGameTests
             cardGame.Connection(guid);
             Room room = cardGame.CreatingRoom();
             cardGame.AddingPublic(room.RoomId, guid);
-            Assert.AreEqual(1, room.Public.Count);
+            Assert.AreEqual(1, room.PublicMembers.Count);
         }
 
         [TestMethod]
@@ -73,7 +73,7 @@ namespace CardGameTests
             Room room = cardGame.CreatingRoom();
             cardGame.AddingPublic(room.RoomId, guid);
             cardGame.RemovingPublic(room.RoomId, guid);
-            Assert.AreEqual(0, room.Public.Count);
+            Assert.AreEqual(0, room.PublicMembers.Count);
         }
 
         [TestMethod]
@@ -127,7 +127,7 @@ namespace CardGameTests
             Room room = cardGame.CreatingRoom();
             cardGame.AddingPublic(room.RoomId, guid);
             cardGame.UpdateRoom(room.RoomId, user.UserId);
-            Assert.AreEqual(0, room.Public.Count);
+            Assert.AreEqual(0, room.PublicMembers.Count);
         }
 
         [ExpectedException(typeof(RoomIsUndefinedException))]

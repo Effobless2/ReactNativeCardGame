@@ -7,8 +7,8 @@
 
         public Card(string colour, int value)
         {
-            this.Colour = colour;
-            this.Value = value;
+            Colour = colour;
+            Value = value;
         }
     }
 }

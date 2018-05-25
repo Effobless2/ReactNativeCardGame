@@ -1,11 +1,11 @@
 import { Card } from "./Card";
-
-export class Player{
-    constructor(id, deckSize, handSize){
-        this.playerId = id;
+import { ApplicationUser } from './ApplicationUser';
+export class Player extends ApplicationUser{
+    constructor(ApplicationUser, deckSize, handSize, playedCard){
+        super(ApplicationUser.userId, ApplicationUser.userName);
         this.deckSize = deckSize;
         this.handSize = handSize;
-        this.playedCard = null;
+        this.playedCard = playedCard;
         this.hand = [];
         this.roundWin = false;
     }
@@ -35,5 +35,13 @@ export class Player{
     roundWon(){
         this.roundWin = true;
         console.log("roundWin")
+    }
+
+    setDeck(deckCount){
+        this.deckSize = deckCount;
+    }
+
+    setHand(handCount){
+        this.handSize = handCount;
     }
 }

@@ -1,9 +1,10 @@
 import { ApplicationUser } from "./ApplicationUser";
 import { Room } from "./Room";
+import { Player } from './Player';
 
 export class CardGame{
 
-    constructor(currentUser = null, users = null, rooms = null){
+    constructor(currentUser = null, users = null){
         this.Users = new Map();
         this.Rooms = new Map();
         this.currentUser = null;
@@ -18,15 +19,11 @@ export class CardGame{
                     this.AddUser(users[index]);
                 }
             }
-    
-            for(var index in rooms){
-                this.AddRoom(rooms[index]);
-            }
         }
     }
 
-    AddRoom(room){
-        currentRoom = new Room(room.roomId, room.maxOfPlayers, room.players, room.public);
+    AddRoom(room, players){
+        currentRoom = new Room(room.roomId, room.maxOfPlayers, players, room.publicMembers);
         this.Rooms.set(room.roomId, currentRoom);
     }
 
@@ -40,9 +37,7 @@ export class CardGame{
     }
 
     RemoveRoom(roomId){
-        if (this.Rooms.get(roomId) !== undefined){
-            this.Rooms.delete(roomId);
-        }
+        this.Rooms.delete(roomId);
     }
 
     RemovePublic(roomId, userId){
@@ -72,7 +67,7 @@ export class CardGame{
         currentRoom = this.Rooms.get(roomId);
         currentUser = this.Users.get(userId);
         if ((currentRoom !== undefined && currentUser !== undefined) || userId === this.currentUser.userId){ 
-            currentRoom.AddPlayer(userId);
+            currentRoom.AddPlayer(new Player(currentUser, 0, 0, null));
             if(userId === this.currentUser.userId){
                 if (this.roomsAsPublic.includes(roomId)){
                     this.EjectFromPublic(roomId);
@@ -99,6 +94,7 @@ export class CardGame{
     }
 
     EjectFromPlayer(roomId){
+        console.log("ejected from " + roomId);
         this.roomsAsPlayer.splice(this.roomsAsPlayer.indexOf(roomId), 1);
     }
 
@@ -108,12 +104,15 @@ export class CardGame{
 
     eject(roomId){
         if (this.roomsAsPlayer.indexOf(roomId) > -1){
-            this.roomsAsPlayer.splice(this.roomsAsPlayer.indexOf(roomId), 1);
+            this.EjectFromPlayer(roomId);
         }
         else{
-            this.roomsAsPublic.splice(this.roomsAsPublic.indexOf(roomId), 1);
+            this.EjectFromPublic(roomId);
         }
     }
+
+
+    
 
     begin(roomId, players){
         this.getRoom(roomId).begin(players);

@@ -44,8 +44,8 @@ class ConnectionServer extends SignalR.HubConnection{
             writer.newUser(user);
         });
 
-        this.on(CONNECTION_BEGIN, (currentUser, users, rooms) => {
-            writer.connectionBegin(currentUser, users, rooms);
+        this.on(CONNECTION_BEGIN, (currentUser, users) => {
+            writer.connectionBegin(currentUser, users);
         });
         
         this.on(DISCONNECT, (userId) => {
@@ -64,8 +64,8 @@ class ConnectionServer extends SignalR.HubConnection{
             writer.newPublic(roomId, userId);
         });
         
-        this.on(NEW_ROOM, (room) => {
-            writer.newRoom(room);
+        this.on(NEW_ROOM, (room, players) => {
+            writer.newRoom(room, players);
         });
 
         this.on(NOT_IN_THIS_ROOM, (roomId) => {
@@ -152,5 +152,5 @@ class ConnectionServer extends SignalR.HubConnection{
     }
 }
 
-HubConnection = new ConnectionServer("http://192.168.1.62:5000/cardgame/");
+HubConnection = new ConnectionServer("http://192.168.1.70:5000/cardgame/");
 export default HubConnection;

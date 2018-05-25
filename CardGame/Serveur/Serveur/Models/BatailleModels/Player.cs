@@ -4,48 +4,46 @@ using System.Linq;
 
 namespace Serveur.Models.BatailleModels
 {
-    public class Player
+    public class Player : ApplicationUser
     {
-        public string UserId;
-        private List<Card> Deck;
-        private List<Card> Hand;
+        private List<Card> _deck;
+        private List<Card> _hand;
         public Card PlayedCard = null;
         public int DeckCount;
         public int HandCount;
 
-        public Player(string id)
+        public Player(ApplicationUser user) : base(user.UserId, user.UserName)
         {
-            UserId = id;
-            Deck = new List<Card>();
-            Hand = new List<Card>();
+            _deck = new List<Card>();
+            _hand = new List<Card>();
             DeckCount = 0;
             HandCount = 0;
     }
 
         public void AddToDeck(Card card)
         {
-            Deck.Add(card);
+            _deck.Add(card);
             DeckCount++;
         }
 
-        public void begin()
+        public void Begin()
         {
-            Hand = Deck.Skip(0).Take(6).ToList();
+            _hand = _deck.Skip(0).Take(6).ToList();
             HandCount = 6;
-            Deck = Deck.Skip(6).ToList();
+            _deck = _deck.Skip(6).ToList();
             DeckCount -= 6;
         }
 
         public void PlayCard(int cardIndex)
         {
-            PlayedCard = Hand[cardIndex];
-            Hand.RemoveAt(cardIndex);
+            PlayedCard = _hand[cardIndex];
+            _hand.RemoveAt(cardIndex);
             HandCount--;
         }
 
         public List<Card> GetHand()
         {
-            return Hand;
+            return _hand;
         }
 
         public void WinRound(List<Card> newCards)
@@ -56,18 +54,18 @@ namespace Serveur.Models.BatailleModels
             }
         }
 
-        public void reset()
+        public void Reset()
         {
             PlayedCard = null;
-            Hand.Add(TakeFirstOfTheDeck());
+            _hand.Add(TakeFirstOfTheDeck());
             HandCount++;
             
         }
 
         public Card TakeFirstOfTheDeck()
         {
-            Card c = Deck[0];
-            Deck.RemoveAt(0);
+            Card c = _deck[0];
+            _deck.RemoveAt(0);
             DeckCount--;
             return c;
         }

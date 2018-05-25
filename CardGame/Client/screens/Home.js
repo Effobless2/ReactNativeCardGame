@@ -30,5 +30,5 @@ class Home extends React.Component{
     }
 }
 
-const mapStateToProps = ({cardGame}) => ({cardGame :cardGame.cardGame, connected : cardGame.connected})
+const mapStateToProps = ({cardGame}) => ({cardGame :cardGame.cardGame})
 export default connect(mapStateToProps, { createRoom })(Home)

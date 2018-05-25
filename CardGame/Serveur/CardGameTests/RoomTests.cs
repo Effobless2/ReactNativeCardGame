@@ -28,7 +28,7 @@ namespace CardGameTests
             room.AddPublic("a");
             room.AddPlayer("b");
             room.AddPlayer("a");
-            Assert.AreEqual(0, room.Public.Count);
+            Assert.AreEqual(0, room.PublicMembers.Count);
         }
 
         [ExpectedException(typeof(AlreadyInRoomException))]

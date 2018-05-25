@@ -19,8 +19,8 @@ import {
 } from '../actions';
 
 class InterfaceWriter{
-    connectionBegin(currentUser, users, rooms){
-        store.dispatch(connection({user: currentUser, users: users, rooms: rooms}));
+    connectionBegin(currentUser, users){
+        store.dispatch(connection({user: currentUser, users: users}));
     }
 
     newUser(user){
@@ -31,8 +31,8 @@ class InterfaceWriter{
         store.dispatch(removeUser( userId ));
     }
 
-    newRoom(room){
-        store.dispatch(newRoom( room ));
+    newRoom(room, players){
+        store.dispatch(newRoom( {room: room, players: players} ));
     }
 
     removeRoom(roomId){
