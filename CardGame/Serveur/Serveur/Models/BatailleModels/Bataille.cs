@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serveur.Models.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -41,15 +42,24 @@ namespace Serveur.Models.BatailleModels
 
         public bool CardPlayed(string userId, int cardIndex)
         {
-            Players.GetValueOrDefault(userId).PlayCard(cardIndex);
-            foreach(Player p in Players.Values)
+            Player currentPlayer = Players.GetValueOrDefault(userId);
+            if (currentPlayer.PlayedCard == null)
             {
-                if (p.PlayedCard == null)
+                currentPlayer.PlayCard(cardIndex);
+                foreach (Player p in Players.Values)
                 {
-                    return false;
+                    if (p.PlayedCard == null)
+                    {
+                        return false;
+                    }
                 }
+                return true;
             }
-            return true;
+            else
+            {
+                throw new PlayerHasAlreadyPlayedException();
+            }
+            
         }
     }
 }

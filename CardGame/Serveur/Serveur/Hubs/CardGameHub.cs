@@ -255,20 +255,28 @@ namespace Serveur.Hubs
         public async Task CardPlayed(string roomId, int cardIndex)
         {
             Console.WriteLine("Received");
-            bool ready = cardGame.Value.CardPlayed(roomId, Context.ConnectionId, cardIndex);
-            await Clients.Caller.SendAsync(MessagesConstants.CARD_CONFIRMED, roomId, Context.ConnectionId, cardIndex);
-            List<string> members = cardGame.Value.GetAllUsers(roomId);
-            foreach(string id in members)
+            try
             {
-                if (id != Context.ConnectionId)
+                bool ready = cardGame.Value.CardPlayed(roomId, Context.ConnectionId, cardIndex);
+                await Clients.Caller.SendAsync(MessagesConstants.CARD_CONFIRMED, roomId, Context.ConnectionId, cardIndex);
+                List<string> members = cardGame.Value.GetAllUsers(roomId);
+                foreach (string id in members)
                 {
-                    await Clients.Client(id).SendAsync("PlayerHasPlayed", roomId, Context.ConnectionId);
+                    if (id != Context.ConnectionId)
+                    {
+                        await Clients.Client(id).SendAsync("PlayerHasPlayed", roomId, Context.ConnectionId);
+                    }
+                }
+                if (ready)
+                {
+                    FinalizeTour(roomId);
                 }
             }
-            if (ready)
+            catch (PlayerHasAlreadyPlayedException)
             {
-                FinalizeTour(roomId);
+
             }
+            
         }
 
         public async Task FinalizeTour(string roomId)
