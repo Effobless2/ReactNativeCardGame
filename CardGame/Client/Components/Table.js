@@ -33,14 +33,17 @@ class Table extends React.Component{
                     <View style = {{flex: 1, alignItems:'center'}}>
                         <Text>{ this.props.room.party === null ? "En attente" : "Deck de l'adversaire : " + this.props.room.party.players.get(player).deckSize }</Text>
                         <Text>{ this.props.room.party === null ? "En attente" : "Main de l'adversaire : " + this.props.room.party.players.get(player).handSize }</Text>
-                        <Image 
+                        {/*<Image 
                                 source = {
                                     (this.props.room.party === null || this.props.room.party.players.get(player).playedCard === null) ? 
                                     IMAGESPATH(new Card("?","")) : 
                                     IMAGESPATH(this.props.room.party.players.get(player).playedCard)
                                 }
                                 style = {Styles.cardSize}
-                                />
+                                />*/}
+                        <Text>{this.props.room.party === null || this.props.room.party.players.get(player).playedCard === null ?
+                                "?" :
+                                this.props.room.party.players.get(player).playedCard.value + this.props.room.party.players.get(player).playedCard.color}</Text>
                     </View>
                     <View style={{flex:1, alignItems:'center'}}>
                         <Text>Zone Jouée de l'adversaire</Text>
@@ -64,14 +67,18 @@ class Table extends React.Component{
                     <View style = {{flex: 1, justifyContent:'space-between', flexDirection:'row', alignItems:'center'}}>
                         <View style={{flex: 1, alignItems:'center'}}>
                             <Text>MaCarte</Text>
-                            <Image 
+                            {/*<Image 
                                 source = {
                                     (this.props.room.party === null || this.props.room.party.players.get(this.props.cardGame.currentUser.userId).playedCard === null) ? 
                                     IMAGESPATH(new Card("unknown","")) : 
                                     IMAGESPATH(this.props.room.party.players.get(this.props.cardGame.currentUser.userId).playedCard)
                                 }
                                 style = {{width: 45, height:78}}
-                                />
+                            />*/}
+                            <Text>{(this.props.room.party === null || this.props.room.party.players.get(this.props.cardGame.currentUser.userId).playedCard === null) ? 
+                                    "?" : 
+                                    this.props.room.party.players.get(this.props.cardGame.currentUser.userId).playedCard.value + this.props.room.party.players.get(this.props.cardGame.currentUser.userId).playedCard.color}
+                                    </Text>
                         </View>
                         <View style={{flex: 1, alignItems:'center'}}>
                             <Text> Mon Deck</Text>

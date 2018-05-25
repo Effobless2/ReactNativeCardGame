@@ -47,5 +47,22 @@ namespace Serveur.Models.BatailleModels
         {
             return Hand;
         }
+
+        public void WinRound(List<Card> newCards)
+        {
+            foreach (Card card in newCards)
+            {
+                AddToDeck(card);
+            }
+        }
+
+        public void reset()
+        {
+            PlayedCard = null;
+            Hand.Add(Deck[0]);
+            HandCount++;
+            Deck.RemoveAt(0);
+            DeckCount--;
+        }
     }
 }

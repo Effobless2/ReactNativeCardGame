@@ -64,26 +64,24 @@ namespace Serveur.Models.BatailleModels
             
         }
 
-        public Player FinalizeTour()
+        public void FinalizeTour()
         {
             List<Player> players = Players.Values.ToList();
             CardComparator comparator = new CardComparator();
-            players.Sort((p1, p2) => comparator.Compare(p1.PlayedCard, p2.PlayedCard));
+            players.Sort((p1, p2) => comparator.Compare(p2.PlayedCard, p1.PlayedCard));
+            
             if (comparator.Compare(players[0].PlayedCard,players[1].PlayedCard) == 0)
             {
-                foreach(Player p in Players.Values)
-                {
-                    p.PlayedCard = null;
-                }
                 throw new EqualityException();
             }
             else
             {
+                players[0].WinRound(CartesEnJeu);
+                CartesEnJeu = new List<Card>();
                 foreach (Player p in Players.Values)
                 {
-                    p.PlayedCard = null;
+                    p.reset();
                 }
-                return players[0];
             }
         }
     }

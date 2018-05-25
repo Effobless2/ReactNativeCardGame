@@ -120,9 +120,9 @@ namespace Serveur.Models
             return bataille.CardPlayed(userId, cardIndex);
         }
 
-        public Player FinalizeTour()
+        public void FinalizeTour()
         {
-           return bataille.FinalizeTour();
+           bataille.FinalizeTour();
         }
     }
 }

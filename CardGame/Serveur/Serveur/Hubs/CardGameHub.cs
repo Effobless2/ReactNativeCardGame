@@ -292,13 +292,20 @@ namespace Serveur.Hubs
                         await Clients.Client(id).SendAsync("Discover", roomId, p.UserId, p.PlayedCard);
                     }
                 }
-                Player winner = cardGame.Value.FinalizeTour(roomId);
 
-                foreach (string id in toPrevent)
-                {
-                    await Clients.Client(id).SendAsync("RoundWon", roomId, winner.UserId);
-                }
+                System.Threading.Thread.Sleep(5000);
+                cardGame.Value.FinalizeTour(roomId);
                 
+                
+                foreach (string token in cardGame.Value.GetAllUsers(roomId))
+                {
+                    await Clients.Client(token).SendAsync(MessagesConstants.PARTY_BEGIN, roomId, room.bataille.Players.Values);
+                }
+                foreach (Player p in room.bataille.Players.Values)
+                {
+                    await Clients.Client(p.UserId).SendAsync("ReceiveHand", roomId, p.UserId, p.GetHand());
+                }
+
             }
             catch (Exception) { }
 

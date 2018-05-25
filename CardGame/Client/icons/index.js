@@ -52,8 +52,7 @@ const IMAGESPATH = card => {
         case "11D" : {return require( "../icons/cards/11D.png")}
         case "12D" : {return require( "../icons/cards/12D.png")}
         case "13D" : {return require( "../icons/cards/13D.png")}
-        case "unknown" : {return require( "../icons/cards/unknown.png")}
-    }
+{/*        case "unknown" : {return require( "../icons/cards/unknown.png") }*/}}
     
 }
 
