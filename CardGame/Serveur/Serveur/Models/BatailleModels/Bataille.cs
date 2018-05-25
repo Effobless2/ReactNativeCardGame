@@ -70,18 +70,14 @@ namespace Serveur.Models.BatailleModels
             CardComparator comparator = new CardComparator();
             players.Sort((p1, p2) => comparator.Compare(p2.PlayedCard, p1.PlayedCard));
             
-            if (comparator.Compare(players[0].PlayedCard,players[1].PlayedCard) == 0)
-            {
-                throw new EqualityException();
-            }
-            else
+            if (comparator.Compare(players[0].PlayedCard,players[1].PlayedCard) != 0)
             {
                 players[0].WinRound(CartesEnJeu);
                 CartesEnJeu = new List<Card>();
-                foreach (Player p in Players.Values)
-                {
-                    p.reset();
-                }
+            }
+            foreach (Player p in Players.Values)
+            {
+                p.reset();
             }
         }
     }

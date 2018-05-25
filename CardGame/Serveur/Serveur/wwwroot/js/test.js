@@ -62,6 +62,10 @@
             this.RoomIsUndefined(roomId);
         });
 
+        this.on("ReceiveHand", (room, user, hand) => {
+            console.log(hand);
+        });
+
     }
 
     ConnectionBegin(currentUser, users, rooms) {
