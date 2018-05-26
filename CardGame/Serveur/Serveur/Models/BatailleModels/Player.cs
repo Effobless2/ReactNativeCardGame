@@ -57,8 +57,18 @@ namespace Serveur.Models.BatailleModels
         public void Reset()
         {
             PlayedCard = null;
-            _hand.Add(TakeFirstOfTheDeck());
-            HandCount++;
+            while(HandCount < 6)
+            {
+                if (DeckCount == 0)
+                {
+                    break;
+                }
+                _hand.Add(TakeFirstOfTheDeck());
+                HandCount++;
+                
+            }
+            
+            
             
         }
 

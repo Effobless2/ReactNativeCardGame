@@ -172,7 +172,10 @@ namespace Serveur.Models
             {
                 foreach (Player p in players)
                 {
-                    EnJeu.Add(p.TakeFirstOfTheDeck());
+                    if (p.DeckCount != 0)
+                    {
+                        EnJeu.Add(p.TakeFirstOfTheDeck());
+                    }
                 }
             }
             foreach (Player p in _players.Values)
