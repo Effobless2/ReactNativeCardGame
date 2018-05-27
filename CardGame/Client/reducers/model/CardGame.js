@@ -137,4 +137,8 @@ export class CardGame{
     roundWon(roomId, playerId){
         this.getRoom(roomId).roundWon(playerId);
     }
+
+    loose(roomId, userId){
+        this.getRoom(roomId).loose(userId);
+    }
 }

@@ -121,6 +121,10 @@ class ConnectionServer extends SignalR.HubConnection{
             writer.roundWon(roomId, playerId);
         })
 
+        this.on("Loose", (roomId, userId) => {
+            writer.loose(roomId, userId);
+        })
+
 
 
         this.start()

@@ -7,7 +7,7 @@ export class Player extends ApplicationUser{
         this.handSize = handSize;
         this.playedCard = playedCard;
         this.hand = [];
-        this.roundWin = false;
+        this.loosed = false;
     }
 
     AddHand(card){
@@ -43,5 +43,16 @@ export class Player extends ApplicationUser{
 
     setHand(handCount){
         this.handSize = handCount;
+    }
+
+    loose(){
+        this.hand = [];
+        this.handSize = 0;
+        this.deckSize = 0;
+        this.loose = true
+    }
+
+    hasLoosed(){
+        return this.loosed;
     }
 }

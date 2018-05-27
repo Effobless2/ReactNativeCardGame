@@ -157,7 +157,7 @@ namespace Serveur.Models
             }
         }
 
-        public void FinalizeTour()
+        public List<string> FinalizeTour()
         {
             List<Player> players = _players.Values.ToList();
             CardComparator comparator = new CardComparator();
@@ -178,10 +178,16 @@ namespace Serveur.Models
                     }
                 }
             }
+            List<string> loosers = new List<string>();
             foreach (Player p in _players.Values)
             {
                 p.Reset();
+                if (p.DeckCount == 0 && p.HandCount == 0)
+                {
+                    loosers.Add(p.UserId);
+                }
             }
+            return loosers;
         }
 
         internal List<Player> GetPlayers()

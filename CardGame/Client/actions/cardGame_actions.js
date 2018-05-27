@@ -22,6 +22,7 @@ import {
     SELECT_ROOM,
     DISCOVER,
     ROUND_WON,
+    LOOSE,
 } from './types';
 
 export const connection = datas =>{
@@ -115,4 +116,8 @@ export const discover = datas =>{
 
 export const roundWon = datas =>{
     return {type: ROUND_WON, payload: datas};
+};
+
+export const loose = datas => {
+    return {type: LOOSE, payload: datas};
 };

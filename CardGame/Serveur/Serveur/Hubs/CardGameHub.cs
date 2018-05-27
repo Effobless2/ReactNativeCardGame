@@ -299,16 +299,26 @@ namespace Serveur.Hubs
                 }
 
                 System.Threading.Thread.Sleep(5000);
-                cardGame.Value.FinalizeTour(roomId);
-                
-                
+                List<string> loosers = cardGame.Value.FinalizeTour(roomId);
+
+                foreach(string p in toPrevent)
+                {
+                    foreach (string looser in loosers)
+                    {
+                        await Clients.Client(p).SendAsync("Loose", roomId, looser);
+                    }
+                }
                 foreach (string token in cardGame.Value.GetAllUsers(roomId))
                 {
                     await Clients.Client(token).SendAsync(MessagesConstants.PARTY_BEGIN, roomId, room.GetPlayers());
                 }
                 foreach (Player p in room.GetPlayers())
                 {
-                    await Clients.Client(p.UserId).SendAsync("ReceiveHand", roomId, p.UserId, p.GetHand());
+                    if (!loosers.Contains(p.UserId))
+                    {
+                        await Clients.Client(p.UserId).SendAsync("ReceiveHand", roomId, p.UserId, p.GetHand());
+                    }
+                    
                 }
 
             }

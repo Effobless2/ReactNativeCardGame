@@ -90,9 +90,9 @@ namespace Serveur.Hubs
         }
 
 
-        public void FinalizeTour(string roomId)
+        public List<string> FinalizeTour(string roomId)
         {
-            cardGame.FinalizeTour(roomId);
+            return cardGame.FinalizeTour(roomId);
         }
     }
 }

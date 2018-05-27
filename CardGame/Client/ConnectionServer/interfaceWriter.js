@@ -16,6 +16,7 @@ import {
     removePlayer,
     discover,
     roundWon,
+    loose,
 } from '../actions';
 
 class InterfaceWriter{
@@ -81,6 +82,10 @@ class InterfaceWriter{
 
     roundWon(roomId, playerId){
         store.dispatch(roundWon({roomId:roomId, playerId:playerId}));
+    }
+
+    loose(roomId, userId){
+        store.dispatch(loose({roomId: roomId, userId: userId}));
     }
 
 

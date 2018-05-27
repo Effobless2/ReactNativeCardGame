@@ -79,5 +79,9 @@ export class Room{
         console.log("rien")
     }
 
+    loose(userId){
+        this.players.get(userId).loose();
+    }
+
 
 }

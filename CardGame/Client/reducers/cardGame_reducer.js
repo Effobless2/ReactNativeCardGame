@@ -18,6 +18,7 @@ import {
     RECEIVE_HAND,
     DISCOVER,
     ROUND_WON,
+    LOOSE,
 } from '../actions/types';
 import IMAGESPATH from '../icons';
 
@@ -119,6 +120,12 @@ export default (state = INITIAL_STATE, action) => {
         case ROUND_WON: {
             let {roomId, playerId} = action.payload;
             state.cardGame.roundWon(roomId, playerId);
+            return {...state,
+                cpt:state.cpt+1};
+        }
+        case LOOSE: {
+            let {roomId, userId} = action.payload;
+            state.cardGame.loose(roomId, userId);
             return {...state,
                 cpt:state.cpt+1};
         }

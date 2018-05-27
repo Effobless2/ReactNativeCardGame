@@ -6,15 +6,21 @@ class OtherPlayersSpace extends React.Component{
 
 
     render(){
-        console.log("svdv")
+        var content;
+        if (this.props.player.hasLoosed()){
+            content = <Text>{this.props.player.userName} a Perdu.</Text>
+        }
+        else{
+            content = <View >
+            <Text>{this.props.player.userName}</Text>
+            <Text>Deck : {this.props.player.deckSize}</Text>
+            <Text>Main : {this.props.player.handSize}</Text>
+        </View>
+        }
         return (
             <View style = {{alignItems:'center', padding: 20}}>
-                <View >
-                    <Text>{this.props.player.userName}</Text>
-                    <Text>Deck : {this.props.player.deckSize}</Text>
-                    <Text>Main : {this.props.player.handSize}</Text>
-                </View>
-                <Text>{this.props.player.playedCard !== null ? this.props.player.playedCard.value + this.props.player.playedCard.color : "?"}</Text>
+               {content}
+               <Text>{this.props.player.playedCard !== null ? this.props.player.playedCard.value + this.props.player.playedCard.color : "?"}</Text>
             </View>
         )
     }
