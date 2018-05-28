@@ -8,6 +8,7 @@ export class Player extends ApplicationUser{
         this.playedCard = playedCard;
         this.hand = [];
         this.loosed = false;
+        this.win = false;
     }
 
     AddHand(card){
@@ -54,5 +55,13 @@ export class Player extends ApplicationUser{
 
     hasLoosed(){
         return this.loosed;
+    }
+
+    Win(){
+        this.win = true;
+    }
+
+    hasWin(){
+        return this.win;
     }
 }

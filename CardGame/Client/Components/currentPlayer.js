@@ -11,6 +11,9 @@ class CurrentPlayer extends React.Component{
         if (this.props.player.hasLoosed()){
             return <Text>You Loose.</Text>
         }
+        else if (this.props.player.hasWin()){
+            return <Text>You Win !</Text>
+        }
         return this.props.player.hand.map((card, index) => {
             return (
                 <CardItem

@@ -81,6 +81,17 @@ export class Room{
 
     loose(userId){
         this.players.get(userId).loose();
+        this.players.values().forEach(player1 => {
+            var won = true;
+            this.players.values().forEach(player2 =>{
+                if (player1.userId !== player2.userId && !player2.hasLoosed()){
+                    won = false;
+                }
+            })
+            if (won){
+                player1.Win();
+            }
+        });
     }
 
 
