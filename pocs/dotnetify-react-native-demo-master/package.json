@@ -23,7 +23,7 @@
     "dotnetify": "2.0.8-beta",
     "expo": "25.0.0",
     "react": "16.2.0",
-    "react-native": "0.52.3",
+    "react-native": "0.70.6",
     "react-native-elements": "0.19.0",
     "react-native-simple-gauge": "0.1.7",
     "react-navigation": "1.5.8"
